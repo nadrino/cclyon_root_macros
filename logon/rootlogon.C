@@ -1,3 +1,5 @@
+#include <dirent.h>
+
 {
 
   cout << "Using ROOT logon : $REPO_DIR/cclyon_root_macros/logon/rootlogon.C " << endl;
@@ -40,7 +42,7 @@
   gStyle->SetPadGridX(1);
   gStyle->SetPadGridY(1);
 
-//  gStyle->SetPalette(1);
+  //  gStyle->SetPalette(1);
 
   gStyle->SetLineWidth(2);
   gStyle->SetHistLineWidth(3);
@@ -57,57 +59,37 @@ namespace TToolBox {
   static int verbosity_level = 0;
   static Color_t colorCells[10] = {kOrange+1, kGreen-3, kTeal+3, kAzure+7, kCyan-2, kBlue-7, kBlue+2, kOrange+9, kRed+2, kPink+9};
 
-  // Matrices/Vector Tools
-  TH2D* get_TH2D_from_TMatrixD(TMatrixD *XY_values_, string graph_title_ = "", string Z_title_ = "",string Y_title_ = "Row #", string X_title_ = "Col #") {
-
-    if(graph_title_.empty()) graph_title_ = XY_values_->GetTitle();
-
-    auto* th2_histogram = new TH2D(graph_title_.c_str(), graph_title_.c_str(),
-                                   XY_values_->GetNrows(), -0.5, XY_values_->GetNrows()-0.5,
-                                   XY_values_->GetNcols(), -0.5, XY_values_->GetNcols()-0.5
-    );
-
-    for(int i_col = 0 ; i_col < XY_values_->GetNcols() ; i_col++){
-      for(int j_row = 0 ; j_row < XY_values_->GetNrows() ; j_row++){
-        th2_histogram->SetBinContent(i_col + 1, j_row + 1, (*XY_values_)[i_col][j_row]);
-      }
-    }
-
-    th2_histogram->GetXaxis()->SetTitle(X_title_.c_str());
-    th2_histogram->GetYaxis()->SetTitle(Y_title_.c_str());
-    th2_histogram->GetZaxis()->SetTitle(Z_title_.c_str());
-
-    return th2_histogram;
-
+  bool do_path_is_folder(std::string &folder_path_) {
+    DIR* dir;
+    dir = opendir(folder_path_.c_str());
+    bool is_directory = false;
+    if(dir != NULL) is_directory = true;
+    closedir(dir);
+    return is_directory;
   }
-  TMatrixD* generate_correlation_matrix(TMatrixD *covariance_matrix_) {
-    auto* correlation_matrix = (TMatrixD*) covariance_matrix_->Clone();
-    for(int i_row = 0 ; i_row < covariance_matrix_->GetNrows() ; i_row++){
-      for(int i_col = 0 ; i_col < covariance_matrix_->GetNcols() ; i_col++){
-        (*correlation_matrix)[i_row][i_col] /=
-            TMath::Sqrt((*covariance_matrix_)[i_row][i_row] * (*covariance_matrix_)[i_col][i_col]);
-      }
-    }
-    return correlation_matrix;
+  bool do_path_is_file(std::string &file_path_) {
+    struct stat buffer{};
+    return (stat (file_path_.c_str(), &buffer) == 0);
   }
+
 
   std::vector<std::string> get_list_of_entries_in_folder(std::string folder_path_){
-      if(not do_path_is_folder(folder_path_)) return std::vector<std::string>();
-      DIR* directory;
-      directory = opendir(folder_path_.c_str()); //Open current-working-directory.
-      if( directory == nullptr ) {
-        std::cout << "Failed to open directory : " << folder_path_ << std::endl;
-        return std::vector<std::string>();
-      } else {
-        std::vector<std::string> entries_list;
-        struct dirent* entry;
-        while ( (entry = readdir(directory)) ) {
-          entries_list.emplace_back(entry->d_name);
-        }
-        closedir(directory);
-        return entries_list;
+    if(not do_path_is_folder(folder_path_)) return std::vector<std::string>();
+    DIR* directory;
+    directory = opendir(folder_path_.c_str()); //Open current-working-directory.
+    if( directory == nullptr ) {
+      std::cout << "Failed to open directory : " << folder_path_ << std::endl;
+      return std::vector<std::string>();
+    } else {
+      std::vector<std::string> entries_list;
+      struct dirent* entry;
+      while ( (entry = readdir(directory)) ) {
+        entries_list.emplace_back(entry->d_name);
       }
+      closedir(directory);
+      return entries_list;
     }
+  }
   std::vector<std::string> get_list_files_in_subfolders(std::string folder_path_){
 
     std::vector<std::string> output_file_paths;
@@ -138,5 +120,40 @@ namespace TToolBox {
     return output_file_paths;
 
   }
+
+  // Matrices/Vector Tools
+  TH2D* get_TH2D_from_TMatrixD(TMatrixD *XY_values_, string graph_title_ = "", string Z_title_ = "",string Y_title_ = "Row #", string X_title_ = "Col #") {
+
+    if(graph_title_.empty()) graph_title_ = XY_values_->GetTitle();
+
+    auto* th2_histogram = new TH2D(graph_title_.c_str(), graph_title_.c_str(),
+    XY_values_->GetNrows(), -0.5, XY_values_->GetNrows()-0.5,
+    XY_values_->GetNcols(), -0.5, XY_values_->GetNcols()-0.5
+  );
+
+  for(int i_col = 0 ; i_col < XY_values_->GetNcols() ; i_col++){
+    for(int j_row = 0 ; j_row < XY_values_->GetNrows() ; j_row++){
+      th2_histogram->SetBinContent(i_col + 1, j_row + 1, (*XY_values_)[i_col][j_row]);
+    }
+  }
+
+  th2_histogram->GetXaxis()->SetTitle(X_title_.c_str());
+  th2_histogram->GetYaxis()->SetTitle(Y_title_.c_str());
+  th2_histogram->GetZaxis()->SetTitle(Z_title_.c_str());
+
+  return th2_histogram;
+
+}
+TMatrixD* generate_correlation_matrix(TMatrixD *covariance_matrix_) {
+  auto* correlation_matrix = (TMatrixD*) covariance_matrix_->Clone();
+  for(int i_row = 0 ; i_row < covariance_matrix_->GetNrows() ; i_row++){
+    for(int i_col = 0 ; i_col < covariance_matrix_->GetNcols() ; i_col++){
+      (*correlation_matrix)[i_row][i_col] /=
+      TMath::Sqrt((*covariance_matrix_)[i_row][i_row] * (*covariance_matrix_)[i_col][i_col]);
+    }
+  }
+  return correlation_matrix;
+}
+
 
 }
