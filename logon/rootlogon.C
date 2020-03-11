@@ -200,20 +200,15 @@ namespace TToolBox {
   }
   std::vector<std::string> get_list_of_files_in_subfolders(std::string *folder_path_, std::string *files_extension_ = nullptr){
 
-    cerr << "*folder_path_ = " << *folder_path_ <<  endl;
-
     std::vector<std::string> output_file_paths;
 
     auto files_list = get_list_of_files_in_folder(folder_path_, files_extension_);
-    cerr << "files_list = " << files_list.size() << endl;
     for(int i_file = 0 ; i_file < int(files_list.size()) ; i_file++){
       output_file_paths.emplace_back(files_list[i_file]);
     }
 
     auto subfolders_list = get_list_of_subfolders_in_folder(folder_path_);
-    cerr << "subfolders_list = " << subfolders_list.size() << endl;
     for(int i_subfolder = 0 ; i_subfolder < int(subfolders_list.size()) ; i_subfolder++){
-      cerr << "subfolders_list = " << subfolders_list[i_subfolder] << endl;
       string subfolde_full_path = *folder_path_ + "/" + subfolders_list[i_subfolder];
       auto subfiles_path = get_list_of_files_in_subfolders(&subfolde_full_path, files_extension_); // RECURSIVE
       for(int i_subfile = 0 ; i_subfile < int(subfiles_path.size()) ; i_subfile++){
