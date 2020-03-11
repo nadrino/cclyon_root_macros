@@ -189,7 +189,6 @@ namespace TToolBox {
 
     auto files_list = get_list_of_files_in_folder(folder_path_);
     for(int i_file = 0 ; i_file < int(files_list.size()) ; i_file++){
-      cerr << files_list[i_file] << endl;
       output_file_paths.emplace_back(files_list[i_file]);
     }
 
@@ -215,6 +214,7 @@ namespace TToolBox {
     return get_list_of_subfolders_in_folder(&folder_path);
   }
   std::vector<std::string> get_list_of_files_in_folder(std::string folder_path_){
+    cerr << "NOT HERE" << endl;
     std::string folder_path = folder_path_;
     return get_list_of_files_in_folder(&folder_path);
   }
@@ -222,8 +222,6 @@ namespace TToolBox {
     std::string folder_path = folder_path_;
     return get_list_of_files_in_subfolders(&folder_path);
   }
-
-
 
   // Matrices/Vector Tools
   TH2D* get_TH2D_from_TMatrixD(TMatrixD *XY_values_, string graph_title_ = "", string Z_title_ = "",string Y_title_ = "Row #", string X_title_ = "Col #") {
