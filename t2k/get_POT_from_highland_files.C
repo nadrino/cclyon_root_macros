@@ -30,7 +30,7 @@ void get_POT_from_highland_files(){
 
 void display_loading(int current_index_, int end_index_, string title_, bool force_display_) {
 
-  int percent = int(round(double(current_index_) / end_index_ * 100.));
+  int percent = int((double(current_index_) / end_index_ * 100.));
   if(force_display_ or current_index_ >= end_index_-1) {
     if(last_displayed_value != -1) clog << "\r" << title_ << " : " << 100 << "%" << endl;
     reset_last_displayed_value();
