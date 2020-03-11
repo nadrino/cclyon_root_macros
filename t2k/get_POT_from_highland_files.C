@@ -24,7 +24,7 @@ void get_POT_from_highland_files(){
 
   cerr << "Accumulated POT : " << cumulated_pot << endl;
 
-  exit(EXIT_SUCCESS);
+  return 0;
 
 }
 
