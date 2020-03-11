@@ -145,12 +145,12 @@ namespace TToolBox {
     return output_splited_string;
 
   }
-  std::vector<std::string> get_list_of_entries_in_folder(std::string folder_path_){
+  std::vector<std::string> get_list_of_entries_in_folder(std::string *folder_path_){
 
-    if(not do_path_is_folder(folder_path_)) return std::vector<std::string>();
+    if(not do_path_is_folder(*folder_path_)) return std::vector<std::string>();
 
     std::vector<std::string> entries_list;
-    TSystemDirectory dir(folder_path_.c_str(), folder_path_.c_str());
+    TSystemDirectory dir((*folder_path_).c_str(), (*folder_path_).c_str());
     TList *files = dir.GetListOfFiles();
     for(int i_entry = 0 ; i_entry < dir.GetListOfFiles()->GetEntries() ; i_entry++){
       string entry = dir.GetListOfFiles()->At(i_entry)->GetName();
@@ -161,23 +161,23 @@ namespace TToolBox {
     return entries_list;
 
   }
-  std::vector<std::string> get_list_of_subfolders_in_folder(std::string folder_path_) {
+  std::vector<std::string> get_list_of_subfolders_in_folder(std::string *folder_path_) {
 
     auto entries_list = get_list_of_entries_in_folder(folder_path_);
     std::vector<std::string> folders_list;
     for(int i_entry = 0 ; i_entry < int(entries_list.size()) ; i_entry++){
-      if(do_path_is_folder(folder_path_ + "/" + entries_list[i_entry]))
+      if(do_path_is_folder(*folder_path_ + "/" + entries_list[i_entry]))
         folders_list.emplace_back(entries_list[i_entry]);
     }
     return folders_list;
 
   }
-  std::vector<std::string> get_list_of_files_in_folder(std::string folder_path_) {
+  std::vector<std::string> get_list_of_files_in_folder(std::string *folder_path_) {
 
     auto entries_list = get_list_of_entries_in_folder(folder_path_);
     std::vector<std::string> files_list;
     for(int i_entry = 0 ; i_entry < int(entries_list.size()) ; i_entry++){
-      if(do_path_is_file(folder_path_ + "/" + entries_list[i_entry]))
+      if(do_path_is_file(*folder_path_ + "/" + entries_list[i_entry]))
         files_list.emplace_back(entries_list[i_entry]);
     }
     return files_list;
@@ -187,13 +187,13 @@ namespace TToolBox {
 
     std::vector<std::string> output_file_paths;
 
-    auto files_list = get_list_of_files_in_folder(*folder_path_);
+    auto files_list = get_list_of_files_in_folder(folder_path_);
     for(int i_file = 0 ; i_file < int(files_list.size()) ; i_file++){
       cerr << files_list[i_file] << endl;
       output_file_paths.emplace_back(files_list[i_file]);
     }
 
-    auto subfolders_list = get_list_of_subfolders_in_folder(*folder_path_);
+    auto subfolders_list = get_list_of_subfolders_in_folder(folder_path_);
     for(int i_subfolder = 0 ; i_subfolder < int(subfolders_list.size()) ; i_subfolder++){
       auto subfiles_path = get_list_of_files_in_subfolders(&subfolders_list[i_subfolder]); // RECURSIVE
       for(int i_subfile = 0 ; i_subfile < int(subfiles_path.size()) ; i_subfile++){
@@ -205,10 +205,24 @@ namespace TToolBox {
 
   }
 
+  // Overloaded (slower but easier to use)
+  std::vector<std::string> get_list_of_entries_in_folder(std::string folder_path_){
+    std::string folder_path = folder_path_;
+    return get_list_of_entries_in_folder(&folder_path);
+  }
+  std::vector<std::string> get_list_of_subfolders_in_folder(std::string folder_path_){
+    std::string folder_path = folder_path_;
+    return get_list_of_subfolders_in_folder(&folder_path);
+  }
+  std::vector<std::string> get_list_of_files_in_folder(std::string folder_path_){
+    std::string folder_path = folder_path_;
+    return get_list_of_files_in_folder(&folder_path);
+  }
   std::vector<std::string> get_list_of_files_in_subfolders(std::string folder_path_){
     std::string folder_path = folder_path_;
     return get_list_of_files_in_subfolders(&folder_path);
   }
+
 
 
   // Matrices/Vector Tools
