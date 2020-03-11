@@ -229,7 +229,7 @@ namespace TToolBox {
 
     std::vector<std::string> res;
     std::string line;
-    std::ifstream infile(file_path_);
+    std::ifstream infile(file_path_.c_str());
     while (std::getline(infile, line))
     {
       res.emplace_back(line);

@@ -33,7 +33,7 @@ std::vector<std::string> read_file(std::string file_path_){
   std::ifstream infile(file_path_.c_str());
   while (std::getline(infile, line))
   {
-    res.emplace_back(line);
+    res.push_back(line);
   }
   infile.close();
 
