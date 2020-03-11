@@ -59,6 +59,7 @@ namespace TToolBox {
   // Forward declarations
   std::vector<std::string> split_string(std::string input_string_, std::string delimiter_);
   std::string join_vector_string(std::vector<std::string> string_list_, std::string delimiter_, int begin_index_, int end_index_);
+  std::vector<std::string> get_list_of_files_in_subfolders(std::string *folder_path_);
 
   ////////////////////////////
   // Src
