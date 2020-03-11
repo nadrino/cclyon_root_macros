@@ -83,6 +83,12 @@ namespace TToolBox {
       return false;
     }
   }
+  bool do_string_in_vector(std::string str_, std::vector<std::string>& vector_){
+    for(auto const &element : vector_){
+      if(element == str_) return true;
+    }
+    return false;
+  }
   bool do_string_contains_substring(std::string string_, std::string substring_){
     if(substring_.size() > string_.size()) return false;
     if(string_.find(substring_) != std::string::npos) return true;
