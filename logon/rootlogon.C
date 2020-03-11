@@ -161,37 +161,45 @@ namespace TToolBox {
     return entries_list;
 
   }
+  std::vector<std::string> get_list_of_subfolders_in_folder(std::string folder_path_) {
+
+    auto entries_list = get_list_of_entries_in_folder(folder_path_);
+    std::vector<std::string> folders_list;
+    for(int i_entry = 0 ; i_entry < int(entries_list.size()) ; i_entry++){
+      if(do_path_is_folder(folder_path_ + "/" + entries_list[i_entry]))
+        folders_list.emplace_back(entries_list[i_entry]);
+    }
+    return folders_list;
+
+  }
+  std::vector<std::string> get_list_of_files_in_folder(std::string folder_path_) {
+
+    auto entries_list = get_list_of_entries_in_folder(folder_path_);
+    std::vector<std::string> files_list;
+    for(int i_entry = 0 ; i_entry < int(entries_list.size()) ; i_entry++){
+      if(do_path_is_file(folder_path_ + "/" + entries_list[i_entry]))
+        files_list.emplace_back(entries_list[i_entry]);
+    }
+    return files_list;
+
+  }
   std::vector<std::string> get_list_of_files_in_subfolders(std::string folder_path_){
 
     std::vector<std::string> output_file_paths;
+    output_file_paths += get_list_of_files_in_folder(folder_path_);
 
-    // WARNING : Recursive function
-    auto entries_list = get_list_of_entries_in_folder(folder_path_);
-    std::string str_buffer;
-    for(auto const& entry : entries_list) {
-
-      std::string entry_path = folder_path_;
-      entry_path += "/";
-      entry_path += entry;
-
-      if(do_path_is_folder(entry_path))
-      {
-        cerr << "entering " << entry_path << endl;
-        auto sub_files_list = get_list_of_files_in_subfolders(entry_path);
-        for(auto const& sub_entry : sub_files_list){
-          output_file_paths.emplace_back(entry + "/" + sub_entry);
-        }
+    auto subfolders_list = get_list_of_subfolders_in_folder(folder_path_);
+    for(int i_subfolder = 0 ; i_subfolder < int(subfolders_list.size()) ; i_subfolder++){
+      auto subfiles_path = get_list_of_files_in_subfolders(subfolders_list[i_subfolder]); // RECURSIVE
+      for(int i_subfile = 0 ; i_subfile < int(subfiles_path.size()) ; i_subfile++){
+         output_file_paths.emplace_back(subfolders_list[i_subfolder] + "/" + subfiles_path[i_subfile]);
       }
-      else if(do_path_is_file(entry_path)){
-        cerr << "  adding " << entry_path << endl;
-        output_file_paths.emplace_back(entry);
-      }
-
     }
 
     return output_file_paths;
 
   }
+
 
   // Matrices/Vector Tools
   TH2D* get_TH2D_from_TMatrixD(TMatrixD *XY_values_, string graph_title_ = "", string Z_title_ = "",string Y_title_ = "Row #", string X_title_ = "Col #") {
