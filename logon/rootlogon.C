@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <sys/types.h>
-#include <dirent.h>
-
 {
 
   cout << "Using ROOT logon : $REPO_DIR/cclyon_root_macros/logon/rootlogon.C " << endl;
@@ -55,44 +51,117 @@
 
 }
 
+#include <sys/types.h>
+#include <sys/stat.h>
+
 namespace TToolBox {
 
+  // Forward declarations
+  std::vector<std::string> split_string(std::string input_string_, std::string delimiter_);
+  std::string join_vector_string(std::vector<std::string> string_list_, std::string delimiter_, int begin_index_, int end_index_);
+
+  ////////////////////////////
+  // Src
   static double last_displayed_value = -1;
   static int verbosity_level = 0;
   static Color_t colorCells[10] = {kOrange+1, kGreen-3, kTeal+3, kAzure+7, kCyan-2, kBlue-7, kBlue+2, kOrange+9, kRed+2, kPink+9};
 
-  bool do_path_is_folder(std::string &folder_path_) {
-    DIR* dir;
-    dir = opendir(folder_path_.c_str());
-    bool is_directory = false;
-    if(dir != NULL) is_directory = true;
-    closedir(dir);
-    return is_directory;
-  }
-  bool do_path_is_file(std::string &file_path_) {
+  bool do_path_is_valid(std::string path_){
     struct stat buffer{};
-    return (stat (file_path_.c_str(), &buffer) == 0);
+    return (stat (path_.c_str(), &buffer) == 0);
   }
-
-
-  std::vector<std::string> get_list_of_entries_in_folder(std::string folder_path_){
-    if(not do_path_is_folder(folder_path_)) return std::vector<std::string>();
-    DIR* directory;
-    directory = opendir(folder_path_.c_str()); //Open current-working-directory.
-    if( directory == nullptr ) {
-      std::cout << "Failed to open directory : " << folder_path_ << std::endl;
-      return std::vector<std::string>();
-    } else {
-      std::vector<std::string> entries_list;
-      struct dirent* entry;
-      while ( (entry = readdir(directory)) ) {
-        entries_list.emplace_back(entry->d_name);
-      }
-      closedir(directory);
-      return entries_list;
+  bool do_path_is_folder(std::string folder_path_){
+    struct stat info{};
+    stat( folder_path_.c_str(), &info );
+    if( info.st_mode & S_IFDIR ) return true;
+    else return false;
+  }
+  bool do_path_is_file(std::string file_path_) {
+    if(do_path_is_valid(file_path_)){
+      return not do_path_is_folder(file_path_);
+    } else{
+      return false;
     }
   }
-  std::vector<std::string> get_list_files_in_subfolders(std::string folder_path_){
+
+  std::string get_folder_path_from_file_path(std::string file_path_){
+    std::string folder_path;
+    if(file_path_[0] == '/') folder_path += "/";
+    auto splitted_path = split_string(file_path_, "/");
+    folder_path += join_vector_string(
+        splitted_path,
+        "/",
+        0,
+        int(splitted_path.size()) - 1
+        );
+    return folder_path;
+  }
+  std::string get_filename_from_file_path(std::string file_path_){
+    auto splitted_path = split_string(file_path_, "/");
+    return splitted_path.back();
+  }
+  std::string join_vector_string(std::vector<std::string> string_list_, std::string delimiter_, int begin_index_, int end_index_) {
+
+    std::string joined_string;
+    if(end_index_ == 0) end_index_ = int(string_list_.size());
+
+    // circular permutation -> python style : tab[-1] = tab[tab.size - 1]
+    if(end_index_ < 0 and int(string_list_.size()) > std::fabs(end_index_)) end_index_ = int(string_list_.size()) + end_index_;
+
+    for(int i_list = begin_index_ ; i_list < end_index_ ; i_list++){
+      if(not joined_string.empty()) joined_string += delimiter_;
+      joined_string += string_list_[i_list];
+    }
+
+    return joined_string;
+  }
+
+  std::vector<std::string> split_string(std::string input_string_, std::string delimiter_){
+
+    std::vector<std::string> output_splited_string;
+
+    const char *src = input_string_.c_str();
+    const char *next = src;
+
+    std::string out_string_piece = "";
+
+    while ((next = std::strstr(src, delimiter_.c_str())) != NULL) {
+      out_string_piece = "";
+      while (src != next){
+        out_string_piece += *src++;
+      }
+      output_splited_string.emplace_back(out_string_piece);
+      /* Skip the delimiter_ */
+      src += delimiter_.size();
+    }
+
+    /* Handle the last token */
+    out_string_piece = "";
+    while (*src != '\0')
+      out_string_piece += *src++;
+
+    output_splited_string.emplace_back(out_string_piece);
+
+    return output_splited_string;
+
+  }
+  std::vector<std::string> get_list_of_entries_in_folder(std::string folder_path_){
+
+    if(not do_path_is_folder(folder_path_)) return std::vector<std::string>();
+
+    std::vector<std::string> entries_list;
+    TSystemDirectory dir(folder_path_.c_str(), folder_path_.c_str());
+    TList *files = dir.GetListOfFiles();
+    for(int i_entry = 0 ; i_entry < dir.GetListOfFiles()->GetEntries() ; i_entry++){
+      string entry = dir.GetListOfFiles()->At(i_entry)->GetName();
+      if(entry != "." and entry != ".."){
+        entries_list.emplace_back(entry);
+      }
+    }
+    return entries_list;
+
+  }
+  std::vector<std::string> get_list_of_files_in_subfolders(std::string folder_path_){
 
     std::vector<std::string> output_file_paths;
 
@@ -105,15 +174,16 @@ namespace TToolBox {
       entry_path += "/";
       entry_path += entry;
 
-      if(do_path_is_folder(entry_path)){
-
-        auto sub_files_list = get_list_files_in_subfolders(entry_path);
+      if(do_path_is_folder(entry_path))
+      {
+        cerr << "entering " << entry_path << endl;
+        auto sub_files_list = get_list_of_files_in_subfolders(entry_path);
         for(auto const& sub_entry : sub_files_list){
           output_file_paths.emplace_back(entry + "/" + sub_entry);
         }
-
       }
       else if(do_path_is_file(entry_path)){
+        cerr << "  adding " << entry_path << endl;
         output_file_paths.emplace_back(entry);
       }
 
@@ -146,7 +216,7 @@ namespace TToolBox {
   return th2_histogram;
 
 }
-TMatrixD* generate_correlation_matrix(TMatrixD *covariance_matrix_) {
+  TMatrixD* generate_correlation_matrix(TMatrixD *covariance_matrix_) {
   auto* correlation_matrix = (TMatrixD*) covariance_matrix_->Clone();
   for(int i_row = 0 ; i_row < covariance_matrix_->GetNrows() ; i_row++){
     for(int i_col = 0 ; i_col < covariance_matrix_->GetNcols() ; i_col++){
@@ -157,5 +227,20 @@ TMatrixD* generate_correlation_matrix(TMatrixD *covariance_matrix_) {
   return correlation_matrix;
 }
 
+  void list_files(const char *dirname="C:/root/folder/", const char *ext=".root") {
+    TSystemDirectory dir(dirname, dirname);
+    TList *files = dir.GetListOfFiles();
+    if (files) {
+      TSystemFile *file;
+      TString fname;
+      TIter next(files);
+      while ((file=(TSystemFile*)next())) {
+        fname = file->GetName();
+        if (!file->IsDirectory() && fname.EndsWith(ext)) {
+          cout << fname.Data() << endl;
+        }
+      }
+    }
+  }
 
 }
