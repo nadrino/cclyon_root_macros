@@ -15,7 +15,7 @@ void get_POT_from_highland_files(){
   // std::sort(file_path_list.begin(), file_path_list.end());
 
   for(int i_file = 0 ; i_file < int(file_path_list.size()); i_file++){
-    ds = new DataSample((__irods_pulled_path__ + "/" + file_path_list[i_file]).c_str(),kGoodBeamGoodND280)
+    ds = new DataSample( (__irods_pulled_path__ + "/" + file_path_list[i_file]).c_str(), kGoodBeamGoodND280);
     cerr << ds.GetPOT() << endl;
   }
 
