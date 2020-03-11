@@ -91,4 +91,52 @@ namespace TToolBox {
     return correlation_matrix;
   }
 
+  std::vector<std::string> get_list_of_entries_in_folder(std::string folder_path_){
+      if(not do_path_is_folder(folder_path_)) return std::vector<std::string>();
+      DIR* directory;
+      directory = opendir(folder_path_.c_str()); //Open current-working-directory.
+      if( directory == nullptr ) {
+        std::cout << "Failed to open directory : " << folder_path_ << std::endl;
+        return std::vector<std::string>();
+      } else {
+        std::vector<std::string> entries_list;
+        struct dirent* entry;
+        while ( (entry = readdir(directory)) ) {
+          entries_list.emplace_back(entry->d_name);
+        }
+        closedir(directory);
+        return entries_list;
+      }
+    }
+  std::vector<std::string> get_list_files_in_subfolders(std::string folder_path_){
+
+    std::vector<std::string> output_file_paths;
+
+    // WARNING : Recursive function
+    auto entries_list = get_list_of_entries_in_folder(folder_path_);
+    std::string str_buffer;
+    for(auto const& entry : entries_list) {
+
+      std::string entry_path = folder_path_;
+      entry_path += "/";
+      entry_path += entry;
+
+      if(do_path_is_folder(entry_path)){
+
+        auto sub_files_list = get_list_files_in_subfolders(entry_path);
+        for(auto const& sub_entry : sub_files_list){
+          output_file_paths.emplace_back(entry + "/" + sub_entry);
+        }
+
+      }
+      else if(do_path_is_file(entry_path)){
+        output_file_paths.emplace_back(entry);
+      }
+
+    }
+
+    return output_file_paths;
+
+  }
+
 }
