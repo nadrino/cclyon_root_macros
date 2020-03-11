@@ -33,10 +33,10 @@ void display_loading(int current_index_, int end_index_, string title_, bool for
   int percent = int((double(current_index_) / end_index_ * 100.));
   if(force_display_ || current_index_ >= end_index_-1) {
     if(last_displayed_value != -1) clog << "\r" << title_ << " : " << 100 << "%" << endl;
-    reset_last_displayed_value();
+    last_displayed_value = -1;
     return;
   }
-  if(last_displayed_value == -1 or last_displayed_value < percent) {
+  if(last_displayed_value == -1 || last_displayed_value < percent) {
     last_displayed_value = percent;
     clog << "\r" << title_ << " : " << percent << "%" << flush << "\r";
   }
