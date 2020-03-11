@@ -1,5 +1,5 @@
 
-static double last_displayed_value = -1;
+double last_displayed_value = -1;
 void display_loading(int current_index_, int end_index_, string title_ = "", bool force_display_ = false);
 std::vector<std::string> read_file(std::string file_path_);
 
