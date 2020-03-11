@@ -2,7 +2,7 @@
 
 std::vector<std::string> get_list_of_entries_in_folder(std::string *folder_path_){
 
-  if(not do_path_is_folder(*folder_path_)) return std::vector<std::string>();
+  if(!do_path_is_folder(*folder_path_)) return std::vector<std::string>();
 
   std::vector<std::string> entries_list;
   TSystemDirectory dir((*folder_path_).c_str(), (*folder_path_).c_str());
@@ -65,7 +65,7 @@ std::vector<std::string> get_list_of_files_in_subfolders(std::string *folder_pat
 std::vector<std::string> get_list_of_files_in_subfolders(std::string folder_path_, std::string files_extension_ = ""){
   std::string *folder_path = &folder_path_;
   std::string *files_extension = 0;
-  if(not files_extension_.empty()) files_extension = &files_extension_;
+  if(!files_extension_.empty()) files_extension = &files_extension_;
   return get_list_of_files_in_subfolders(folder_path, files_extension);
 }
 
