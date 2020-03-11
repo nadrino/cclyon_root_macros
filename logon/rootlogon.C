@@ -190,7 +190,7 @@ namespace TToolBox {
     auto entries_list = get_list_of_entries_in_folder(folder_path_);
     std::vector<std::string> files_list;
     for(int i_entry = 0 ; i_entry < int(entries_list.size()) ; i_entry++){
-      if(files_extension_ == nullptr or do_string_ends_with_substring(entries_list[i_entry]), *files_extension_){
+      if(files_extension_ == nullptr or do_string_ends_with_substring(entries_list[i_entry], *files_extension_)){
         if(do_path_is_file(*folder_path_ + "/" + entries_list[i_entry]))
           files_list.emplace_back(entries_list[i_entry]);
       }
@@ -229,7 +229,7 @@ namespace TToolBox {
     return get_list_of_subfolders_in_folder(&folder_path);
   }
   std::vector<std::string> get_list_of_files_in_folder(std::string folder_path_, std::string files_extension_ = ""){
-    std::string *folder_path = folder_path_;
+    std::string *folder_path = &folder_path_;
     std::string *files_extension = nullptr;
     if(not files_extension_.empty()) files_extension = &files_extension_;
     return get_list_of_files_in_folder(folder_path, files_extension);
