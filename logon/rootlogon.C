@@ -66,6 +66,21 @@ namespace TToolBox {
   static int verbosity_level = 0;
   static Color_t colorCells[10] = {kOrange+1, kGreen-3, kTeal+3, kAzure+7, kCyan-2, kBlue-7, kBlue+2, kOrange+9, kRed+2, kPink+9};
 
+  void display_loading(int current_index_, int end_index_, string title_ = "", bool force_display_ = false) {
+
+    int percent = int(round(double(current_index_) / end_index_ * 100.));
+    if(force_display_ or current_index_ >= end_index_-1) {
+      if(last_displayed_value != -1) clog << "\r" << title_ << " : " << 100 << "%" << endl;
+      reset_last_displayed_value();
+      return;
+    }
+    if(last_displayed_value == -1 or last_displayed_value < percent) {
+      last_displayed_value = percent;
+      clog << "\r" << title_ << " : " << percent << "%" << flush << "\r";
+    }
+
+  }
+
   bool do_path_is_valid(std::string path_){
     struct stat buffer{};
     return (stat (path_.c_str(), &buffer) == 0);
