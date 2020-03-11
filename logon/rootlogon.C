@@ -183,7 +183,7 @@ namespace TToolBox {
     return files_list;
 
   }
-  std::vector<std::string> get_list_of_files_in_subfolders(std::string &folder_path_){
+  std::vector<std::string> get_list_of_files_in_subfolders(std::string *folder_path_){
 
     std::vector<std::string> output_file_paths;
 
@@ -207,7 +207,7 @@ namespace TToolBox {
 
   std::vector<std::string> get_list_of_files_in_subfolders(std::string folder_path_){
     std::string folder_path = folder_path_;
-    return get_list_of_files_in_subfolders(folder_path);
+    return get_list_of_files_in_subfolders(&folder_path);
   }
 
 
