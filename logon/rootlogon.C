@@ -203,6 +203,7 @@ namespace TToolBox {
     std::vector<std::string> output_file_paths;
 
     auto files_list = get_list_of_files_in_folder(folder_path_, files_extension_);
+    cerr << "files_list = " << files_list.size() << endl;
     for(int i_file = 0 ; i_file < int(files_list.size()) ; i_file++){
       output_file_paths.emplace_back(files_list[i_file]);
     }
