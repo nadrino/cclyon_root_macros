@@ -19,12 +19,12 @@ void get_POT_from_highland_files(){
   for(int i_file = 0 ; i_file < int(file_path_list.size()); i_file++){
     ds = new DataSample( (file_path_list[i_file]).c_str(), kGoodBeamGoodND280);
     display_loading(i_file, int(file_path_list.size()), "Accumulating POT");
-    cumulated_pot += ds.GetPOT();
+    cumulated_pot += ds->GetPOT();
   }
 
   cerr << "Accumulated POT : " << cumulated_pot << endl;
 
-  return 0;
+  exit(0);
 
 }
 
