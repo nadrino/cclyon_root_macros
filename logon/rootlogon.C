@@ -209,7 +209,7 @@ namespace TToolBox {
 
     auto subfolders_list = get_list_of_subfolders_in_folder(folder_path_);
     for(int i_subfolder = 0 ; i_subfolder < int(subfolders_list.size()) ; i_subfolder++){
-      auto subfiles_path = get_list_of_files_in_subfolders(&subfolders_list[i_subfolder]); // RECURSIVE
+      auto subfiles_path = get_list_of_files_in_subfolders(&subfolders_list[i_subfolder], files_extension_); // RECURSIVE
       for(int i_subfile = 0 ; i_subfile < int(subfiles_path.size()) ; i_subfile++){
          output_file_paths.emplace_back(subfolders_list[i_subfolder] + "/" + subfiles_path[i_subfile]);
       }
