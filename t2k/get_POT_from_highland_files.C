@@ -6,7 +6,7 @@ void get_POT_from_highland_files(){
 
   DataSample* ds;
 
-  auto file_path_list = TToolBox::get_list_of_files_in_subfolders(__irods_pulled_path__, ".root");
+  std::vector<std::string> file_path_list = TToolBox::get_list_of_files_in_subfolders(__irods_pulled_path__, ".root");
   std::sort(file_path_list.begin(), file_path_list.end());
 
   for(int i_file = 0 ; i_file < int(file_path_list.size()); i_file++){
