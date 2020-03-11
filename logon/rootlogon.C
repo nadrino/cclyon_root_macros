@@ -214,7 +214,7 @@ namespace TToolBox {
     cerr << "subfolders_list = " << subfolders_list.size() << endl;
     for(int i_subfolder = 0 ; i_subfolder < int(subfolders_list.size()) ; i_subfolder++){
       cerr << "subfolders_list = " << subfolders_list[i_subfolder] << endl;
-      string subfolde_full_path = *folder_path_ + subfolders_list[i_subfolder];
+      string subfolde_full_path = *folder_path_ + "/" + subfolders_list[i_subfolder];
       auto subfiles_path = get_list_of_files_in_subfolders(&subfolde_full_path, files_extension_); // RECURSIVE
       for(int i_subfile = 0 ; i_subfile < int(subfiles_path.size()) ; i_subfile++){
          output_file_paths.emplace_back(subfolders_list[i_subfolder] + "/" + subfiles_path[i_subfile]);
