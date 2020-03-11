@@ -189,6 +189,7 @@ namespace TToolBox {
 
     auto files_list = get_list_of_files_in_folder(folder_path_);
     for(int i_file = 0 ; i_file < int(files_list.size()) ; i_file++){
+      cerr << files_list[i_file] << endl;
       output_file_paths.emplace_back(files_list[i_file]);
     }
 
