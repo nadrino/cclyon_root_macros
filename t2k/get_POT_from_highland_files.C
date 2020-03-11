@@ -1,4 +1,11 @@
 
+std::vector<std::string> get_list_of_files_in_subfolders(std::string folder_path_, std::string files_extension_ = ""){
+  std::string *folder_path = &folder_path_;
+  std::string *files_extension = nullptr;
+  if(not files_extension_.empty()) files_extension = &files_extension_;
+  return get_list_of_files_in_subfolders(folder_path, files_extension);
+}
+
 
 string __irods_pulled_path__ = "/sps/t2k/ablanche/work/results/irods/run2a";
 
