@@ -83,6 +83,19 @@ namespace TToolBox {
       return false;
     }
   }
+  bool do_string_contains_substring(std::string string_, std::string substring_){
+    if(substring_.size() > string_.size()) return false;
+    if(string_.find(substring_) != std::string::npos) return true;
+    else return false;
+  }
+  bool do_string_starts_with_substring(std::string string_, std::string substring_){
+    if(substring_.size() > string_.size()) return false;
+    return (not string_.compare(0, substring_.size(), substring_));
+  }
+  bool do_string_ends_with_substring(std::string string_, std::string substring_){
+    if(substring_.size() > string_.size()) return false;
+    return (not string_.compare(string_.size() - substring_.size(), substring_.size(), substring_));
+  }
 
   std::string get_folder_path_from_file_path(std::string file_path_){
     std::string folder_path;
@@ -172,22 +185,24 @@ namespace TToolBox {
     return folders_list;
 
   }
-  std::vector<std::string> get_list_of_files_in_folder(std::string *folder_path_) {
+  std::vector<std::string> get_list_of_files_in_folder(std::string *folder_path_, std::string *files_extension_ = nullptr) {
 
     auto entries_list = get_list_of_entries_in_folder(folder_path_);
     std::vector<std::string> files_list;
     for(int i_entry = 0 ; i_entry < int(entries_list.size()) ; i_entry++){
-      if(do_path_is_file(*folder_path_ + "/" + entries_list[i_entry]))
-        files_list.emplace_back(entries_list[i_entry]);
+      if(files_extension_ == nullptr or do_string_ends_with_substring(entries_list[i_entry]), *files_extension_){
+        if(do_path_is_file(*folder_path_ + "/" + entries_list[i_entry]))
+          files_list.emplace_back(entries_list[i_entry]);
+      }
     }
     return files_list;
 
   }
-  std::vector<std::string> get_list_of_files_in_subfolders(std::string *folder_path_){
+  std::vector<std::string> get_list_of_files_in_subfolders(std::string *folder_path_, std::string *files_extension_ = nullptr){
 
     std::vector<std::string> output_file_paths;
 
-    auto files_list = get_list_of_files_in_folder(folder_path_);
+    auto files_list = get_list_of_files_in_folder(folder_path_, files_extension_);
     for(int i_file = 0 ; i_file < int(files_list.size()) ; i_file++){
       output_file_paths.emplace_back(files_list[i_file]);
     }
@@ -213,14 +228,17 @@ namespace TToolBox {
     std::string folder_path = folder_path_;
     return get_list_of_subfolders_in_folder(&folder_path);
   }
-  std::vector<std::string> get_list_of_files_in_folder(std::string folder_path_){
-    cerr << "NOT HERE" << endl;
-    std::string folder_path = folder_path_;
-    return get_list_of_files_in_folder(&folder_path);
+  std::vector<std::string> get_list_of_files_in_folder(std::string folder_path_, std::string files_extension_ = ""){
+    std::string *folder_path = folder_path_;
+    std::string *files_extension = nullptr;
+    if(not files_extension_.empty()) files_extension = &files_extension_;
+    return get_list_of_files_in_folder(folder_path, files_extension);
   }
-  std::vector<std::string> get_list_of_files_in_subfolders(std::string folder_path_){
-    std::string folder_path = folder_path_;
-    return get_list_of_files_in_subfolders(&folder_path);
+  std::vector<std::string> get_list_of_files_in_subfolders(std::string folder_path_, std::string files_extension_ = ""){
+    std::string *folder_path = &folder_path_;
+    std::string *files_extension = nullptr;
+    if(not files_extension_.empty()) files_extension = &files_extension_;
+    return get_list_of_files_in_subfolders(folder_path, files_extension);
   }
 
   // Matrices/Vector Tools
