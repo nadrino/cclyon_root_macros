@@ -200,7 +200,7 @@ namespace TToolBox {
   }
   std::vector<std::string> get_list_of_files_in_subfolders(std::string *folder_path_, std::string *files_extension_ = nullptr){
 
-    cerr << "*folder_path_ = " << endl;
+    cerr << "*folder_path_ = " << *folder_path_ <<  endl;
 
     std::vector<std::string> output_file_paths;
 
