@@ -225,6 +225,20 @@ namespace TToolBox {
     return output_file_paths;
 
   }
+  std::vector<std::string> read_file(std::string file_path_){
+
+    std::vector<std::string> res;
+    std::string line;
+    std::ifstream infile(file_path_);
+    while (std::getline(infile, line))
+    {
+      res.emplace_back(line);
+    }
+    infile.close();
+
+    return res;
+
+  }
 
   // Overloaded (slower but easier to use)
   std::vector<std::string> get_list_of_entries_in_folder(std::string folder_path_){
