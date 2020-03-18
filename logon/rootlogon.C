@@ -326,8 +326,7 @@ namespace TToolBox {
       string object_name = directory_->GetListOfKeys()->At(i_entry)->GetName();
       TObject* obj = directory_->Get(object_name.c_str());
       if(class_name_.empty() or obj->ClassName() == class_name_){
-        output.emplace_back((TObject*) obj->Clone());
-        output.back()->SetName(object_name.c_str());
+        output.emplace_back((TObject*) obj->Clone(object_name.c_str()));
       }
     }
 
