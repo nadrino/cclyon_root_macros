@@ -56,6 +56,13 @@
 
 namespace TToolBox {
 
+  static string NORMAL = "\033[00m";
+  static string ERROR    = "\033[1;31m<ERROR> \033[00m";
+  static string INFO  = "\033[1;32m<INFO> \033[00m";
+  static string WARNING   = "\033[1;33m<WARNING> \033[00m";
+  static string ALERT = "\033[1;35m<ALERT> \033[00m";
+  static TH1D* dummy_TH1D = nullptr;
+
   // Forward declarations
   std::vector<std::string> split_string(std::string input_string_, std::string delimiter_);
   std::string join_vector_string(std::vector<std::string> string_list_, std::string delimiter_, int begin_index_, int end_index_);
@@ -311,5 +318,19 @@ namespace TToolBox {
   return correlation_matrix;
 }
 
+
+  std::vector<TObject*> get_list_of_object_from_directory(TDirectory* directory_, string class_name_ = ""){
+    std::vector<TObject*> output;
+
+    for(int i_entry = 0 ; i_entry < directory_->GetListOfKeys()->GetSize() ; i_entry++){
+      string object_name = directory_->GetListOfKeys()->At(i_entry)->GetName();
+      TObject* obj = directory_->Get(object_name.c_str());
+      if(class_name_.empty() or obj->ClassName() == class_name_){
+        output.emplace_back((TObject*) obj->Clone());
+      }
+    }
+
+    return output;
+  }
 
 }
