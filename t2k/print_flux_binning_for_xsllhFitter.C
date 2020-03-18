@@ -44,8 +44,8 @@ void print_flux_binning_for_xsllhFitter(){
     else continue;
 
     for(int i_bin = 0 ; i_bin < the_axis->GetNbins(); i_bin++){
-      ss << the_axis->GetBinLowEdge(i_bin+1) << " ";
-      ss << the_axis->GetBinUpEdge(i_bin+1) << " ";
+      ss << std::setfill('0') << std::setw(4) << int(1000*the_axis->GetBinLowEdge(i_bin+1)) << " ";
+      ss << std::setfill('0') << std::setw(4) << int(1000*the_axis->GetBinUpEdge(i_bin+1)) << " ";
       ss << particle_id << " ";
       ss << beam_mode << endl;
     }
