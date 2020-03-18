@@ -16,7 +16,7 @@ void print_flux_binning_for_xsllhFitter(){
   }
 
   __covariance_matrix_file__ = (TFile*) gROOT->GetListOfFiles()->At(0);
-  __binning_axis_list__ = get_list_of_object_from_directory(
+  __binning_axis_list__ = TToolBox::get_list_of_object_from_directory(
     __covariance_matrix_file__->GetDirectory("/"),
     "TAxis"
   );
