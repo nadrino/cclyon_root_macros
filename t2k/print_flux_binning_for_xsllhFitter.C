@@ -58,7 +58,7 @@ void print_flux_binning_for_xsllhFitter(){
 
   TMatrixD* total_flux_cov = (TMatrixD*) __covariance_matrix_file__->Get("total_flux_cov");
 
-  TMatrixD* chopped_flux_cov = new TMatixD(n_bins,n_bins);
+  TMatrixD* chopped_flux_cov = new TMatrixD(n_bins,n_bins);
   for(int i_cov = 0 ; i_cov < n_bins ; i_cov++){
     for(int j_cov = 0 ; j_cov < n_bins ; j_cov++){
       (*chopped_flux_cov)[i_cov][j_cov] = (*total_flux_cov)[i_cov][j_cov];
@@ -68,8 +68,8 @@ void print_flux_binning_for_xsllhFitter(){
   TFile* output_file = TFile::Open("chopped_flux_cov.root","RECREATE");
   chopped_flux_cov->Write("chopped_flux_cov_TMatrixD");
 
-  TString binning_string(ss.str().c_str());
-  binning_string.Write("binning_xsLLhFitter_TString");
+  TNamed binning_string("binning_xsLLhFitter_TString", ss.str().c_str());
+  binning_string.Write();
 
   output_file->Close();
 
