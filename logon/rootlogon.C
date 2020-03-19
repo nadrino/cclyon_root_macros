@@ -87,6 +87,11 @@ namespace TToolBox {
     }
 
   }
+  void write_string_in_file(string file_path_, string string_to_write_){
+    std::ofstream out(file_path_.c_str());
+    out << string_to_write_;
+    out.close();
+  }
 
   bool do_path_is_valid(std::string path_){
     struct stat buffer{};
@@ -317,7 +322,6 @@ namespace TToolBox {
   }
   return correlation_matrix;
 }
-
 
   std::vector<TObject*> get_list_of_object_from_directory(TDirectory* directory_, string class_name_ = ""){
     std::vector<TObject*> output;
