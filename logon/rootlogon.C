@@ -96,7 +96,7 @@ namespace TToolBox {
     gStyle->SetPalette(kBird);
   }
   void set_pallette_blue_red(){
-    gStyle->SetPalette(kBlackBody);
+    gStyle->SetPalette(kThermometer);
   }
 
   bool do_path_is_valid(std::string path_){
