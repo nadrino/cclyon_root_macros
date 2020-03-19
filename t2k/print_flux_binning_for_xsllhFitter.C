@@ -68,7 +68,7 @@ void print_flux_binning_for_xsllhFitter(){
   TFile* output_file = TFile::Open("chopped_flux_cov.root","RECREATE");
   chopped_flux_cov->Write("chopped_flux_cov_TMatrixD");
 
-  TNamed binning_string("binning_xsLLhFitter_TString", ss.str().c_str());
+  TNamed binning_string("binning_xsLLhFitter_TNamed", ss.str().c_str());
   binning_string.Write();
 
   output_file->Close();

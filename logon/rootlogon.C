@@ -92,6 +92,12 @@ namespace TToolBox {
     out << string_to_write_;
     out.close();
   }
+  void set_pallette_default(){
+    gStyle->SetPalette(kBird);
+  }
+  void set_pallette_blue_red(){
+    gStyle->SetPalette(kBlackBody);
+  }
 
   bool do_path_is_valid(std::string path_){
     struct stat buffer{};
@@ -322,7 +328,6 @@ namespace TToolBox {
   }
   return correlation_matrix;
 }
-
   std::vector<TObject*> get_list_of_object_from_directory(TDirectory* directory_, string class_name_ = ""){
     std::vector<TObject*> output;
 
@@ -335,6 +340,29 @@ namespace TToolBox {
     }
 
     return output;
+  }
+
+  void save_canvas(TCanvas *canvas_, string file_name_, string sub_folder_ = "") {
+
+    cout << WARNING << "Saving canvas in folder $FIGURES_DIR/" << sub_folder_ << endl;
+
+    vector<string> extensions;
+    extensions.emplace_back(".pdf");
+    extensions.emplace_back(".png");
+    extensions.emplace_back(".root");
+    extensions.emplace_back(".C");
+
+    auto old_verbosity = gErrorIgnoreLevel;
+    gErrorIgnoreLevel = kFatal;
+    if(not sub_folder_.empty()) std::system(("mkdir -p ${FIGURES_DIR}/" + sub_folder_).c_str());
+    for(int i_ext = 0 ; i_ext < int(extensions.size()) ; i_ext++){
+      cout << WARNING << "Saving as : " << file_name_ << extensions[i_ext] << endl;
+      stringstream outpath;
+      outpath << "${FIGURES_DIR}/" << sub_folder_ << "/" << file_name_ << extensions[i_ext];
+      canvas_->SaveAs(outpath.str().c_str());
+    }
+    gErrorIgnoreLevel = old_verbosity;
+
   }
 
 }
