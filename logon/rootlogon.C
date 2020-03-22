@@ -97,6 +97,8 @@ namespace TToolBox {
   }
   void set_pallette_blue_red(){
     gStyle->SetPalette(kBlackBody);
+    TColor::InvertPalette();
+    // gStyle->SetPalette();
   }
   void set_pallette_orange(){
     gStyle->SetPalette(kDarkBodyRadiator);
