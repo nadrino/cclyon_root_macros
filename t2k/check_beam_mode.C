@@ -7,6 +7,8 @@ vector<TFile*> get_list_of_openned_tfiles();
 void check_beam_mode(){
 
   vector<TFile*> openned_tfiles;
+  int nb_files_openned = 0;
+  TFile* flat_file;
 
   TIter next(gROOT->GetListOfGlobals(1));
   TGlobal *global;
@@ -15,7 +17,8 @@ void check_beam_mode(){
     if (type=="TFile") {
       TFile *file = (TFile*)gInterpreter->Calc(global->GetName());
       if (file && file->IsOpen()){
-        openned_tfiles.push_back(file);
+        nb_files_openned++;
+        flat_file = file;
       }
     }
   }
@@ -25,7 +28,6 @@ void check_beam_mode(){
     cerr << "Usage : root path/to/root/file.root /path/to/this/script/check_beam_mode.C" << endl;
   }
 
-  TFile* flat_file = openned_tfiles[0];
   TTree* flattree = (TTree*) flat_file->Get("flattree");
 
   flattree->GetEntry(0);
