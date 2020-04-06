@@ -1,9 +1,3 @@
-#include<vector>
-
-using namespace std;
-
-vector<TFile*> get_list_of_openned_tfiles();
-
 void check_beam_mode(){
 
   vector<TFile*> openned_tfiles;
