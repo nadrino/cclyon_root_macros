@@ -19,6 +19,7 @@ void check_beam_mode(){
   if(nb_files_openned != 1){
     cerr << "nb_files_openned != 1" << endl;
     cerr << "Usage : root path/to/root/file.root /path/to/this/script/check_beam_mode.C" << endl;
+    exit(1);
   }
 
   TTree* flattree = (TTree*) flat_file->Get("flattree");
@@ -30,6 +31,6 @@ void check_beam_mode(){
   else if(int(run/1E7) == 8) cout << "-1" << endl;
   else cout << "0" << endl;
 
-  return;
+  exit(0);
 
 }
