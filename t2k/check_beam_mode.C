@@ -16,6 +16,8 @@ vector<TFile*> get_list_of_openned_tfiles(){
     }
   }
 
+  return out_vector;
+
 }
 
 void check_beam_mode(){
