@@ -50,7 +50,7 @@ void check_beam_mode(){
   }
 
   std::ofstream output_file ("check_beam_mode.tmp", std::ofstream::out);
-  output_file << beam_mode;
+  output_file << beam_mode << std::endl;
   output_file.close();
 
   exit(0);
