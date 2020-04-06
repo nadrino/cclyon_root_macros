@@ -1,5 +1,7 @@
 void check_beam_mode(){
 
+  std::remove("check_beam_mode.out");
+
   int nb_files_openned = 0;
   TFile* flat_file;
 
@@ -24,12 +26,32 @@ void check_beam_mode(){
 
   TTree* flattree = (TTree*) flat_file->Get("flattree");
 
+  if(flattree == 0){
+    cerr << "flattree could not be found in " << flat_file->GetName() << endl;
+    exit(1);
+  }
+
   flattree->GetEntry(0);
   double run = flattree->GetLeaf("sRun")->GetValue(0);
 
-  if(int(run/1E7) == 9) cout << "1" << endl;
-  else if(int(run/1E7) == 8) cout << "-1" << endl;
-  else cout << "0" << endl;
+  int beam_mode = 0;
+  if(int(run/1E7) == 9){
+    beam_mode = 1;
+    cout << "Numu beam mode detected." << endl;
+  }
+  else if(int(run/1E7) == 8){
+    beam_mode = -1;
+    cout << "AntiNumu beam mode detected." << endl;
+  }
+  else {
+    beam_mode = 0;
+    cout << "Unknown beam mode : run=" << run << ". Conventions may have changed." << endl;
+    cout << "Please check : https://www.t2k.org/nd280/datacomp/production006/mcp/mcProdSummary" << endl;
+  }
+
+  std::ofstream output_file ("check_beam_mode.tmp", std::ofstream::out);
+  output_file << beam_mode;
+  output_file.close();
 
   exit(0);
 
