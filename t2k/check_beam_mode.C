@@ -16,8 +16,8 @@ void check_beam_mode(){
     }
   }
 
-  if(openned_tfiles.size() != 1){
-    cerr << "openned_tfiles.size() != 1" << endl;
+  if(nb_files_openned != 1){
+    cerr << "nb_files_openned != 1" << endl;
     cerr << "Usage : root path/to/root/file.root /path/to/this/script/check_beam_mode.C" << endl;
   }
 
