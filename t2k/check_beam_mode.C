@@ -6,7 +6,19 @@ vector<TFile*> get_list_of_openned_tfiles();
 
 void check_beam_mode(){
 
-  vector<TFile*> openned_tfiles = get_list_of_openned_tfiles();
+  vector<TFile*> openned_tfiles;
+
+  TIter next(gROOT->GetListOfGlobals(1));
+  TGlobal *global;
+  while ((global=(TGlobal*)next())) {
+    TString type = global->GetTypeName();
+    if (type=="TFile") {
+      TFile *file = (TFile*)gInterpreter->Calc(global->GetName());
+      if (file && file->IsOpen()){
+        openned_tfiles.push_back(file);
+      }
+    }
+  }
 
   if(openned_tfiles.size() != 1){
     cerr << "openned_tfiles.size() != 1" << endl;
@@ -24,26 +36,5 @@ void check_beam_mode(){
   else cout << "0" << endl;
 
   return;
-
-}
-
-
-vector<TFile*> get_list_of_openned_tfiles(){
-
-  vector<TFile*> out_vector;
-
-  TIter next(gROOT->GetListOfGlobals(1));
-  TGlobal *global;
-  while ((global=(TGlobal*)next())) {
-    TString type = global->GetTypeName();
-    if (type=="TFile") {
-      TFile *file = (TFile*)gInterpreter->Calc(global->GetName());
-      if (file && file->IsOpen()){
-        out_vector.emplace_back(file);
-      }
-    }
-  }
-
-  return out_vector;
 
 }
