@@ -1,6 +1,5 @@
 void check_beam_mode(){
 
-  vector<TFile*> openned_tfiles;
   int nb_files_openned = 0;
   TFile* flat_file;
 
