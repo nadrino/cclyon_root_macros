@@ -32,7 +32,7 @@ void neutrino_tracks_generator(){
 
   __event_container__["SK_solid_angle_vertex"] = 0.;
 
-  __output_TFile__ = TFile::Open("neutrino_tracks.root", "RECREATE");
+  __output_TFile__ = TFile::Open("output.root", "RECREATE");
   TTree* events_tree = new TTree("neutrino_tracks", "neutrino_tracks");
   for(auto &observable : __event_container__){
     events_tree->Branch(observable.first.c_str(), &observable.second);
