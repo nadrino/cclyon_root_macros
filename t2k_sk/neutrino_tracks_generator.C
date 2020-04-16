@@ -62,6 +62,7 @@ void neutrino_tracks_generator(){
     events_tree->Fill();
   }
 
+  events_tree->Write();
   __output_TFile__->Close();
   exit(0);
 
