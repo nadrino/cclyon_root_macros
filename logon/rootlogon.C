@@ -157,7 +157,7 @@ namespace TToolBox {
     auto splitted_path = split_string(file_path_, "/");
     return splitted_path.back();
   }
-  std::string join_vector_string(std::vector<std::string> string_list_, std::string delimiter_, int begin_index_, int end_index_) {
+  std::string join_vector_string(std::vector<std::string> string_list_, std::string delimiter_, int begin_index_ = 0, int end_index_ = 0) {
 
     std::string joined_string;
     if(end_index_ == 0) end_index_ = int(string_list_.size());
