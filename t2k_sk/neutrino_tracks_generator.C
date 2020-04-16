@@ -35,7 +35,7 @@ void neutrino_tracks_generator(){
   __output_TFile__ = TFile::Open("neutrino_tracks.root", "RECREATE");
   TTree* events_tree = new TTree("neutrino_tracks", "neutrino_tracks");
   for(auto &observable : __event_container__){
-    events_tree->SetBranchAddress(observable.first.c_str(), &observable.second);
+    events_tree->Branch(observable.first.c_str(), &observable.second);
   }
 
   for(int i_event = 0 ; i_event < __nb_events__ ; i_event++ ){
