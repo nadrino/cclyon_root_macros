@@ -54,7 +54,7 @@ void neutrino_tracks_generator(){
     __event_container__["R_SK_vertex"] += __event_container__["Z_SK_vertex"]*__event_container__["Z_SK_vertex"];
     __event_container__["R_SK_vertex"] = TMath::Sqrt(__event_container__["R_SK_vertex"]);
 
-    __event_container__["theta_SK_vertex"] = -TMath::ACos(__event_container__["Z_SK_vertex"]/__event_container__["R_SK_vertex"]) - TMath::Pi()/2.;
+    __event_container__["theta_SK_vertex"] = -TMath::ACos(__event_container__["Z_SK_vertex"]/__event_container__["R_SK_vertex"]) + TMath::Pi()/2.;
     __event_container__["phi_SK_vertex"] = TMath::ATan(__event_container__["Y_vertex"]/__event_container__["X_vertex"]);
 
     __event_container__["SK_solid_angle_vertex"] = 0.040*0.040/(__event_container__["R_SK_vertex"]*__event_container__["R_SK_vertex"]);
