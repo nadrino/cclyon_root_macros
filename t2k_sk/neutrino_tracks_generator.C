@@ -63,5 +63,6 @@ void neutrino_tracks_generator(){
   }
 
   __output_TFile__->Close();
+  exit(0);
 
 }
