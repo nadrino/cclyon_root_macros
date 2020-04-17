@@ -161,6 +161,7 @@ void build_PREM(){
       new TF1(layer_label[i_fct].c_str(), formulae.str().c_str(), 0., layer_outer_bound.back()+50.)
     );
     functions_list.back()->Write();
+    last_bound = layer_outer_bound[i_fct];
 
   }
 
