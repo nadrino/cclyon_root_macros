@@ -88,51 +88,51 @@ void build_PREM(){
 
   layer_label.emplace_back("InnerCore");
   layer_outer_bound.emplace_back(1221.5);
-  layer_polynomial_coefficients.emplace_back({13.0885, 0, -8.8381});
+  layer_polynomial_coefficients.emplace_back(std::vector<double>({13.0885, 0, -8.8381}));
 
   layer_label.emplace_back("OutterCore");
   layer_outer_bound.emplace_back(3480.0);
-  layer_polynomial_coefficients.emplace_back({12.5815, -1.2638, -3.6426, —5.5281});
+  layer_polynomial_coefficients.emplace_back(std::vector<double>({12.5815, -1.2638, -3.6426, -5.5281}));
 
   layer_label.emplace_back("LowerMantle-1");
   layer_outer_bound.emplace_back(3630.0);
-  layer_polynomial_coefficients.emplace_back({7.9565, -6.4761, 5.5283, -3.0807});
+  layer_polynomial_coefficients.emplace_back(std::vector<double>({7.9565, -6.4761, 5.5283, -3.0807}));
 
   layer_label.emplace_back("LowerMantle-2");
   layer_outer_bound.emplace_back(5600.0);
-  layer_polynomial_coefficients.emplace_back({7.9565, -6.4761, 5.5283, —3.0807});
+  layer_polynomial_coefficients.emplace_back(std::vector<double>({7.9565, -6.4761, 5.5283, -3.0807}));
 
   layer_label.emplace_back("LowerMantle-3");
   layer_outer_bound.emplace_back(5701.0);
-  layer_polynomial_coefficients.emplace_back({7.9565, —6.4761, 5.5283, —3.0807});
+  layer_polynomial_coefficients.emplace_back(std::vector<double>({7.9565, -6.4761, 5.5283, -3.0807}));
 
   layer_label.emplace_back("TransitionZone-1");
   layer_outer_bound.emplace_back(5771.0);
-  layer_polynomial_coefficients.emplace_back({5.3197, —1.4836});
+  layer_polynomial_coefficients.emplace_back(std::vector<double>({5.3197, -1.4836}));
 
   layer_label.emplace_back("TransitionZone-2");
   layer_outer_bound.emplace_back(5971.0);
-  layer_polynomial_coefficients.emplace_back({11.2494, —8.0298});
+  layer_polynomial_coefficients.emplace_back(std::vector<double>({11.2494, -8.0298}));
 
   layer_label.emplace_back("TransitionZone-3");
   layer_outer_bound.emplace_back(6151.0);
-  layer_polynomial_coefficients.emplace_back({7.1089, —3.8045});
+  layer_polynomial_coefficients.emplace_back(std::vector<double>({7.1089, -3.8045}));
 
   layer_label.emplace_back("LVZ");
   layer_outer_bound.emplace_back(6291.0);
-  layer_polynomial_coefficients.emplace_back({2.6910, 0.6924});
+  layer_polynomial_coefficients.emplace_back(std::vector<double>({2.6910, 0.6924}));
 
   layer_label.emplace_back("LID");
   layer_outer_bound.emplace_back(6346.6);
-  layer_polynomial_coefficients.emplace_back({2.6910, O.6924});
+  layer_polynomial_coefficients.emplace_back(std::vector<double>({2.6910, O.6924}));
 
   layer_label.emplace_back("Crust-1");
   layer_outer_bound.emplace_back(6356.0);
-  layer_polynomial_coefficients.emplace_back({2.900});
+  layer_polynomial_coefficients.emplace_back(std::vector<double>({2.900}));
 
   layer_label.emplace_back("Crust-2");
   layer_outer_bound.emplace_back(6368.0);
-  layer_polynomial_coefficients.emplace_back({2.600});
+  layer_polynomial_coefficients.emplace_back(std::vector<double>({2.600}));
 
   std::vector<TF1*> functions_list;
   double last_bound = 0.;
