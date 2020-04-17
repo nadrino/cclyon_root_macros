@@ -80,6 +80,8 @@ void build_PREM(){
   // Preliminary reference Earth model
   // https://www.sciencedirect.com/science/article/abs/pii/0031920181900467?via%3Dihub
 
+  double earth_radius = 6371;
+
   __output_TFile__->mkdir("TF1");
   __output_TFile__->cd("TF1");
 
@@ -148,12 +150,12 @@ void build_PREM(){
       if(i_exposant != 0) formulae << " + ";
       formulae << "( " << layer_polynomial_coefficients[i_fct][i_exposant];
       for(int i_x = 1 ; i_x <= i_exposant ; i_x++){
-        formulae << " * x";
+        formulae << " * (x*" << earth_radius << ")";
       }
       formulae << " )";
     }
     formulae << " )";
-    formulae << "*" << "(x>=" << last_bound << ")*(x<" << layer_outer_bound[i_fct] << ")";
+    formulae << "*" << "(x*"earth_radius">=" << last_bound << ")*(x*" << earth_radius << "<" << layer_outer_bound[i_fct] << ")";
 
     functions_list.emplace_back(
       new TF1(layer_label[i_fct].c_str(), formulae.str().c_str(), 0., layer_outer_bound.back()+50.)
