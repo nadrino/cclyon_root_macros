@@ -2,6 +2,7 @@
 
 
 int __nb_events__ = 1000;
+int __track_sampling__ = 1000;
 
 double __earth_radius_in_km__ = 6371;
 double __neutrino_production_altitude_in_km__ = 15;
@@ -13,6 +14,7 @@ TRandom3* __root_PRNG__;
 TF1* __earth_density_TF1__;
 
 void build_PREM();
+double get_step_matter_density(int i_step);
 
 void neutrino_tracks_generator(){
 
@@ -32,6 +34,7 @@ void neutrino_tracks_generator(){
   __event_container__["phi_SK_vertex"] = 0.;
 
   __event_container__["SK_solid_angle_vertex"] = 0.;
+  __event_container__["average_matter_density"] = 0.;
 
   __output_TFile__ = TFile::Open("output.root", "RECREATE");
 
@@ -64,6 +67,12 @@ void neutrino_tracks_generator(){
     __event_container__["phi_SK_vertex"] = TMath::ATan(__event_container__["Y_vertex"]/__event_container__["X_vertex"]);
 
     __event_container__["SK_solid_angle_vertex"] = 0.040*0.040/(__event_container__["R_SK_vertex"]*__event_container__["R_SK_vertex"]);
+
+    __event_container__["average_matter_density"] = 0.;
+    for(int i_step = 0 ; i_step < __track_sampling__ ; i_step++){
+      __event_container__["average_matter_density"] += get_step_matter_density(i_step);
+    }
+    __event_container__["average_matter_density"] /= double(track_sampling);
 
     events_tree->Fill();
   }
@@ -165,9 +174,26 @@ void build_PREM(){
 
   }
 
-  __earth_density_TF1__ = new TF1("PREM", TToolBox::join_vector_string(layer_label, " + ").c_str(), 0., layer_outer_bound.back()+50.);
+  __earth_density_TF1__ = new TF1("PREM", TToolBox::join_vector_string(layer_label, " + ").c_str(), 0., layer_outer_bound.back()+1000.);
   __earth_density_TF1__->Write("PREM_TF1");
 
   __output_TFile__->cd("");
+
+}
+
+double get_step_matter_density(int i_step){
+
+  double r_step_sk = __event_container__["R_SK_vertex"] - __event_container__["R_SK_vertex"]/__track_sampling__*i_step;
+
+  x_step = r_step_sk*TMath::Sin(__event_container__["theta_SK_vertex"])*TMath::Cos(__event_container__["phi_SK_vertex"]);
+  y_step = r_step_sk*TMath::Sin(__event_container__["theta_SK_vertex"])*TMath::Sin(__event_container__["phi_SK_vertex"]);
+  z_step = r_step_sk*TMath::Cos(__event_container__["theta_SK_vertex"]);
+
+  // taking the earth as the center, not SK
+  z_step += __earth_radius_in_km__;
+
+  double r_step_earth = TMath::Sqrt(x_step*x_step + y_step*y_step + z_step*z_step);
+
+  return __earth_density_TF1__->Eval(r_step_earth);
 
 }
