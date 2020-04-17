@@ -185,9 +185,9 @@ double get_step_matter_density(int i_step){
 
   double r_step_sk = __event_container__["R_SK_vertex"] - __event_container__["R_SK_vertex"]/__track_sampling__*i_step;
 
-  x_step = r_step_sk*TMath::Sin(__event_container__["theta_SK_vertex"])*TMath::Cos(__event_container__["phi_SK_vertex"]);
-  y_step = r_step_sk*TMath::Sin(__event_container__["theta_SK_vertex"])*TMath::Sin(__event_container__["phi_SK_vertex"]);
-  z_step = r_step_sk*TMath::Cos(__event_container__["theta_SK_vertex"]);
+  double x_step = r_step_sk*TMath::Sin(__event_container__["theta_SK_vertex"])*TMath::Cos(__event_container__["phi_SK_vertex"]);
+  double y_step = r_step_sk*TMath::Sin(__event_container__["theta_SK_vertex"])*TMath::Sin(__event_container__["phi_SK_vertex"]);
+  double z_step = r_step_sk*TMath::Cos(__event_container__["theta_SK_vertex"]);
 
   // taking the earth as the center, not SK
   z_step += __earth_radius_in_km__;
