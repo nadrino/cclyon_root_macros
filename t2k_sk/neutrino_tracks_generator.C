@@ -72,7 +72,7 @@ void neutrino_tracks_generator(){
     for(int i_step = 0 ; i_step < __track_sampling__ ; i_step++){
       __event_container__["average_matter_density"] += get_step_matter_density(i_step);
     }
-    __event_container__["average_matter_density"] /= double(track_sampling);
+    __event_container__["average_matter_density"] /= double(__track_sampling__);
 
     events_tree->Fill();
   }
