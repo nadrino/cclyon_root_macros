@@ -124,7 +124,7 @@ void build_PREM(){
 
   layer_label.emplace_back("LID");
   layer_outer_bound.emplace_back(6346.6);
-  layer_polynomial_coefficients.emplace_back(std::vector<double>({2.6910, O.6924}));
+  layer_polynomial_coefficients.emplace_back(std::vector<double>({2.6910, 0.6924}));
 
   layer_label.emplace_back("Crust-1");
   layer_outer_bound.emplace_back(6356.0);
@@ -142,7 +142,7 @@ void build_PREM(){
     formulae << "(";
     for(int i_exposant = 0 ; i_exposant < layer_polynomial_coefficients[i_fct].size() ; i_exposant++){
       if(i_exposant != 0) formulae << " + ";
-      formulae << layer_polynomial_coefficients[i_fct] << "*TMath::Power(x," << i_exposant << ")";
+      formulae << layer_polynomial_coefficients[i_fct][i_exposant] << "*TMath::Power(x," << i_exposant << ")";
     }
     formulae << ")";
     formulae << "*" << "if(x>=" << last_bound << ")*if(x<" << layer_outer_bound[i_exposant] << ")";
