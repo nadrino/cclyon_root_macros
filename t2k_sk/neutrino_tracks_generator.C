@@ -155,7 +155,7 @@ void build_PREM(){
       formulae << " )";
     }
     formulae << " )";
-    formulae << "*" << "(x/" << earth_radius << ">=" << last_bound << ")*(x/" << earth_radius << "<" << layer_outer_bound[i_fct] << ")";
+    formulae << "*" << "(x>=" << last_bound << ")*(x<" << layer_outer_bound[i_fct] << ")";
 
     functions_list.emplace_back(
       new TF1(layer_label[i_fct].c_str(), formulae.str().c_str(), 0., layer_outer_bound.back()+50.)
