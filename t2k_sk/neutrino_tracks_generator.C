@@ -44,6 +44,8 @@ void neutrino_tracks_generator(){
 
   for(int i_event = 0 ; i_event < __nb_events__ ; i_event++ ){
 
+    TToolBox::display_loading(i_event, __nb_events__);
+
     __event_container__["R_vertex"] = __earth_radius_in_km__ + __neutrino_production_altitude_in_km__;
     __event_container__["theta_vertex"] = __root_PRNG__->Rndm()*TMath::Pi();
     __event_container__["phi_vertex"] = __root_PRNG__->Rndm()*TMath::Pi()*2;
