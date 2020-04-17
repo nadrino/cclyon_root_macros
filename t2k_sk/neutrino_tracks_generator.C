@@ -16,8 +16,6 @@ void build_PREM();
 
 void neutrino_tracks_generator(){
 
-  build_PREM();
-
   __root_PRNG__ = new TRandom3(time(NULL));
 
   __event_container__["X_vertex"] = 0.;
@@ -36,7 +34,9 @@ void neutrino_tracks_generator(){
   __event_container__["SK_solid_angle_vertex"] = 0.;
 
   __output_TFile__ = TFile::Open("output.root", "RECREATE");
-  __earth_density_TF1__->Write("PREM_TF1");
+
+  build_PREM();
+
   TTree* events_tree = new TTree("neutrino_tracks", "neutrino_tracks");
   for(auto &observable : __event_container__){
     events_tree->Branch(observable.first.c_str(), &observable.second);
@@ -79,6 +79,10 @@ void build_PREM(){
 
   // Preliminary reference Earth model
   // https://www.sciencedirect.com/science/article/abs/pii/0031920181900467?via%3Dihub
+
+  __earth_density_TF1__->mkdir("TF1");
+  __earth_density_TF1__->cd("TF1");
+
 
   std::vector<std::string> layer_label;
   std::vector<double> layer_outer_bound;
@@ -150,9 +154,13 @@ void build_PREM(){
     functions_list.emplace_back(
       new TF1(layer_label[i_fct].c_str(), formulae.str().c_str(), 0., layer_outer_bound.back()+50.)
     );
+    functions_list.back()->Write();
 
   }
 
   __earth_density_TF1__ = new TF1("PREM", TToolBox::join_vector_string(layer_label, " + ").c_str(), 0., layer_outer_bound.back()+50.);
+  __earth_density_TF1__->Write("PREM_TF1");
+
+  __earth_density_TF1__->cd("");
 
 }
