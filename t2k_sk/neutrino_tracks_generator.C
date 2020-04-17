@@ -145,7 +145,7 @@ void build_PREM(){
       formulae << layer_polynomial_coefficients[i_fct][i_exposant] << "*TMath::Power(x," << i_exposant << ")";
     }
     formulae << ")";
-    formulae << "*" << "if(x>=" << last_bound << ")*if(x<" << layer_outer_bound[i_exposant] << ")";
+    formulae << "*" << "if(x>=" << last_bound << ")*if(x<" << layer_outer_bound[i_fct] << ")";
 
     functions_list.emplace_back(
       new TF1(layer_label[i_fct].c_str(), formulae.str().c_str(), 0., layer_outer_bound.back()+50.)
