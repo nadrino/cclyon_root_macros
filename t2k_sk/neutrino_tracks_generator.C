@@ -80,8 +80,8 @@ void build_PREM(){
   // Preliminary reference Earth model
   // https://www.sciencedirect.com/science/article/abs/pii/0031920181900467?via%3Dihub
 
-  __earth_density_TF1__->mkdir("TF1");
-  __earth_density_TF1__->cd("TF1");
+  __output_TFile__->mkdir("TF1");
+  __output_TFile__->cd("TF1");
 
 
   std::vector<std::string> layer_label;
@@ -161,6 +161,6 @@ void build_PREM(){
   __earth_density_TF1__ = new TF1("PREM", TToolBox::join_vector_string(layer_label, " + ").c_str(), 0., layer_outer_bound.back()+50.);
   __earth_density_TF1__->Write("PREM_TF1");
 
-  __earth_density_TF1__->cd("");
+  __output_TFile__->cd("");
 
 }
