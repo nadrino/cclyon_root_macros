@@ -1,8 +1,8 @@
 
 
 
-int __nb_events__ = 1000;
-int __track_sampling__ = 1000;
+int __nb_events__ = 100000;
+int __track_sampling__ = 100;
 
 double __earth_radius_in_km__ = 6371;
 double __neutrino_production_altitude_in_km__ = 15;
