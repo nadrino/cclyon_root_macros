@@ -143,12 +143,16 @@ void build_PREM(){
   for(int i_fct = 0 ; i_fct < layer_label.size() ; i_fct++){
 
     std::stringstream formulae;
-    formulae << "(";
+    formulae << "( ";
     for(int i_exposant = 0 ; i_exposant < layer_polynomial_coefficients[i_fct].size() ; i_exposant++){
       if(i_exposant != 0) formulae << " + ";
-      formulae << layer_polynomial_coefficients[i_fct][i_exposant] << "*TMath::Power(x," << i_exposant << ")";
+      formulae << "( " << layer_polynomial_coefficients[i_fct][i_exposant];
+      for(int i_x = 1 ; i_x <= i_exposant ; i_x++){
+        formulae << " * x";
+      }
+      formulae << " )";
     }
-    formulae << ")";
+    formulae << " )";
     formulae << "*" << "(x>=" << last_bound << ")*(x<" << layer_outer_bound[i_fct] << ")";
 
     functions_list.emplace_back(
