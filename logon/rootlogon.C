@@ -346,6 +346,21 @@ namespace TToolBox {
 
     return output;
   }
+  std::vector<TFile*> get_list_of_opened_tfiles(){
+    std::vector<TFile*> output;
+    TIter next(gROOT->GetListOfGlobals());
+    TGlobal *global;
+    while ((global=(TGlobal*)next())) {
+      TString type = global->GetTypeName();
+      if (type=="TFile") {
+        TFile *file = (TFile*)gInterpreter->Calc(global->GetName());
+        if (file && file->IsOpen()){
+          // printf("%s: %s\n", global->GetName(),file->GetName());
+          output.emplace_back(file);
+        }
+      }
+    }
+  }
 
   void save_canvas(TCanvas *canvas_, string file_name_, string sub_folder_ = "") {
 
