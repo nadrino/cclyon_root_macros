@@ -348,9 +348,9 @@ namespace TToolBox {
   }
   std::vector<TFile*> get_list_of_opened_tfiles(){
     std::vector<TFile*> output;
-    TIter next(gROOT->GetListOfGlobals());
+    TIter next_iter(gROOT->GetListOfGlobals());
     TGlobal *global;
-    while ((global=(TGlobal*)next())) {
+    while ((global=(TGlobal*)next_iter())) {
       TString type = global->GetTypeName();
       if (type=="TFile") {
         TFile *file = (TFile*)gInterpreter->Calc(global->GetName());
