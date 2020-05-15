@@ -365,6 +365,7 @@ namespace TToolBox {
     // while ((global=(TGlobal*)next_iter())) {
 
     // }
+    return output;
   }
 
   void save_canvas(TCanvas *canvas_, string file_name_, string sub_folder_ = "") {
