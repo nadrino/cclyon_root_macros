@@ -349,10 +349,10 @@ namespace TToolBox {
   std::vector<TFile*> get_list_of_opened_tfiles(){
     std::vector<TFile*> output;
     // TIter next_iter(gROOT->GetListOfGlobals());
-    TList global_obj_list = *((TList*)gROOT->GetListOfGlobals());
+    TList* global_obj_list = (TList*)gROOT->GetListOfGlobals();
     TGlobal *global;
-    for(int i_obj=0 ; i_obj < global_obj_list.GetEntries() ; i_obj++){
-      global = (TGlobal*) global_obj_list.At(i_obj);
+    for(int i_obj=0 ; i_obj < global_obj_list->GetEntries() ; i_obj++){
+      global = (TGlobal*) global_obj_list->At(i_obj);
       TString type = global->GetTypeName();
       if (type=="TFile") {
         TFile *file = (TFile*)gInterpreter->Calc(global->GetName());
