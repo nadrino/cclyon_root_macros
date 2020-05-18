@@ -1,6 +1,6 @@
 void check_beam_mode(){
 
-  std::remove("check_beam_mode.out");
+  std::remove("check_beam_mode.tmp");
 
   int nb_files_openned = 0;
   TFile* flat_file;
