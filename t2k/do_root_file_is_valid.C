@@ -1,7 +1,7 @@
 
 bool do_tfile_is_valid(TFile *input_tfile_, bool check_if_writable_=false){
 
-    if(input_tfile_ == nullptr){
+    if(input_tfile_ == 0){
         return false;
     }
 
