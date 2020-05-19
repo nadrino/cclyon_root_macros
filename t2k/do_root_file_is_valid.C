@@ -18,9 +18,9 @@ bool do_tfile_is_valid(TFile *input_tfile_, bool check_if_writable_=false){
 }
 bool do_tfile_is_valid(std::string input_file_path_){
   bool file_is_valid = false;
-  auto old_verbosity = gErrorIgnoreLevel;
+  Int_t old_verbosity = gErrorIgnoreLevel;
   gErrorIgnoreLevel = kFatal;
-  auto* input_tfile = TFile::Open(input_file_path_.c_str(), "READ");
+  TFile* input_tfile = TFile::Open(input_file_path_.c_str(), "READ");
   if(do_tfile_is_valid(input_tfile)){
       file_is_valid = true;
       input_tfile->Close();
