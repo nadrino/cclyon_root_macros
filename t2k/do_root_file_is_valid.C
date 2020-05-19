@@ -2,19 +2,14 @@
 bool do_tfile_is_valid(TFile *input_tfile_, bool check_if_writable_=false){
 
     if(input_tfile_ == nullptr){
-        if(verbosity_level >= 1) std::cerr << ERROR << "input_tfile_ is a nullptr" << std::endl;
         return false;
     }
 
     if(not input_tfile_->IsOpen()){
-        if(verbosity_level >= 1) std::cerr << ERROR << "input_tfile_ = " << input_tfile_->GetName() << " is not opened." << std::endl;
-        if(verbosity_level >= 1) std::cerr << ERROR << "input_tfile_->IsOpen() = " << input_tfile_->IsOpen() << std::endl;
         return false;
     }
 
-    if(check_if_writable_ and not input_tfile_->IsWritable()){
-        if(verbosity_level >= 1) std::cerr << ERROR << "input_tfile_ = " << input_tfile_->GetName() << " is not writable." << std::endl;
-        if(verbosity_level >= 1) std::cerr << ERROR << "input_tfile_->IsWritable() = " << input_tfile_->IsWritable() << std::endl;
+    if(check_if_writable_ && not input_tfile_->IsWritable()){
         return false;
     }
 
