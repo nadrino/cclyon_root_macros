@@ -27,12 +27,19 @@ void generate_json_config_for_xsllhDetVar(){
   stringstream json_files_ss;
   TFile* temp_tfile;
   TTree* temp_ttree;
+  int procress_counts = 0;
+
   for(auto &intput_file_path: input_highland_files_path_list){
+
     if(not json_files_ss.str().empty()){
       json_files_ss << "," << endl;
     }
 
+    TToolBox::display_loading(procress_counts, input_highland_files_path_list.size(), TToolBox::ALERT + "Reading input file " + intput_file_path);
+
     // get infos from the file
+    auto old_verbosity = gErrorIgnoreLevel;
+    gErrorIgnoreLevel = kFatal;
     temp_tfile = TFile::Open(intput_file_path.c_str(), "READ");
     temp_ttree = (TTree*) temp_tfile->Get("all_syst");
     temp_ttree->GetEntry(0);
@@ -41,6 +48,7 @@ void generate_json_config_for_xsllhDetVar(){
     double num_syst = temp_ttree->GetLeaf("NSYST")->GetValue(0);
     temp_tfile->Close();
     delete temp_tfile;
+    gErrorIgnoreLevel = old_verbosity;
 
     json_files_ss << "    {" << endl;
     json_files_ss << "      \"fname_input\": \"" << intput_file_path << "\"," << endl;
