@@ -67,8 +67,13 @@ void generate_json_config_for_xsllhDetVar(){
     json_files_ss << "      \"num_toys\": " << num_toys << "," << endl;
     json_files_ss << "      \"num_syst\": " << num_syst << "," << endl;
     json_files_ss << "      \"num_samples\": " << 3 << "," << endl;
-    json_files_ss << "      \"cut_level\" : [7, 7, 6]," << endl;
+    // json_files_ss << "      \"cut_level\" : [7, 7, 6]," << endl;
+    json_files_ss << "      \"cuts\" : [7, 7, 6]," << endl;
     json_files_ss << "      \"samples\" : {\"0\": [0], \"1\": [1], \"2\": [2]}," << endl;
+    json_files_ss << "      \"variable_mapping\" : [" << endl;
+    json_files_ss << "        {\"selmu_costheta\": [0,1,2]}," << endl;
+    json_files_ss << "        {\"selmu_mom\": [0,1,2]}" << endl;
+    json_files_ss << "      ]," << endl;
     json_files_ss << "      \"use\": true" << endl;
     json_files_ss << "    }";
   }
@@ -85,6 +90,7 @@ void generate_json_config_for_xsllhDetVar(){
   json_ss << "  \"single_syst\": false," << endl;
   json_ss << "  \"syst_idx\": -1," << endl;
   json_ss << "  \"var_names\": [\"selmu_costheta\", \"selmu_mom\"]," << endl;
+  // json_ss << "  \"var_names\": [\"muon_reco_costheta\", \"muon_reco_momentum\"]," << endl;
   json_ss << "  \"projection\": false," << endl;
   json_ss << "  \"plot_variable\": \"\"," << endl;
   json_ss << "  \"pdf_print\": false," << endl;
