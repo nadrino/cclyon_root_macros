@@ -81,6 +81,7 @@ void generate_json_config_for_xsllhDetVar(){
   json_ss << "  \"covariance_name\": \"covariance_matrix\"," << endl;
   json_ss << "  \"correlation_name\": \"correlation_matrix\"," << endl;
   json_ss << "  \"weight_cut\": 10.0," << endl; // from discussion with Stephen (X-checked with Ciro)
+  json_ss << "  \"mc_stat_error\": false," << endl;
   json_ss << "  \"single_syst\": false," << endl;
   json_ss << "  \"syst_idx\": -1," << endl;
   json_ss << "  \"var_names\": [\"selmu_costheta\", \"selmu_mom\"]," << endl;
