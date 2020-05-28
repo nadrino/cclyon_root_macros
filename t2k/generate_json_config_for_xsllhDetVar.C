@@ -35,7 +35,12 @@ void generate_json_config_for_xsllhDetVar(){
       json_files_ss << "," << endl;
     }
 
-    TToolBox::display_loading(procress_counts, input_highland_files_path_list.size(), TToolBox::ALERT + "Reading input file " + intput_file_path);
+    TToolBox::display_loading(
+      procress_counts,
+      input_highland_files_path_list.size(),
+      TToolBox::ALERT + "Reading input file: " + TToolBox::get_filename_from_file_path(intput_file_path)
+    );
+    procress_counts++;
 
     // get infos from the file
     auto old_verbosity = gErrorIgnoreLevel;
