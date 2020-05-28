@@ -10,6 +10,7 @@ int __num_samples__ = 3;
 void generate_json_config_for_xsllhDetVar(){
 
   cout << TToolBox::INFO << "Starting json config file generator for xsllhDetVar." << endl;
+  cout << endl;
   cout << TToolBox::ALERT << " > Please check the following parameters:" << endl;
   cout << TToolBox::ALERT << "__input_files_list_path__ = " << __input_files_list_path__ << endl;
   cout << TToolBox::ALERT << "__num_samples__ = " << __num_samples__ << endl;
@@ -21,6 +22,9 @@ void generate_json_config_for_xsllhDetVar(){
     exit(1);
   }
   auto input_highland_files_path_list = TToolBox::read_file(__input_files_list_path__);
+
+  cout << endl;
+  cout << endl;
 
   cout << TToolBox::WARNING << "Generating json config file for xsllhDetVar..." << endl;
 
@@ -38,7 +42,7 @@ void generate_json_config_for_xsllhDetVar(){
     TToolBox::display_loading(
       procress_counts,
       input_highland_files_path_list.size(),
-      TToolBox::ALERT + "Reading input file: " + TToolBox::get_filename_from_file_path(intput_file_path)
+      TToolBox::WARNING + "Reading input file: " + TToolBox::get_filename_from_file_path(intput_file_path)
     );
     procress_counts++;
 
@@ -50,6 +54,7 @@ void generate_json_config_for_xsllhDetVar(){
     temp_ttree->GetEntry(0);
     double num_toys = temp_ttree->GetLeaf("NTOYS")->GetValue(0);
     temp_ttree = (TTree*) temp_tfile->Get("config");
+    temp_ttree->GetEntry(0);
     double num_syst = temp_ttree->GetLeaf("NSYST")->GetValue(0);
     temp_tfile->Close();
     delete temp_tfile;
