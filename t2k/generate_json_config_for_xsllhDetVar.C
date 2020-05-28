@@ -95,6 +95,7 @@ void generate_json_config_for_xsllhDetVar(){
   json_ss << "  \"files\":[" << endl;
   json_ss << json_files_ss.str();
   json_ss << "  ]" << endl;
+  json_ss << "}" << endl;
 
   string output_json_file_path = "./config_xsllhDetVar_" + TToolBox::get_filename_without_ext_from_file_path(__binning_file_path__) + ".json";
   TToolBox::write_string_in_file(output_json_file_path, json_ss.str());
