@@ -88,8 +88,8 @@ void generate_json_config_for_xsllhDetVar(){
   json_ss << "  \"plot_variable\": \"\"," << endl;
   json_ss << "  \"pdf_print\": false," << endl;
   json_ss << "  \"cov_sample_binning\": {" << endl;
-  json_ss << "    \"0\": \"" << __binning_file_path__ << "\"" << endl;
-  json_ss << "    \"1\": \"" << __binning_file_path__ << "\"" << endl;
+  json_ss << "    \"0\": \"" << __binning_file_path__ << "\"," << endl;
+  json_ss << "    \"1\": \"" << __binning_file_path__ << "\"," << endl;
   json_ss << "    \"2\": \"" << __binning_file_path__ << "\"" << endl;
   json_ss << "  }," << endl;
   json_ss << "  \"files\":[" << endl;
