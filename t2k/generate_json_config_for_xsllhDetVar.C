@@ -80,7 +80,7 @@ void generate_json_config_for_xsllhDetVar(){
 
   string output_json_file_path = "./config_xsllhDetVar_" + TToolBox::get_filename_without_ext_from_file_path(__binning_file_path__) + ".json";
   TToolBox::write_string_in_file(output_json_file_path, json_ss.str());
-  cout << INFO << "Config file has been written as : " << output_json_file_path << endl;
-  cout << INFO << "xsllhDetVar -j " << output_json_file_path << endl;
+  cout << TToolBox::INFO << "Config file has been written as : " << output_json_file_path << endl;
+  cout << TToolBox::INFO << "xsllhDetVar -j " << output_json_file_path << endl;
 
 }

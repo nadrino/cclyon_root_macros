@@ -196,8 +196,7 @@ namespace TToolBox {
   }
   std::string get_filename_without_ext_from_file_path(std::string file_path_){
     auto file_name_elements = split_string(get_filename_from_file_path(file_path_), ".");
-
-    return join_vector_string(file_name_elements, ".", 0, string_list_.size()-1);
+    return join_vector_string(file_name_elements, ".", 0, file_name_elements.size()-1);
   }
   std::string join_vector_string(std::vector<std::string> string_list_, std::string delimiter_, int begin_index_ = 0, int end_index_ = 0) {
 
