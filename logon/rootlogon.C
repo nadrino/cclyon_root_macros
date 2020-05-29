@@ -77,13 +77,13 @@ namespace TToolBox {
 
     int percent = int(round(double(current_index_) / end_index_ * 100.));
     if(force_display_ or current_index_ >= end_index_-1) {
-      if(last_displayed_value != -1) clog << "\r" << title_ << " : " << 100 << "%" << endl;
+      if(last_displayed_value != -1) cout << "\r" << title_ << " : " << 100 << "%" << endl;
       last_displayed_value = -1;
       return;
     }
     if(last_displayed_value == -1 or last_displayed_value < percent) {
       last_displayed_value = percent;
-      clog << "\r" << title_ << " : " << percent << "%" << flush << "\r";
+      cout << "\r" << title_ << " : " << percent << "%" << flush << "\r";
     }
 
   }
