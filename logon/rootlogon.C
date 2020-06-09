@@ -408,6 +408,79 @@ namespace TToolBox {
     // }
     return output;
   }
+  TMatrixDSym* convert_to_symmetric_matrix(TMatrixD* matrix_){
+
+    auto* symmetric_matrix = (TMatrixD*) matrix_->Clone();
+    auto* transposed_symmetric_matrix = new TMatrixD(*matrix_);
+
+    transposed_symmetric_matrix->Transpose(*matrix_);
+    *symmetric_matrix += *transposed_symmetric_matrix;
+    for(int i_col = 0 ; i_col < matrix_->GetNcols() ; i_col++){
+      for(int i_row = 0 ; i_row < matrix_->GetNrows() ; i_row++){
+        (*symmetric_matrix)[i_row][i_col] /= 2.;
+      }
+    }
+
+    auto* result = (TMatrixDSym*) symmetric_matrix->Clone(); // Convert to TMatrixDSym
+
+    delete transposed_symmetric_matrix;
+    delete symmetric_matrix;
+
+    return result;
+
+  }
+  map<string, TMatrixD*> SVD_matrix_inversion(TMatrixD *matrix_){
+
+    map<string, TMatrixD*> results_handler;
+
+    results_handler["inverse_covariance_matrix"] = new TMatrixD(matrix_->GetNrows(), matrix_->GetNcols());
+    results_handler["projector"] = new TMatrixD(matrix_->GetNrows(), matrix_->GetNcols());
+
+    // Covariance matrices are symetric :
+    auto* symmetric_matrix = TToolBox::convert_to_symmetric_matrix(matrix_);
+    auto* Eigen_matrix_decomposer = new TMatrixDSymEigen(*symmetric_matrix);
+    auto* Eigen_values = &(Eigen_matrix_decomposer->GetEigenValues());
+    auto* Eigen_vectors = &(Eigen_matrix_decomposer->GetEigenVectors());
+
+    for(int i_eigen_value = 0 ; i_eigen_value < matrix_->GetNcols() ; i_eigen_value++){
+
+      if((*Eigen_values)[i_eigen_value] > 1E-5){
+
+        for(int i_dof = 0 ; i_dof < matrix_->GetNrows() ; i_dof++){
+          for(int j_dof = 0 ; j_dof < matrix_->GetNrows() ; j_dof++){
+            (*results_handler["inverse_covariance_matrix"])[i_dof][j_dof] +=
+                (1./(*Eigen_values)[i_eigen_value])
+                *(*Eigen_vectors)[i_dof][i_eigen_value]
+                *(*Eigen_vectors)[j_dof][i_eigen_value];
+            (*results_handler["projector"])[i_dof][j_dof] +=
+                 (*Eigen_vectors)[i_dof][i_eigen_value]
+                *(*Eigen_vectors)[j_dof][i_eigen_value];
+          }
+        }
+      } else {
+        if(verbosity_level >= 4) cout << ALERT << "Skipping i_eigen_value = " << (*Eigen_values)[i_eigen_value] << endl;
+      }
+
+    }
+
+    // No memory leak ? : CHECKED
+    delete Eigen_matrix_decomposer;
+    delete symmetric_matrix;
+
+    return results_handler;
+
+  }
+  std::vector<double> get_eigen_values(TMatrixD *matrix_){
+    auto* symmetric_matrix = TToolBox::convert_to_symmetric_matrix(matrix_);
+    auto* Eigen_matrix_decomposer = new TMatrixDSymEigen(*symmetric_matrix);
+    auto* Eigen_values = &(Eigen_matrix_decomposer->GetEigenValues());
+
+    std::vector<double> output;
+    for(int i_dim = 0 ; i_dim < matrix_->GetNcols() ; i_dim++){
+      output.emplace_back((*Eigen_values)[i_dim]);
+    }
+    return output;
+  }
 
   void save_canvas(TCanvas *canvas_, string file_name_, string sub_folder_ = "") {
 
