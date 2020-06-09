@@ -364,6 +364,34 @@ namespace TToolBox {
   return th2_histogram;
 
 }
+  TH1D* get_TH1D_from_TVectorD(string graph_title_, TVectorD *Y_values_, string Y_title_ = "", string X_title_ = "Entry #", TVectorD *Y_errors_ = nullptr) {
+
+    auto* th1_histogram = new TH1D(graph_title_.c_str(),
+                                   graph_title_.c_str(),
+                                   Y_values_->GetNrows(),
+                                   -0.5,
+                                   Y_values_->GetNrows()-0.5
+    );
+
+    for(int i_row = 0 ; i_row < Y_values_->GetNrows() ; i_row++){
+      th1_histogram->SetBinContent(i_row + 1, (*Y_values_)[i_row]);
+      if(Y_errors_ != nullptr) th1_histogram->SetBinError(i_row + 1, (*Y_errors_)[i_row]);
+    }
+
+    th1_histogram->SetLineWidth(2);
+    th1_histogram->SetLineColor(kBlue);
+    th1_histogram->GetXaxis()->SetTitle(X_title_.c_str());
+    th1_histogram->GetYaxis()->SetTitle(Y_title_.c_str());
+
+    return th1_histogram;
+  }
+  TVectorD* get_TVectorD_from_vector(std::vector<double>& input_vector_){
+    TVectorD* output = new TVectorD(input_vector_.size());
+    for(int i_elm = 0 ; i_elm < int(input_vector_.size()); i_elm++){
+      (*output)[i_elm] = input_vector_[i_elm];
+    }
+    return output;
+  }
   TMatrixD* generate_correlation_matrix(TMatrixD *covariance_matrix_) {
   auto* correlation_matrix = (TMatrixD*) covariance_matrix_->Clone();
   for(int i_row = 0 ; i_row < covariance_matrix_->GetNrows() ; i_row++){
@@ -479,6 +507,7 @@ namespace TToolBox {
     for(int i_dim = 0 ; i_dim < matrix_->GetNcols() ; i_dim++){
       output.emplace_back((*Eigen_values)[i_dim]);
     }
+    std::sort(output.begin(), output.end(), std::greater<double>());
     return output;
   }
 
