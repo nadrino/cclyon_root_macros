@@ -56,7 +56,7 @@ void plot_sk_atm_data(){
   h2->GetXaxis()->SetTitle("Neutrino Energy (GeV)");
   h2->GetYaxis()->SetTitle("cos zenith");
   h2->GetZaxis()->SetTitle("Events/5000 Days");
-  string h2_draw_str = "gencz:evis/1000.";
+  string h2_draw_str = "gencz:genmom/1000.";
   h2_draw_str += ">>h2";
 
   atm_minituple->Draw(
@@ -74,7 +74,7 @@ void plot_sk_atm_data(){
   TH1D* h1 = TToolBox::get_TH1D_log_binning("h1", "FC_Sub-GeV_nue_nuebar", 20, 0.1, 10.);
   h1->GetXaxis()->SetTitle("Neutrino Energy (GeV)");
   h1->GetYaxis()->SetTitle("Events/5000 Days");
-  string h1_draw_str = "evis/1000.";
+  string h1_draw_str = "genmom/1000.";
   h1_draw_str += ">>h1";
 
   atm_minituple->Draw(
