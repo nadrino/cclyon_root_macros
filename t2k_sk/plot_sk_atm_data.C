@@ -63,9 +63,8 @@ void plot_sk_atm_data(){
   );
 
   h2->Draw("COLZ");
-  TToolBox::fix_TH2D_display(h2);
-
   gPad->SetLogx();
+  TToolBox::fix_TH2D_display(h2);
 
 
 }
