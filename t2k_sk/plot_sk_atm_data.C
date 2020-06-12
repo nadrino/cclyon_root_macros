@@ -21,6 +21,8 @@ enum ATMPDEventType{
   UpThruShower_mu
 };
 
+string get_Enu_rec_QE(string lepton_name_, string lepton_mom_);
+
 void plot_sk_atm_data(){
 
   TFile* sk_tfile = TFile::Open("$RESOURCES_DIR/T2KSKjoint/sk4_fcmc_18a_fQv6r0_minituple_100yr_01.root");
@@ -74,7 +76,7 @@ void plot_sk_atm_data(){
   TH1D* h1 = TToolBox::get_TH1D_log_binning("h1", "FC_Sub-GeV_nue_nuebar", 20, 0.1, 10.);
   h1->GetXaxis()->SetTitle("Neutrino Energy (GeV)");
   h1->GetYaxis()->SetTitle("Events/5000 Days");
-  string h1_draw_str = "genmom/1000.";
+  string h1_draw_str = get_Enu_rec_QE("electron", "genmom") + "/1000.";
   h1_draw_str += ">>h1";
 
   atm_minituple->Draw(
@@ -86,5 +88,48 @@ void plot_sk_atm_data(){
   c_h1->cd();
   h1->Draw("HIST");
   gPad->SetLogx(1);
+
+}
+
+string get_Enu_rec_QE(string lepton_name_, string lepton_mom_){
+
+  string output;
+  string proton_mass = "938.272";
+  string neutron_mass = "939.565";
+  string muon_mass = "105.658";
+  string electron_mass = "105.658";
+  string Eb = "25";
+
+  string lepton_energy;
+  string lepton_mass;
+  if(lepton_name_ == "electron"){
+    lepton_mass = electron_mass;
+  }
+  else if(lepton_name_ == "muon"){
+    lepton_mass = muon_mass;
+  }
+  lepton_energy = "TMath::Sqrt( TMath::Power(" + lepton_mom_ +",2) + TMath::Power(" + lepton_mass + ",2) )";
+
+  string numerator = "(";
+  numerator += "2*" + lepton_energy + " * (" + neutron_mass + " - " + Eb + ")";
+  numerator += " - ";
+  numerator += "TMath::Power(" + lepton_mass + ",2)";
+  numerator += " + ";
+  numerator += "2*" + neutron_mass + "*" + Eb;
+  numerator += " - ";
+  numerator += "TMath::Power(" + Eb + ",2)";
+  numerator += " + ";
+  numerator += "TMath::Power(" + proton_mass + ",2)";
+  numerator += " - ";
+  numerator += "TMath::Power(" + neutron_mass + ",2)";
+  numerator += ")";
+  string denominator = "(";
+  denominator += "2*( ";
+  denominator += neutron_mass + " - " + Eb + " - " + lepton_energy + " + " + lepton_mom_; // assuming forward momentum in average
+  denominator += " )";
+  denominator += ")";
+
+  output = numerator + "/" + denominator;
+  return output;
 
 }
