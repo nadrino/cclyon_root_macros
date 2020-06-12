@@ -51,7 +51,7 @@ void plot_sk_atm_data(){
   cuts_str += ")";
 
 
-  TCanvas c_h2 = new TCanvas("c_h2", "c_h2", 800, 800);
+  TCanvas* c_h2 = new TCanvas("c_h2", "c_h2", 800, 800);
   TH2D* h2 = TToolBox::get_TH2D_log_binning("h2", "FC_Sub-GeV_nue_nuebar", 20, 0.1, 10., 10, -1, 1, "X");
   h2->GetXaxis()->SetTitle("Neutrino Energy (GeV)");
   h2->GetYaxis()->SetTitle("cos zenith");
@@ -65,11 +65,12 @@ void plot_sk_atm_data(){
     "goff"
   );
 
+  c_h2->cd();
   h2->Draw("COLZ");
   gPad->SetLogx(1);
   TToolBox::fix_TH2D_display(h2);
 
-  TCanvas c_h1 = new TCanvas("c_h1", "c_h1", 800, 800);
+  TCanvas* c_h1 = new TCanvas("c_h1", "c_h1", 800, 800);
   TH1D* h1 = TToolBox::get_TH1D_log_binning("h1", "FC_Sub-GeV_nue_nuebar", 20, 0.1, 10.);
   h1->GetXaxis()->SetTitle("Neutrino Energy (GeV)");
   h1->GetYaxis()->SetTitle("Events/5000 Days");
