@@ -94,14 +94,18 @@ namespace TToolBox {
   }
 
   void fix_TH2D_display(TH2D* histogram_){
+
     gPad->SetRightMargin(0.15);
     histogram_->GetZaxis()->SetTitleOffset(0.8);
-    // TPaletteAxis* pal = (TPaletteAxis*) histogram_->GetListOfFunctions()->FindObject("palette");
-    TPaletteAxis* pal = (TPaletteAxis*) histogram_->GetListOfFunctions()->At(0);
-    pal->SetX1NDC(1 - 0.15 + 0.01);
-    pal->SetX2NDC(1 - 0.15 + 0.05);
-    pal->GetAxis()->SetMaxDigits(2);
-    pal->Draw();
+    TPaletteAxis* pal = (TPaletteAxis*) histogram_->GetListOfFunctions()->FindObject("palette");
+    // TPaletteAxis* pal = (TPaletteAxis*) histogram_->GetListOfFunctions()->At(0);
+    if(pal != nullptr){
+      pal->SetX1NDC(1 - 0.15 + 0.01);
+      pal->SetX2NDC(1 - 0.15 + 0.05);
+      pal->GetAxis()->SetMaxDigits(2);
+      pal->Draw();
+    }
+
   }
   void set_pallette_default(){
     gStyle->SetPalette(kBird);
