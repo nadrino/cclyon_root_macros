@@ -28,7 +28,7 @@ void plot_sk_atm_data(){
 
   map<string, vector<string>> cuts_map;
   cuts_map["FC_Sub-GeV_nue_nuebar"] = vector<string>();
-  cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("(ATMPDEventType == " + to_string(SubGeV_elike_0dcy) + " || ATMPDEventType == 2)"); // SubGeV_elike_0dcy
+  cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("(ATMPDEventType == " + to_string(SubGeV_elike_0dcy) + " || ATMPDEventType == " + to_string(SubGeV_elike_1dcy) + ")"); // SubGeV_elike_0dcy
   // Single-ring
   // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("nring == 1");
   cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("evis < 1330"); // visible energy  (MeV/c) :  This is the sum of amome of each rings
@@ -48,7 +48,7 @@ void plot_sk_atm_data(){
   // cuts_str += "nring==1 && evis<1330 && ip[0] == 2 && wall>200";
   cuts_str += ")";
 
-  TH2D* h2 = TToolBox::get_TH2D_log_binning("h2", "FC_Sub-GeV_nue_nuebar", 40, 0.1, 1000., 10, -1, 1, "X");
+  TH2D* h2 = TToolBox::get_TH2D_log_binning("h2", "FC_Sub-GeV_nue_nuebar", 30, 0.1, 100., 10, -1, 1, "X");
   h2->GetXaxis()->SetTitle("Neutrino Energy (GeV)");
   h2->GetYaxis()->SetTitle("cos zenith");
   h2->GetZaxis()->SetTitle("Events/5000 Days");
@@ -63,6 +63,8 @@ void plot_sk_atm_data(){
   );
 
   h2->Draw("COLZ");
+  TToolBox::fix_TH2D_display(h2);
+
   gPad->SetLogx();
 
 
