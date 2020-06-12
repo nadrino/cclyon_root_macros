@@ -75,7 +75,7 @@ void plot_sk_atm_data(){
   h1->GetXaxis()->SetTitle("Neutrino Energy (GeV)");
   h1->GetYaxis()->SetTitle("Events/5000 Days");
   string h1_draw_str = "gencz:evis/1000.";
-  h1_draw_str += ">>h2";
+  h1_draw_str += ">>h1";
 
   atm_minituple->Draw(
     h1_draw_str.c_str(),
