@@ -214,6 +214,27 @@ namespace TToolBox {
     return joined_string;
   }
 
+  std::vector<double> get_log_binning(int n_bins_, double X_min_, double X_max_){
+    vector<double> output(n_bins_+1); // add one extra bin for the boundary
+    double xlogmin = TMath::Log10(X_min_);
+    double xlogmax = TMath::Log10(X_max_);
+    double dlogx   = (xlogmax-xlogmin)/((double)n_bins_);
+    for( int i_bin = 0 ; i_bin <= n_bins_; i_bin++) {
+      double xlog = xlogmin + i_bin*dlogx;
+      output[i_bin] = TMath::Exp( TMath::Log(10) * xlog );
+    }
+    return output;
+  }
+  std::vector<double> get_linear_binning(int n_bins_, double X_min_, double X_max_){
+    vector<double> output(n_bins_+1); // add one extra bin for the boundary
+    double dx   = (X_max_-X_min_)/((double)n_bins_);
+    for( int i_bin = 0 ; i_bin <= n_bins_; i_bin++) {
+      double x = X_min_ + i_bin*dx;
+      output[i_bin] = x;
+    }
+    return output;
+  }
+
   std::vector<std::string> split_string(std::string input_string_, std::string delimiter_){
 
     std::vector<std::string> output_splited_string;
@@ -342,6 +363,55 @@ namespace TToolBox {
   }
 
   // Matrices/Vector Tools
+  TH1D* get_TH1D_log_binning(string name_, string title_, int n_bins_, double X_min_, double X_max_){
+
+    TH1D* output = nullptr;
+    vector<double> xbins = get_log_binning(n_bins_, X_min_, X_max_);
+    output = new TH1D(name_.c_str(), title_.c_str(), xbins.size()-1, &xbins[0]);
+    return output;
+
+  }
+  TH1D* get_TH1D_from_TVectorD(string graph_title_, TVectorD *Y_values_, string Y_title_ = "", string X_title_ = "Entry #", TVectorD *Y_errors_ = nullptr) {
+
+    auto* th1_histogram = new TH1D(graph_title_.c_str(),
+                                   graph_title_.c_str(),
+                                   Y_values_->GetNrows(),
+                                   -0.5,
+                                   Y_values_->GetNrows()-0.5
+    );
+
+    for(int i_row = 0 ; i_row < Y_values_->GetNrows() ; i_row++){
+      th1_histogram->SetBinContent(i_row + 1, (*Y_values_)[i_row]);
+      if(Y_errors_ != nullptr) th1_histogram->SetBinError(i_row + 1, (*Y_errors_)[i_row]);
+    }
+
+    th1_histogram->SetLineWidth(2);
+    th1_histogram->SetLineColor(kBlue);
+    th1_histogram->GetXaxis()->SetTitle(X_title_.c_str());
+    th1_histogram->GetYaxis()->SetTitle(Y_title_.c_str());
+
+    return th1_histogram;
+  }
+  TH2D* get_TH2D_log_binning(string name_, string title_, int nb_X_bins_, double X_min_, double X_max_, int nb_Y_bins_, double Y_min_, double Y_max_, string log_axis_="XY"){
+
+    TH2D* output = nullptr;
+    vector<double> xbins;
+    vector<double> ybins;
+    if(do_string_contains_substring(log_axis_, "X")){
+      xbins = get_log_binning(nb_X_bins_, X_min_, X_max_);
+    } else{
+      xbins = get_linear_binning(nb_X_bins_, X_min_, X_max_);
+    }
+    if(do_string_contains_substring(log_axis_, "Y")){
+      ybins = get_log_binning(nb_Y_bins_, Y_min_, Y_max_);
+    } else{
+      ybins = get_linear_binning(nb_Y_bins_, Y_min_, Y_max_);
+    }
+
+    output = new TH2D(name_.c_str(), title_.c_str(), xbins.size()-1, &xbins[0], ybins.size()-1, &ybins[0]);
+    return output;
+
+  }
   TH2D* get_TH2D_from_TMatrixD(TMatrixD *XY_values_, string graph_title_ = "", string Z_title_ = "",string Y_title_ = "Row #", string X_title_ = "Col #") {
 
     if(graph_title_.empty()) graph_title_ = XY_values_->GetTitle();
@@ -364,27 +434,6 @@ namespace TToolBox {
   return th2_histogram;
 
 }
-  TH1D* get_TH1D_from_TVectorD(string graph_title_, TVectorD *Y_values_, string Y_title_ = "", string X_title_ = "Entry #", TVectorD *Y_errors_ = nullptr) {
-
-    auto* th1_histogram = new TH1D(graph_title_.c_str(),
-                                   graph_title_.c_str(),
-                                   Y_values_->GetNrows(),
-                                   -0.5,
-                                   Y_values_->GetNrows()-0.5
-    );
-
-    for(int i_row = 0 ; i_row < Y_values_->GetNrows() ; i_row++){
-      th1_histogram->SetBinContent(i_row + 1, (*Y_values_)[i_row]);
-      if(Y_errors_ != nullptr) th1_histogram->SetBinError(i_row + 1, (*Y_errors_)[i_row]);
-    }
-
-    th1_histogram->SetLineWidth(2);
-    th1_histogram->SetLineColor(kBlue);
-    th1_histogram->GetXaxis()->SetTitle(X_title_.c_str());
-    th1_histogram->GetYaxis()->SetTitle(Y_title_.c_str());
-
-    return th1_histogram;
-  }
   TVectorD* get_TVectorD_from_vector(std::vector<double>& input_vector_){
     TVectorD* output = new TVectorD(input_vector_.size());
     for(int i_elm = 0 ; i_elm < int(input_vector_.size()); i_elm++){
