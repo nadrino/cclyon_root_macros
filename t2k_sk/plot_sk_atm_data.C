@@ -38,7 +38,7 @@ void plot_sk_atm_data(){
   // FCFV
   cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("fqwall > 50.0"); // note
   // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("fqwall > 200"); // atm
-  // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("fqtowall > 170");
+  cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("fqtowall > 170");
 
   // string norm_string = "(oscweight3f*solarweight*3244.4/(365.25*100.0))";
   string norm_string = "(oscweight3f*3244.4/(365.25*100.0))";
@@ -54,7 +54,7 @@ void plot_sk_atm_data(){
   h2->GetYaxis()->SetTitle("cos zenith");
   h2->GetZaxis()->SetTitle("Events/5000 Days");
 
-  string draw_str = "gencz:genmom/1000.";
+  string draw_str = "gencz:evis/1000.";
   draw_str += ">>h2";
 
   atm_minituple->Draw(
