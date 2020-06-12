@@ -28,7 +28,9 @@ void plot_sk_atm_data(){
 
   map<string, vector<string>> cuts_map;
   cuts_map["FC_Sub-GeV_nue_nuebar"] = vector<string>();
-  cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("(ATMPDEventType == " + to_string(SubGeV_elike_0dcy) + " || ATMPDEventType == " + to_string(SubGeV_elike_1dcy) + ")"); // SubGeV_elike_0dcy
+  cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back(
+    "(ATMPDEventType == " + to_string(SubGeV_elike_0dcy) + " || ATMPDEventType == " + to_string(SubGeV_elike_1dcy) + ")"
+  ); // SubGeV_elike_0dcy
   // Single-ring
   // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("nring == 1");
   cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("evis < 1330"); // visible energy  (MeV/c) :  This is the sum of amome of each rings
@@ -40,8 +42,7 @@ void plot_sk_atm_data(){
   // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("fqwall > 200"); // atm
   cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("fqtowall > 170");
 
-  // string norm_string = "(oscweight3f*solarweight*3244.4/(365.25*100.0))";
-  string norm_string = "(oscweight3f*3244.4/(365.25*100.0))";
+  string norm_string = "(oscweight3f*solarweight*3244.4/(365.25*100.0))";
 
   string cuts_str;
   cuts_str += "(";
@@ -49,23 +50,40 @@ void plot_sk_atm_data(){
   // cuts_str += "nring==1 && evis<1330 && ip[0] == 2 && wall>200";
   cuts_str += ")";
 
+
+  TCanvas c_h2 = new TCanvas("c_h2", "c_h2", 800, 800);
   TH2D* h2 = TToolBox::get_TH2D_log_binning("h2", "FC_Sub-GeV_nue_nuebar", 20, 0.1, 10., 10, -1, 1, "X");
   h2->GetXaxis()->SetTitle("Neutrino Energy (GeV)");
   h2->GetYaxis()->SetTitle("cos zenith");
   h2->GetZaxis()->SetTitle("Events/5000 Days");
-
-  string draw_str = "gencz:evis/1000.";
-  draw_str += ">>h2";
+  string h2_draw_str = "gencz:evis/1000.";
+  h2_draw_str += ">>h2";
 
   atm_minituple->Draw(
-    draw_str.c_str(),
+    h2_draw_str.c_str(),
     (cuts_str + "*" + norm_string).c_str(),
     "goff"
   );
 
   h2->Draw("COLZ");
-  gPad->SetLogx();
+  gPad->SetLogx(1);
   TToolBox::fix_TH2D_display(h2);
 
+  TCanvas c_h1 = new TCanvas("c_h1", "c_h1", 800, 800);
+  TH1D* h1 = TToolBox::get_TH1D_log_binning("h1", "FC_Sub-GeV_nue_nuebar", 20, 0.1, 10.);
+  h1->GetXaxis()->SetTitle("Neutrino Energy (GeV)");
+  h1->GetYaxis()->SetTitle("Events/5000 Days");
+  string h1_draw_str = "gencz:evis/1000.";
+  h1_draw_str += ">>h2";
+
+  atm_minituple->Draw(
+    h1_draw_str.c_str(),
+    (cuts_str + "*" + norm_string).c_str(),
+    "goff"
+  );
+
+  c_h1->cd();
+  h1->Draw("HIST");
+  gPad->SetLogx(1);
 
 }
