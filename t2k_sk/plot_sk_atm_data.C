@@ -32,19 +32,20 @@ void plot_sk_atm_data(){
   cuts_map["FC_Sub-GeV_nue_nuebar"] = vector<string>();
   cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back(
     "(ATMPDEventType == " + to_string(SubGeV_elike_0dcy) + " || ATMPDEventType == " + to_string(SubGeV_elike_1dcy) + ")"
-  ); // SubGeV_elike_0dcy
+  );
   // Single-ring
   // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("nring == 1");
+  cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("fqnmrfit == 1");
   cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("evis < 1330"); // visible energy  (MeV/c) :  This is the sum of amome of each rings
   cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("evis > 100"); // visible energy  (MeV/c) :  This is the sum of amome of each rings
   // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("amome[0] > 100");
-  // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("ip[0] == 2"); // particle type by PID (1:gamma 2:electron 3:muon)
+  cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("ip[0] == 2"); // particle type by PID (1:gamma 2:electron 3:muon)
   // FCFV
   cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("fqwall > 50.0"); // note
   // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("fqwall > 200"); // atm
   cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("fqtowall > 170");
 
-  string norm_string = "(oscweight3f*solarweight*3244.4/(365.25*100.0))";
+  string norm_string = "(oscweight3f*solarweight*3244.4/(365.25*100.0))*5000./3244.4";
 
   string cuts_str;
   cuts_str += "(";
