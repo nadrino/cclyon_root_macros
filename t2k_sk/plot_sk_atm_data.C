@@ -90,6 +90,8 @@ void plot_sk_atm_data(){
   h1->Draw("HIST");
   gPad->SetLogx(1);
 
+  cout << "atm_minituple->Draw(\"" << h1_draw_str << "\", \"" << (cuts_str + "*" + norm_string) << "\");" << endl; 
+
 }
 
 string get_Enu_rec_QE(string lepton_name_, string lepton_mom_){
