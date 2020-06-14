@@ -34,12 +34,12 @@ void plot_sk_atm_data(){
     "(ATMPDEventType == " + to_string(SubGeV_elike_0dcy) + " || ATMPDEventType == " + to_string(SubGeV_elike_1dcy) + ")"
   );
   // Single-ring
-  // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("nring == 1");
-  cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("fqnmrfit == 1");
-  cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("evis < 1330"); // visible energy  (MeV/c) :  This is the sum of amome of each rings
-  cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("evis > 100"); // visible energy  (MeV/c) :  This is the sum of amome of each rings
+  cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("nring == 1");
+  // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("fqnmrfit == 1");
+  // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("evis < 1330"); // visible energy  (MeV/c) :  This is the sum of amome of each rings
+  // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("evis > 100"); // visible energy  (MeV/c) :  This is the sum of amome of each rings
   // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("amome[0] > 100");
-  cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("ip[0] == 2"); // particle type by PID (1:gamma 2:electron 3:muon)
+  // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("ip[0] == 2"); // particle type by PID (1:gamma 2:electron 3:muon)
   // FCFV
   cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("fqwall > 50.0"); // note
   // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("fqwall > 200"); // atm
@@ -90,7 +90,7 @@ void plot_sk_atm_data(){
   h1->Draw("HIST");
   gPad->SetLogx(1);
 
-  cout << "atm_minituple->Draw(\"" << h1_draw_str << "\", \"" << (cuts_str + "*" + norm_string) << "\");" << endl; 
+  cout << "atm_minituple->Draw(\"" << h1_draw_str << "\", \"" << (cuts_str + "*" + norm_string) << "\");" << endl;
 
 }
 
