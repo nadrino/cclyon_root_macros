@@ -77,6 +77,8 @@ void plot_sk_atm_data(){
   TH1D* h1 = TToolBox::get_TH1D_log_binning("h1", "FC_Sub-GeV_nue_nuebar", 20, 0.1, 10.);
   h1->GetXaxis()->SetTitle("Neutrino Energy (GeV)");
   h1->GetYaxis()->SetTitle("Events/5000 Days");
+  h1->SetLineColor(kBlue);
+  h1->SetLineStyle(kDashed);
   string h1_draw_str = get_Enu_rec_QE("electron", "genmom") + "/1000.";
   h1_draw_str += ">>h1";
 
