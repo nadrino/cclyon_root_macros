@@ -45,7 +45,7 @@ void plot_sk_atm_data(){
   // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("fqwall > 200"); // atm
   // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("fqtowall > 170");
 
-  string norm_string = "(oscweight3f*solarweight*5000./(365.25*100.0))"; // 3244.4
+  string norm_string = "(oscweight3f*solarweight*3244.4/(365.25*100.0))"; //
 
   string cuts_str;
   cuts_str += "(";
@@ -55,7 +55,7 @@ void plot_sk_atm_data(){
 
 
   TCanvas* c_h2 = new TCanvas("c_h2", "c_h2", 800, 800);
-  TH2D* h2 = TToolBox::get_TH2D_log_binning("h2", "FC_Sub-GeV_nue_nuebar", 20, 0.1, 10., 10, -1, 1, "X");
+  TH2D* h2 = TToolBox::get_TH2D_log_binning("h2", "FC_Sub-GeV_nue_nuebar", 30, 0.1, 100., 10, -1, 1, "X");
   h2->GetXaxis()->SetTitle("Neutrino Energy (GeV)");
   h2->GetYaxis()->SetTitle("cos zenith");
   h2->GetZaxis()->SetTitle("Events/5000 Days");
