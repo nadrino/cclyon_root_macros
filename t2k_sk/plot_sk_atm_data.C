@@ -34,16 +34,16 @@ void plot_sk_atm_data(){
     "(ATMPDEventType == " + to_string(SubGeV_elike_0dcy) + " || ATMPDEventType == " + to_string(SubGeV_elike_1dcy) + ")"
   );
   // Single-ring
-  cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("nring == 1");
+  // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("nring == 1");
   // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("fqnmrfit == 1");
   // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("evis < 1330"); // visible energy  (MeV/c) :  This is the sum of amome of each rings
   // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("evis > 100"); // visible energy  (MeV/c) :  This is the sum of amome of each rings
   // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("amome[0] > 100");
-  cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("ip[0] == 2"); // particle type by PID (1:gamma 2:electron 3:muon)
+  // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("ip[0] == 2"); // particle type by PID (1:gamma 2:electron 3:muon)
   // FCFV
-  cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("fqwall > 50.0"); // note
+  // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("fqwall > 50.0"); // note
   // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("fqwall > 200"); // atm
-  cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("fqtowall > 170");
+  // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("fqtowall > 170");
 
   string norm_string = "(oscweight3f*solarweight*5000./(365.25*100.0))"; // 3244.4
 
@@ -79,7 +79,9 @@ void plot_sk_atm_data(){
   h1->GetYaxis()->SetTitle("Events/5000 Days");
   h1->SetLineColor(kBlue);
   h1->SetLineStyle(kDashed);
-  string h1_draw_str = get_Enu_rec_QE("electron", "genmom") + "/1000.";
+  string h1_draw_str;
+  // h1_draw_str = get_Enu_rec_QE("electron", "genmom") + "/1000.";
+  h1_draw_str = "TMath::Sqrt( TMath::Power(pnu[0],2)+TMath::Power(pnu[1],2)+TMath::Power(pnu[2],2) )/1000.";
   h1_draw_str += ">>h1";
 
   atm_minituple->Draw(
