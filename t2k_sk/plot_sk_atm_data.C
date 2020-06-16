@@ -81,7 +81,7 @@ void plot_sk_atm_data(){
   h1->SetLineStyle(kDashed);
   string h1_draw_str;
   // h1_draw_str = get_Enu_rec_QE("electron", "genmom") + "/1000.";
-  h1_draw_str = "TMath::Sqrt( TMath::Power(pnu[0],2)+TMath::Power(pnu[1],2)+TMath::Power(pnu[2],2) )/1000.";
+  h1_draw_str = "TMath::Sqrt( TMath::Power(pnu[0],2)+TMath::Power(pnu[1],2)+TMath::Power(pnu[2],2) )";
   h1_draw_str += ">>h1";
 
   atm_minituple->Draw(
