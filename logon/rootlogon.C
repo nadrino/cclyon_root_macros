@@ -49,7 +49,14 @@
 
   gStyle->SetMarkerSize(1.2);
 
+  std::string REPO_DIR(getenv("REPO_DIR"));
+  std::string s = ".include " + REPO_DIR + "/cclyon_root_macros/submodules/cpp-generic-toolbox/include";
+  gROOT->ProcessLine(s.c_str());
+  gROOT->ProcessLine("#include \"GenericToolbox.h\"");
+  // gROOT->ProcessLine("#include \"GenericToolboxRootExt.h\"");
+
 }
+
 
 #include <sys/types.h>
 #include <sys/stat.h>

@@ -14,7 +14,7 @@ enum ATMPDEventType{
   MultiRing_elike_nuebar,
   MultiRing_mulike,
   MultiRingOther_1,
-  PCStop,
+  PCStop, // not yet in data
   PCThru,
   UpStop_mu,
   UpThruNonShower_mu,
@@ -25,76 +25,169 @@ string get_Enu_rec_QE(string lepton_name_, string lepton_mom_);
 
 void plot_sk_atm_data(){
 
-  TFile* sk_tfile = TFile::Open("$RESOURCES_DIR/T2KSKjoint/sk4_fcmc_18a_fQv6r0_minituple_100yr_01.root");
+  cout << "Openning $REPO_DIR/sk-atm-data/atm_minituples/sk4_fcmc_18a_fQv6r0_minituple_100yr_01.root" << endl;
+  TFile* sk_tfile = TFile::Open("$REPO_DIR/sk-atm-data/atm_minituples/sk4_fcmc_18a_fQv6r0_minituple_100yr_01.root");
   TTree* atm_minituple = (TTree*) sk_tfile->Get("atm_minituple");
 
+  // string norm_string = "(oscweight3f*solarweight*5000./(365.25*100.0))";
+  // string norm_string = "(oscweight3f*solarweight*3244.4/(365.25*100.0))";
+  string norm_string = "(solarweight*3244.4/(365.25*100.0))";
+
+
+  string draw_str;
+  string cuts_str;
+
+
+  ////////////////////////////////////////////
+  // CUTS
+  ////////////////////////////////////////////
   map<string, vector<string>> cuts_map;
-  cuts_map["FC_Sub-GeV_nue_nuebar"] = vector<string>();
-  cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back(
+  cuts_map["FC_SubGeV_nue_nuebar"] = vector<string>();
+  cuts_map["FC_SubGeV_nue_nuebar"].emplace_back(
     "(ATMPDEventType == " + to_string(SubGeV_elike_0dcy) + " || ATMPDEventType == " + to_string(SubGeV_elike_1dcy) + ")"
   );
-  // Single-ring
-  // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("nring == 1");
-  // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("fqnmrfit == 1");
-  // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("evis < 1330"); // visible energy  (MeV/c) :  This is the sum of amome of each rings
-  // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("evis > 100"); // visible energy  (MeV/c) :  This is the sum of amome of each rings
-  // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("amome[0] > 100");
-  // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("ip[0] == 2"); // particle type by PID (1:gamma 2:electron 3:muon)
-  // FCFV
-  // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("fqwall > 50.0"); // note
-  // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("fqwall > 200"); // atm
-  // cuts_map["FC_Sub-GeV_nue_nuebar"].emplace_back("fqtowall > 170");
-
-  string norm_string = "(oscweight3f*solarweight*3244.4/(365.25*100.0))"; //
-
-  string cuts_str;
-  cuts_str += "(";
-  cuts_str +=  TToolBox::join_vector_string(cuts_map["FC_Sub-GeV_nue_nuebar"], " && ");
-  // cuts_str += "nring==1 && evis<1330 && ip[0] == 2 && wall>200";
-  cuts_str += ")";
-
-
-  TCanvas* c_h2 = new TCanvas("c_h2", "c_h2", 800, 800);
-  TH2D* h2 = TToolBox::get_TH2D_log_binning("h2", "FC_Sub-GeV_nue_nuebar", 30, 0.1, 100., 10, -1, 1, "X");
-  h2->GetXaxis()->SetTitle("Neutrino Energy (GeV)");
-  h2->GetYaxis()->SetTitle("cos zenith");
-  h2->GetZaxis()->SetTitle("Events/5000 Days");
-  string h2_draw_str = "gencz:genmom/1000.";
-  h2_draw_str += ">>h2";
-
-  atm_minituple->Draw(
-    h2_draw_str.c_str(),
-    (cuts_str + "*" + norm_string).c_str(),
-    "goff"
+  cuts_map["FC_MultiGeV_nue_nuebar"] = vector<string>();
+  cuts_map["FC_MultiGeV_nue_nuebar"].emplace_back(
+    "( ATMPDEventType == " + to_string(MultiGeV_elike_nue)
+    + " || ATMPDEventType == " + to_string(MultiGeV_elike_nuebar)
+    + " || ATMPDEventType == " + to_string(MultiRing_elike_nue)
+    + " || ATMPDEventType == " + to_string(MultiRing_elike_nuebar)
+    + " )"
   );
+
+  cuts_map["FC_SubGeV_numu_numubar"] = vector<string>();
+  cuts_map["FC_SubGeV_numu_numubar"].emplace_back(
+    "( ATMPDEventType == " + to_string(SubGeV_mulike_0dcy)
+    + " || ATMPDEventType == " + to_string(SubGeV_mulike_1dcy)
+    + " || ATMPDEventType == " + to_string(SubGeV_mulike_2dcy)
+    + " )"
+  );
+  cuts_map["FC_MultiGeV_numu_numubar"] = vector<string>();
+  cuts_map["FC_MultiGeV_numu_numubar"].emplace_back(
+    "( ATMPDEventType == " + to_string(MultiGeV_mulike)
+    + " || ATMPDEventType == " + to_string(MultiRing_mulike)
+    + " )"
+  );
+  cuts_map["PC_Stop"] = vector<string>();
+  cuts_map["PC_Stop"].emplace_back(
+    "( ATMPDEventType == " + to_string(PCStop)
+    + " )"
+  );
+  cuts_map["PC_Thru"] = vector<string>();
+  cuts_map["PC_Thru"].emplace_back(
+    "( ATMPDEventType == " + to_string(PCThru)
+    + " )"
+  );
+
+  cuts_map["FC_SubGeV_nue_nuebar_true"] = vector<string>();
+  cuts_map["FC_SubGeV_nue_nuebar_true"].emplace_back("(ipnu[0] == 12 || ipnu[0] == -12)");
+
+
+  ////////////////////////////////////////////
+  // HISTOGRAMS
+  ////////////////////////////////////////////
+  TCanvas* c_h1 = new TCanvas("c_h1", "c_h1", 800, 700);
+  // draw_str = get_Enu_rec_QE("electron", "genmom") + "/1000.";
+  draw_str = "TMath::Sqrt( TMath::Power(pnu[0],2)+TMath::Power(pnu[1],2)+TMath::Power(pnu[2],2) )";
+
+  TH1D* hSubGeV = TToolBox::get_TH1D_log_binning("hSubGeV", "FC_SubGeV_nue_nuebar", 50, 0.1, 10000.);
+  hSubGeV->GetXaxis()->SetTitle("Neutrino Energy (GeV)");
+  hSubGeV->GetYaxis()->SetTitle("Events/5000 Days");
+  hSubGeV->SetLineColor(kBlue);
+  hSubGeV->SetLineStyle(kDashed);
+  cuts_str = "(";
+  cuts_str +=  TToolBox::join_vector_string(cuts_map["FC_SubGeV_nue_nuebar"], " && ");
+  cuts_str += ")";
+  atm_minituple->Draw( (draw_str + ">>hSubGeV" ).c_str(), (cuts_str + "*" + norm_string).c_str(), "goff");
+
+  TH1D* hMultiGeV = TToolBox::get_TH1D_log_binning("hMultiGeV", "FC_MultiGeV_nue_nuebar", 50, 0.1, 10000.);
+  hMultiGeV->SetLineColor(kCyan);
+  cuts_str = "(";
+  cuts_str +=  TToolBox::join_vector_string(cuts_map["FC_MultiGeV_nue_nuebar"], " && ");
+  cuts_str += ")";
+  atm_minituple->Draw( (draw_str + ">>hMultiGeV" ).c_str(), (cuts_str + "*" + norm_string).c_str(), "goff");
+
+
+  TCanvas* c_h2 = new TCanvas("c_h2", "c_h2", 800, 700);
+  draw_str = "TMath::Sqrt( TMath::Power(pnu[0],2)+TMath::Power(pnu[1],2)+TMath::Power(pnu[2],2) )";
+
+  TH1D* hmuSubGeV = TToolBox::get_TH1D_log_binning("hmuSubGeV", "FC_SubGeV_numu_numubar", 50, 0.1, 10000.);
+  hmuSubGeV->GetXaxis()->SetTitle("Neutrino Energy (GeV)");
+  hmuSubGeV->GetYaxis()->SetTitle("Events/5000 Days");
+  hmuSubGeV->SetLineColor(kBlue);
+  hmuSubGeV->SetLineStyle(kDashed);
+  cuts_str = "(";
+  cuts_str +=  TToolBox::join_vector_string(cuts_map["FC_SubGeV_numu_numubar"], " && ");
+  cuts_str += ")";
+  atm_minituple->Draw( (draw_str + ">>hmuSubGeV" ).c_str(), (cuts_str + "*" + norm_string).c_str(), "goff");
+
+  TH1D* hmuMultiGeV = TToolBox::get_TH1D_log_binning("hmuMultiGeV", "FC_MultiGeV_numu_numubar", 50, 0.1, 10000.);
+  hmuMultiGeV->SetLineColor(kCyan);
+  cuts_str = "(";
+  cuts_str +=  TToolBox::join_vector_string(cuts_map["FC_MultiGeV_numu_numubar"], " && ");
+  cuts_str += ")";
+  atm_minituple->Draw( (draw_str + ">>hmuMultiGeV" ).c_str(), (cuts_str + "*" + norm_string).c_str(), "goff");
+
+  TH1D* hmuPCStop = TToolBox::get_TH1D_log_binning("hmuPCStop", "PC_Stop", 50, 0.1, 10000.);
+  hmuPCStop->SetLineColor(kViolet);
+  hmuPCStop->SetFillColor(kViolet);
+  cuts_str = "(";
+  cuts_str +=  TToolBox::join_vector_string(cuts_map["PC_Stop"], " && ");
+  cuts_str += ")";
+  atm_minituple->Draw( (draw_str + ">>hmuPCStop" ).c_str(), (cuts_str + "*" + norm_string).c_str(), "goff");
+
+  TH1D* hmuPCThru = TToolBox::get_TH1D_log_binning("hmuPCThru", "PC_Thru", 50, 0.1, 10000.);
+  hmuPCThru->SetLineColor(kRed);
+  hmuPCThru->SetFillColor(kRed);
+  hmuPCThru->SetFillStyle(3005);
+  cuts_str = "(";
+  cuts_str +=  TToolBox::join_vector_string(cuts_map["PC_Thru"], " && ");
+  cuts_str += ")";
+  atm_minituple->Draw( (draw_str + ">>hmuPCThru" ).c_str(), (cuts_str + "*" + norm_string).c_str(), "goff");
+
+
+  ////////////////////////////////////////////
+  // PLOT
+  ////////////////////////////////////////////
+  c_h1->cd();
+  hSubGeV->Draw("HIST");
+  hMultiGeV->Draw("HISTSAME");
+  gPad->SetLogx(1);
+  gPad->SetGridx();
+  gPad->BuildLegend();
+  hSubGeV->SetTitle("");
+  TToolBox::save_canvas(c_h1, "sk_nue_atm_FC");
 
   c_h2->cd();
-  h2->Draw("COLZ");
+  hmuSubGeV->Draw("HIST");
+  hmuMultiGeV->Draw("HISTSAME");
+  hmuPCStop->Draw("HISTSAME");
+  hmuPCThru->Draw("HISTSAME");
   gPad->SetLogx(1);
-  TToolBox::fix_TH2D_display(h2);
+  gPad->SetGridx();
+  gPad->BuildLegend();
+  hmuSubGeV->SetTitle("");
+  TToolBox::save_canvas(c_h2, "sk_numu_atm_FC");
 
-  TCanvas* c_h1 = new TCanvas("c_h1", "c_h1", 800, 800);
-  TH1D* h1 = TToolBox::get_TH1D_log_binning("h1", "FC_Sub-GeV_nue_nuebar", 20, 0.1, 10.);
-  h1->GetXaxis()->SetTitle("Neutrino Energy (GeV)");
-  h1->GetYaxis()->SetTitle("Events/5000 Days");
-  h1->SetLineColor(kBlue);
-  h1->SetLineStyle(kDashed);
-  string h1_draw_str;
-  // h1_draw_str = get_Enu_rec_QE("electron", "genmom") + "/1000.";
-  h1_draw_str = "TMath::Sqrt( TMath::Power(pnu[0],2)+TMath::Power(pnu[1],2)+TMath::Power(pnu[2],2) )";
-  h1_draw_str += ">>h1";
 
-  atm_minituple->Draw(
-    h1_draw_str.c_str(),
-    (cuts_str + "*" + norm_string).c_str(),
-    "goff"
-  );
+  // TCanvas* c_h2 = new TCanvas("c_h2", "c_h2", 800, 800);
+  // TH2D* h2 = TToolBox::get_TH2D_log_binning("h2", "FC_SubGeV_nue_nuebar", 30, 0.1, 100., 10, -1, 1, "X");
+  // h2->GetXaxis()->SetTitle("Neutrino Energy (GeV)");
+  // h2->GetYaxis()->SetTitle("cos zenith");
+  // h2->GetZaxis()->SetTitle("Events/5000 Days");
+  // string h2_draw_str = "gencz:genmom/1000.";
+  // h2_draw_str += ">>h2";
 
-  c_h1->cd();
-  h1->Draw("HIST");
-  gPad->SetLogx(1);
-
-  cout << "atm_minituple->Draw(\"" << h1_draw_str << "\", \"" << (cuts_str + "*" + norm_string) << "\");" << endl;
+  // atm_minituple->Draw(
+  //   h2_draw_str.c_str(),
+  //   (cuts_str + "*" + norm_string).c_str(),
+  //   "goff"
+  // );
+  //
+  // c_h2->cd();
+  // h2->Draw("COLZ");
+  // gPad->SetLogx(1);
+  // TToolBox::fix_TH2D_display(h2);
 
 }
 

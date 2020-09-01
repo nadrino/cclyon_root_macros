@@ -393,6 +393,12 @@ ACLiC.Linkdef:          _linkdef
 # On Windows, the default is 3
 #ACLiC.LinkLibs:      1
 
+# Unix.*.Root.IncludePath:     -I$ROOTSYS/include
+# WinNT.*.Root.IncludePath:    -I%ROOTSYS%/include
+
+# Unix..Root.MacroPath: .:$(ROOTSYS)/macros:/var/tmp/mm
+# WinNT..Root.MacroPath: .;$(ROOTSYS)/macros;/Users/mbomben/work/root_macros
+
 # PROOF related variables
 #
 # PROOF debug options.
