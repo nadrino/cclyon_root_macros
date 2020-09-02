@@ -33,11 +33,9 @@ void generateSamplesPlots(){
 
       c->cd(1 + i_fgd*sampleNames.size() + sample.first);
       string stackName = Form("FGD%i_Sample%i", i_fgd+1, sample.first);
-      THStack * hs1 = new THStack( stackName.c_str(), stackName.c_str() );
+      histogramStackMap[ stackName ] = new THStack( stackName.c_str(), stackName.c_str() );
 
       for(const auto& reaction : reactionNames){
-
-        createContainerHistograms();
 
         string histName = Form("FGD%i_Sample%i_Reaction%i", i_fgd+1, sample.first, reaction.first);
         cout << "Processing: " << histName << endl;
@@ -62,12 +60,11 @@ void generateSamplesPlots(){
         hD1->GetXaxis()->SetRangeUser(0,2000);
         hD1->SetFillColor(reactionColors[reaction.first]);
         histogramMap[ histName ] = hD1;
-        hs1->Add(histogramMap[ histName ]);
+        histogramStackMap[ stackName ]->Add(histogramMap[ histName ]);
 
       }
 
       cout << " > Drawing: " << stackName << " -> " << 1 + i_fgd*sampleNames.size() + sample.first << endl;
-      histogramStackMap[stackName] = hs1;
       histogramStackMap[stackName]->Draw("stack");
 
     }
