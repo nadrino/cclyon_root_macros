@@ -59,6 +59,7 @@ void generateSamplesPlots(){
             histTemp->GetBinContent(iBin)/histTemp->GetBinWidth(iBin)
           );
         }
+        histTemp->SetLineWidth(0);
         histTemp->GetXaxis()->SetTitle("p_{#mu} (MeV/c)");
         histTemp->GetYaxis()->SetTitle("Events/(1 MeV/c)");
         histTemp->GetXaxis()->SetRangeUser(0,2000);
