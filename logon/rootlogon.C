@@ -50,6 +50,7 @@
   gStyle->SetMarkerSize(1.2);
 
   if(gROOT->GetVersionInt() > 60000){
+    std::cout << "Loading GenericToolbox namespace..." << std::endl;
     std::string REPO_DIR(getenv("REPO_DIR"));
     std::string s = ".include " + REPO_DIR + "/cclyon_root_macros/submodules/cpp-generic-toolbox/include";
     // R__ADD_INCLUDE_PATH((REPO_DIR + "/cclyon_root_macros/submodules/cpp-generic-toolbox/include").c_str());
