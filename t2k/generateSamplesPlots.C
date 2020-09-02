@@ -37,6 +37,8 @@ void generateSamplesPlots(){
 
       for(const auto& reaction : reactionNames){
 
+        createContainerHistograms();
+
         string histName = Form("FGD%i_Sample%i_Reaction%i", i_fgd+1, sample.first, reaction.first);
         cout << "Processing: " << histName << endl;
 
