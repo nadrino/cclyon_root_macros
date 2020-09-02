@@ -35,6 +35,7 @@ void generateSamplesPlots(){
       string stackName = Form("FGD%i_Sample%i", i_fgd+1, sample.first);
       histogramStackMap[ stackName ] = new THStack( stackName.c_str(), stackName.c_str() );
 
+      vector<TH1D*> histManualStack;
       for(const auto& reaction : reactionNames){
 
         string histName = Form("FGD%i_Sample%i_Reaction%i", i_fgd+1, sample.first, reaction.first);
@@ -60,14 +61,25 @@ void generateSamplesPlots(){
         // hD1->GetXaxis()->SetRangeUser(0,2000);
         hD1->GetXaxis()->SetLimits(0,30000);
         hD1->SetFillColor(reactionColors[reaction.first]);
-        histogramMap[ histName ] = hD1;
-        histogramStackMap[ stackName ]->Add(histogramMap[ histName ]);
+        histogramMap[ histName ] = (TH1D*) hD1->Clone();
+
+        if(histManualStack.size() == 0){
+          histManualStack.emplace_back(histogramMap[ histName ]);
+          histManualStack.back()->Draw();
+        }
+        else{
+          histogramMap[ histName ]->Merge(histManualStack.back());
+          histManualStack.emplace_back(histogramMap[ histName ]);
+          histManualStack.back()->Draw("SAME");
+        }
+
+        // histogramStackMap[ stackName ]->Add(histogramMap[ histName ]);
 
       }
 
-      cout << " > Drawing: " << stackName << " -> " << 1 + i_fgd*sampleNames.size() + sample.first << endl;
-      histogramStackMap[stackName]->Draw("stack");
-      c->Update();
+      // cout << " > Drawing: " << stackName << " -> " << 1 + i_fgd*sampleNames.size() + sample.first << endl;
+      // histogramStackMap[stackName]->Draw("stack");
+      // c->Update();
 
     }
 
