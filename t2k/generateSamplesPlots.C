@@ -58,6 +58,7 @@ void generateSamplesPlots(){
         hD1->GetXaxis()->SetTitle("p_{#mu} (MeV/c)");
         hD1->GetYaxis()->SetTitle("Events/(1 MeV/c)");
         // hD1->GetXaxis()->SetRangeUser(0,2000);
+        hD1->GetXaxis()->SetLimits(0,2000);
         hD1->SetFillColor(reactionColors[reaction.first]);
         histogramMap[ histName ] = hD1;
         histogramStackMap[ stackName ]->Add(histogramMap[ histName ]);
