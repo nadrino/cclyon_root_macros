@@ -6,37 +6,8 @@ TCanvas* c = new TCanvas("c", "c", 800,1200);
 c->Divide(2,3);
 
 map<int, string> sampleNames;
-sampleNames[0] = "CC-0#pi";
-sampleNames[1] = "CC-1#pi";
-sampleNames[2] = "CC-Other";
-
 map<int, string> reactionNames;
-reactionNames[0] = "CCQE";
-reactionNames[9] = "2p2h";
-reactionNames[1] = "RES";
-reactionNames[2] = "DIS";
-reactionNames[3] = "COH";
-reactionNames[4] = "NC";
-reactionNames[5] = "CC-#bar{#nu}_{#mu}";
-reactionNames[6] = "CC-#nu_{e}, CC-#bar{#nu}_{e}";
-reactionNames[999] = "other";
-reactionNames[7] = "out FV";
-reactionNames[-1] = "no truth";
-reactionNames[777] = "sand #mu";
-
 map<int, int> reactionColors;
-reactionColors[0] = 2;
-reactionColors[9] = 874;
-reactionColors[1] = 3;
-reactionColors[2] = 4;
-reactionColors[3] = 7;
-reactionColors[4] = 6;
-reactionColors[5] = 31;
-reactionColors[6] = 65;
-reactionColors[999] = 48;
-reactionColors[7] = 1;
-reactionColors[-1] = 92;
-reactionColors[777] = 51;
 
 
 TH1D* hD1;
@@ -46,6 +17,7 @@ map<string, THStack*> histogramStackMap;
 
 
 void createContainerHistograms();
+void fillParameters();
 
 
 void generateSamplePlots(){
@@ -98,6 +70,40 @@ void generateSamplePlots(){
   }
 
 
+
+}
+
+void fillParameters(){
+
+  sampleNames[0] = "CC-0#pi";
+  sampleNames[1] = "CC-1#pi";
+  sampleNames[2] = "CC-Other";
+
+  reactionNames[0] = "CCQE";
+  reactionNames[9] = "2p2h";
+  reactionNames[1] = "RES";
+  reactionNames[2] = "DIS";
+  reactionNames[3] = "COH";
+  reactionNames[4] = "NC";
+  reactionNames[5] = "CC-#bar{#nu}_{#mu}";
+  reactionNames[6] = "CC-#nu_{e}, CC-#bar{#nu}_{e}";
+  reactionNames[999] = "other";
+  reactionNames[7] = "out FV";
+  reactionNames[-1] = "no truth";
+  reactionNames[777] = "sand #mu";
+
+  reactionColors[0] = 2;
+  reactionColors[9] = 874;
+  reactionColors[1] = 3;
+  reactionColors[2] = 4;
+  reactionColors[3] = 7;
+  reactionColors[4] = 6;
+  reactionColors[5] = 31;
+  reactionColors[6] = 65;
+  reactionColors[999] = 48;
+  reactionColors[7] = 1;
+  reactionColors[-1] = 92;
+  reactionColors[777] = 51;
 
 }
 
