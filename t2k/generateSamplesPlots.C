@@ -41,7 +41,10 @@ void generateSamplesPlots(){
 
         string histName = Form("FGD%i_Sample%i_Reaction%i", i_fgd+1, sample.first, reaction.first);
 
-        auto* histTemp = new TH1D(histName.c_str(), histName.c_str(), D1binning.size() - 1, &D1binning[0]);
+        auto* histTemp = new TH1D(
+          histName.c_str(),
+          reaction.second.c_str(),
+          D1binning.size() - 1, &D1binning[0]);
 
         int nbEvents = selectedEvents->Draw(
           ("D1Reco>>" + histName).c_str(),
@@ -88,12 +91,24 @@ void generateSamplesPlots(){
       }
 
       cout << " >> Drawing..." << endl;
+      string nameBuffer;
       for(int iHist = histManualStack.size()-1 ; iHist >= 0 ; iHist--){
         string opt = "SAME";
-        if(iHist == histManualStack.size()-1) opt= "";
+        if(iHist == histManualStack.size()-1){
+          opt= "";
+          nameBuffer = histManualStack[iHist]->GetTitle();
+          histManualStack[iHist]->SetTitle(
+            Form("FGD%i #nu_{#mu} %s", i_fgd+1, sample.second.c_str())
+          );
+        }
         histManualStack[iHist]->Draw(opt.c_str());
         c->Update();
       }
+
+      for(int iHist = histManualStack.size()-1 ; iHist >= 0 ; iHist--){
+        histManualStack[iHist]->SetTitle(nameBuffer.c_str());
+      }
+      gPad->BuildLegend();
 
       // cout << " > Drawing: " << stackName << " -> " << 1 + i_fgd*sampleNames.size() + sample.first << endl;
       // histogramStackMap[stackName]->Draw("stack");
