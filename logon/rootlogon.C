@@ -51,15 +51,32 @@
 
   std::string REPO_DIR(getenv("REPO_DIR"));
   std::string s = ".include " + REPO_DIR + "/cclyon_root_macros/submodules/cpp-generic-toolbox/include";
+  // R__ADD_INCLUDE_PATH((REPO_DIR + "/cclyon_root_macros/submodules/cpp-generic-toolbox/include").c_str());
+  // gROOT->LoadMacro("/Users/ablanche/Documents/Work/Repositories/cclyon_root_macros/submodules/cpp-generic-toolbox/include/GenericToolbox.h");
   gROOT->ProcessLine(s.c_str());
   gROOT->ProcessLine("#include \"GenericToolbox.h\"");
-  // gROOT->ProcessLine("#include \"GenericToolboxRootExt.h\"");
+  gROOT->ProcessLine("#include \"GenericToolboxRootExt.h\"");
 
 }
 
 
 #include <sys/types.h>
 #include <sys/stat.h>
+
+// namespace GenericToolbox{
+//
+//   void printVector(const std::vector<std::string>& vector_){
+//     std::cout << "{ ";
+//     bool isFirst = true;
+//     for(const auto& element: vector_){
+//       if(not isFirst) std::cout << ", ";
+//       else isFirst = false;
+//       std::cout << element;
+//     }
+//     std::cout << " }" << std::endl;
+//   }
+//
+// }
 
 namespace TToolBox {
 
