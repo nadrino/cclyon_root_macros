@@ -64,6 +64,7 @@ void generateSamplesPlots(){
         hD1->GetXaxis()->SetLimits(0,30000);
         hD1->SetFillColor(reactionColors[reaction.first]);
         histogramMap[ histName ] = (TH1D*) hD1->Clone();
+        histogramMap[ histName ]->SetName(histName.c_str());
 
         if(histManualStack.size() == 0){
           histManualStack.emplace_back(histogramMap[ histName ]);
