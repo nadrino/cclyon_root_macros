@@ -102,11 +102,15 @@ void generateSamplesPlots(){
           );
         }
         histManualStack[iHist]->Draw(opt.c_str());
-        c->Update();
       }
 
-      histManualStack.back()->SetTitle(nameBuffer.c_str());
       gPad->BuildLegend();
+
+      histManualStack.back()->SetTitle(
+        Form("FGD%i #nu_{#mu} %s", i_fgd+1, sample.second.c_str())
+      );
+      c->Update();
+
 
       // cout << " > Drawing: " << stackName << " -> " << 1 + i_fgd*sampleNames.size() + sample.first << endl;
       // histogramStackMap[stackName]->Draw("stack");
@@ -122,8 +126,8 @@ void generateSamplesPlots(){
 
 void fillParameters(){
 
- c = new TCanvas("c", "c", 700,900);
- c->Divide(2,3);
+ c = new TCanvas("c", "c", 1200,700);
+ c->Divide(3,2);
 
   sampleNames[0] = "CC-0#pi";
   sampleNames[1] = "CC-1#pi";
