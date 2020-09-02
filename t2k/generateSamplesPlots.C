@@ -15,10 +15,8 @@ map<string, TH1D*> histogramMap;
 map<string, THStack*> histogramStackMap;
 
 
-TH1D* getEmptyHist(int var);
 void fillBinnings();
 void fillParameters();
-
 
 void generateSamplesPlots(){
 
@@ -43,7 +41,7 @@ void generateSamplesPlots(){
 
         string histName = Form("FGD%i_Sample%i_Reaction%i", i_fgd+1, sample.first, reaction.first);
 
-        auto* histTemp = new TH1D(histName, histName, D1binning.size() - 1, &D1binning[0]);
+        auto* histTemp = new TH1D(histName.c_str(), histName.c_str(), D1binning.size() - 1, &D1binning[0]);
 
         int nbEvents = selectedEvents->Draw(
           ("D1Reco>>" + histName).c_str(),
@@ -163,12 +161,5 @@ void fillBinnings(){
   }
   sort(D1binning.begin(), D1binning.end());
   sort(D2binning.begin(), D2binning.end());
-
-}
-
-TH1D* getEmptyHist(int var){
-
-  if(var = 1) return new TH1D("hD1", "hD1", D1binning.size() - 1, &D1binning[0]);
-  else new TH1D("hD2", "hD2", D2binning.size() - 1, &D2binning[0]);
 
 }
