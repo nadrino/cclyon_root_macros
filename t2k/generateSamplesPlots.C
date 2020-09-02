@@ -31,7 +31,7 @@ void generateSamplesPlots(){
 
     for(const auto& sample : sampleNames){
 
-      c->cd(1 + i_fgd*sampleNames.size() + i_fgd+sample.first);
+      c->cd(1 + i_fgd*sampleNames.size() + sample.first);
       string stackName = Form("FGD%i_Sample%i", i_fgd+1, sample.first);
       THStack * hs1 = new THStack( stackName.c_str(), stackName.c_str() );
 
@@ -58,14 +58,14 @@ void generateSamplesPlots(){
         hD1->GetYaxis()->SetTitle("Events/(1 MeV/c)");
         hD1->GetXaxis()->SetRangeUser(0,2000);
         hD1->SetFillColor(reactionColors[reaction.first]);
-        histogramMap[ histName ] = (TH1D*) hD1->Clone();
+        histogramMap[ histName ] = hD1;
         hs1->Add(histogramMap[ histName ]);
 
       }
 
       cout << " > Drawing: " << stackName << " -> " << 1 + i_fgd*sampleNames.size() + i_fgd+sample.first << endl;
-      histogramStackMap[stackName] = (THStack*) hs1->Clone();
-      histogramStackMap[stackName]->Draw();
+      histogramStackMap[stackName] = hs1;
+      histogramStackMap[stackName]->Draw("stack");
 
     }
 
