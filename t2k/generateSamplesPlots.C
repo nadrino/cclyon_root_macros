@@ -105,9 +105,7 @@ void generateSamplesPlots(){
         c->Update();
       }
 
-      for(int iHist = histManualStack.size()-1 ; iHist >= 0 ; iHist--){
-        histManualStack[iHist]->SetTitle(nameBuffer.c_str());
-      }
+      histManualStack.back()->SetTitle(nameBuffer.c_str());
       gPad->BuildLegend();
 
       // cout << " > Drawing: " << stackName << " -> " << 1 + i_fgd*sampleNames.size() + sample.first << endl;
@@ -124,7 +122,7 @@ void generateSamplesPlots(){
 
 void fillParameters(){
 
- c = new TCanvas("c", "c", 800,1200);
+ c = new TCanvas("c", "c", 700,900);
  c->Divide(2,3);
 
   sampleNames[0] = "CC-0#pi";
