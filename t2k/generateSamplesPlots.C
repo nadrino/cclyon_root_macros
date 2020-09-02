@@ -63,6 +63,7 @@ void generateSamplesPlots(){
 
       }
 
+      cout << " > Drawing: " << stackName << " -> " << 1 + i_fgd*sampleNames.size() + i_fgd+sample.first << endl;
       histogramStackMap[stackName] = (THStack*) hs1->Clone();
       histogramStackMap[stackName]->Draw();
 
