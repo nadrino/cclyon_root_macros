@@ -86,7 +86,7 @@ void generateSamplesPlots(){
       for(int iHist = histManualStack.size()-1 ; iHist >= 0 ; iHist--){
         string opt = "SAME";
         if(iHist == histManualStack.size()-1) opt= "";
-        histManualStack->Draw(opt.c_str());
+        histManualStack[iHist]->Draw(opt.c_str());
       }
 
       // cout << " > Drawing: " << stackName << " -> " << 1 + i_fgd*sampleNames.size() + sample.first << endl;
