@@ -2,8 +2,7 @@
 string baseDirectory = "/sps/t2k/ablanche/work/results/xsLLhFitter/BANFF_Fit";
 string treeFile = "/tree_converter/Converted_MC_run1to8_FHC_only.root";
 
-TCanvas* c = new TCanvas("c", "c", 800,1200);
-c->Divide(2,3);
+TCanvas* c;
 
 map<int, string> sampleNames;
 map<int, string> reactionNames;
@@ -74,6 +73,9 @@ void generateSamplePlots(){
 }
 
 void fillParameters(){
+
+ c = new TCanvas("c", "c", 800,1200);
+ c->Divide(2,3);
 
   sampleNames[0] = "CC-0#pi";
   sampleNames[1] = "CC-1#pi";
