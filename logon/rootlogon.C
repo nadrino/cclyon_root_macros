@@ -49,13 +49,15 @@
 
   gStyle->SetMarkerSize(1.2);
 
-  std::string REPO_DIR(getenv("REPO_DIR"));
-  std::string s = ".include " + REPO_DIR + "/cclyon_root_macros/submodules/cpp-generic-toolbox/include";
-  // R__ADD_INCLUDE_PATH((REPO_DIR + "/cclyon_root_macros/submodules/cpp-generic-toolbox/include").c_str());
-  // gROOT->LoadMacro("/Users/ablanche/Documents/Work/Repositories/cclyon_root_macros/submodules/cpp-generic-toolbox/include/GenericToolbox.h");
-  gROOT->ProcessLine(s.c_str());
-  gROOT->ProcessLine("#include \"GenericToolbox.h\"");
-  gROOT->ProcessLine("#include \"GenericToolboxRootExt.h\"");
+  if(gROOT->GetVersionInt() > 60000){
+    std::string REPO_DIR(getenv("REPO_DIR"));
+    std::string s = ".include " + REPO_DIR + "/cclyon_root_macros/submodules/cpp-generic-toolbox/include";
+    // R__ADD_INCLUDE_PATH((REPO_DIR + "/cclyon_root_macros/submodules/cpp-generic-toolbox/include").c_str());
+    // gROOT->LoadMacro("/Users/ablanche/Documents/Work/Repositories/cclyon_root_macros/submodules/cpp-generic-toolbox/include/GenericToolbox.h");
+    gROOT->ProcessLine(s.c_str());
+    gROOT->ProcessLine("#include \"GenericToolbox.h\"");
+    gROOT->ProcessLine("#include \"GenericToolboxRootExt.h\"");
+  }
 
 }
 
