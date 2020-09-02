@@ -85,6 +85,7 @@ void generateSamplesPlots(){
 
       }
 
+      cout << "Drawing..." << endl;
       for(int iHist = histManualStack.size()-1 ; iHist >= 0 ; iHist--){
         string opt = "SAME";
         if(iHist == histManualStack.size()-1) opt= "";
