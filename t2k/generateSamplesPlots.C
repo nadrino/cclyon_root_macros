@@ -40,7 +40,7 @@ void generateSamplesPlots(){
         string histName = Form("FGD%i_Sample%i_Reaction%i", i_fgd+1, sample.first, reaction.first);
         cout << "Processing: " << histName << endl;
 
-        selectedEvents->Draw(
+        int nbEvents = selectedEvents->Draw(
           "D1Reco>>hD1",
           Form(
             "fgd == %i && cut_branch == %i && reaction == %i",
@@ -48,6 +48,7 @@ void generateSamplesPlots(){
           ),
           "goff"
         );
+        if(nbEvents == 0) continue;
         for(int iBin = 0 ; iBin < hD1->GetNbinsX() ; iBin++){
           if(hD1->GetBinWidth(iBin) == 0) continue;
           hD1->SetBinContent(iBin,
@@ -63,7 +64,7 @@ void generateSamplesPlots(){
 
       }
 
-      cout << " > Drawing: " << stackName << " -> " << 1 + i_fgd*sampleNames.size() + i_fgd+sample.first << endl;
+      cout << " > Drawing: " << stackName << " -> " << 1 + i_fgd*sampleNames.size() + sample.first << endl;
       histogramStackMap[stackName] = hs1;
       histogramStackMap[stackName]->Draw("stack");
 
