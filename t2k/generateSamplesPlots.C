@@ -19,7 +19,7 @@ void createContainerHistograms();
 void fillParameters();
 
 
-void generateSamplePlots(){
+void generateSamplesPlots(){
 
   createContainerHistograms();
 
