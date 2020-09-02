@@ -22,6 +22,7 @@ void fillParameters();
 void generateSamplesPlots(){
 
   createContainerHistograms();
+  fillParameters();
 
   TFile* treeConverted = TFile::Open((baseDirectory+treeFile).c_str());
   TTree* selectedEvents = (TTree*) treeConverted->Get("selectedEvents");
