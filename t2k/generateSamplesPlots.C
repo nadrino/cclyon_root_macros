@@ -74,7 +74,7 @@ void generateSamplesPlots(){
               histManualStack.back()->GetBinContent(iBin)
             );
           }
-          histogramMap[ histName ]->Merge(histManualStack.back());
+          // histogramMap[ histName ]->Merge(histManualStack.back());
           histManualStack.emplace_back(histogramMap[ histName ]);
           // histManualStack.back()->Draw("SAME");
         }
