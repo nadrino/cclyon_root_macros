@@ -27,6 +27,8 @@ void generateSamplesPlots(){
   TFile* treeConverted = TFile::Open((baseDirectory+treeFile).c_str());
   TTree* selectedEvents = (TTree*) treeConverted->Get("selectedEvents");
 
+  cout << "selectedEvents -> " << selectedEvents << " entries" << endl;
+
   for(int i_fgd = 0 ; i_fgd < 2 ; i_fgd++){
 
     for(const auto& sample : sampleNames){
@@ -39,7 +41,6 @@ void generateSamplesPlots(){
       for(const auto& reaction : reactionNames){
 
         string histName = Form("FGD%i_Sample%i_Reaction%i", i_fgd+1, sample.first, reaction.first);
-        cout << "Processing: " << histName << endl;
 
         int nbEvents = selectedEvents->Draw(
           "D1Reco>>hD1",
@@ -50,6 +51,7 @@ void generateSamplesPlots(){
           "goff"
         );
         if(nbEvents == 0) continue;
+        cout << "Processing: " << histName << endl;
         for(int iBin = 0 ; iBin < hD1->GetNbinsX() ; iBin++){
           if(hD1->GetBinWidth(iBin) == 0) continue;
           hD1->SetBinContent(iBin,
@@ -58,7 +60,7 @@ void generateSamplesPlots(){
         }
         hD1->GetXaxis()->SetTitle("p_{#mu} (MeV/c)");
         hD1->GetYaxis()->SetTitle("Events/(1 MeV/c)");
-        // hD1->GetXaxis()->SetRangeUser(0,2000);
+        hD1->GetXaxis()->SetRangeUser(0,2000);
         hD1->GetXaxis()->SetLimits(0,30000);
         hD1->SetFillColor(reactionColors[reaction.first]);
         histogramMap[ histName ] = (TH1D*) hD1->Clone();
@@ -87,6 +89,7 @@ void generateSamplesPlots(){
         string opt = "SAME";
         if(iHist == histManualStack.size()-1) opt= "";
         histManualStack[iHist]->Draw(opt.c_str());
+        c->Update();
       }
 
       // cout << " > Drawing: " << stackName << " -> " << 1 + i_fgd*sampleNames.size() + sample.first << endl;
