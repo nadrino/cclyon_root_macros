@@ -8,20 +8,21 @@ map<int, string> sampleNames;
 map<int, string> reactionNames;
 map<int, int> reactionColors;
 
+std::vector<double> D1binning;
+std::vector<double> D2binning;
 
-TH1D* hD1;
-TH1D* hD2;
 map<string, TH1D*> histogramMap;
 map<string, THStack*> histogramStackMap;
 
 
-void createContainerHistograms();
+TH1D* getEmptyHist(int var);
+void fillBinnings();
 void fillParameters();
 
 
 void generateSamplesPlots(){
 
-  createContainerHistograms();
+  fillBinnings();
   fillParameters();
 
   TFile* treeConverted = TFile::Open((baseDirectory+treeFile).c_str());
@@ -42,8 +43,10 @@ void generateSamplesPlots(){
 
         string histName = Form("FGD%i_Sample%i_Reaction%i", i_fgd+1, sample.first, reaction.first);
 
+        auto* histTemp = new TH1D(histName, histName, D1binning.size() - 1, &D1binning[0]);
+
         int nbEvents = selectedEvents->Draw(
-          "D1Reco>>hD1",
+          ("D1Reco>>" + histName).c_str(),
           Form(
             "fgd == %i && cut_branch == %i && reaction == %i",
             i_fgd, sample.first, reaction.first
@@ -52,19 +55,18 @@ void generateSamplesPlots(){
         );
         if(nbEvents == 0) continue;
         cout << "Processing: " << histName << endl;
-        for(int iBin = 0 ; iBin < hD1->GetNbinsX() ; iBin++){
-          if(hD1->GetBinWidth(iBin) == 0) continue;
-          hD1->SetBinContent(iBin,
-            hD1->GetBinContent(iBin)/hD1->GetBinWidth(iBin)
+        for(int iBin = 0 ; iBin < histTemp->GetNbinsX() ; iBin++){
+          if(histTemp->GetBinWidth(iBin) == 0) continue;
+          histTemp->SetBinContent(iBin,
+            histTemp->GetBinContent(iBin)/histTemp->GetBinWidth(iBin)
           );
         }
-        hD1->GetXaxis()->SetTitle("p_{#mu} (MeV/c)");
-        hD1->GetYaxis()->SetTitle("Events/(1 MeV/c)");
-        hD1->GetXaxis()->SetRangeUser(0,2000);
-        hD1->GetXaxis()->SetLimits(0,30000);
-        hD1->SetFillColor(reactionColors[reaction.first]);
-        histogramMap[ histName ] = (TH1D*) hD1->Clone();
-        histogramMap[ histName ]->SetName(histName.c_str());
+        histTemp->GetXaxis()->SetTitle("p_{#mu} (MeV/c)");
+        histTemp->GetYaxis()->SetTitle("Events/(1 MeV/c)");
+        histTemp->GetXaxis()->SetRangeUser(0,2000);
+        histTemp->GetXaxis()->SetLimits(0,30000);
+        histTemp->SetFillColor(reactionColors[reaction.first]);
+        histogramMap[ histName ] = histTemp;
 
         if(histManualStack.size() == 0){
           histManualStack.emplace_back(histogramMap[ histName ]);
@@ -86,7 +88,7 @@ void generateSamplesPlots(){
 
       }
 
-      cout << "Drawing..." << endl;
+      cout << " >> Drawing..." << endl;
       for(int iHist = histManualStack.size()-1 ; iHist >= 0 ; iHist--){
         string opt = "SAME";
         if(iHist == histManualStack.size()-1) opt= "";
@@ -143,10 +145,8 @@ void fillParameters(){
 
 }
 
-void createContainerHistograms(){
+void fillBinnings(){
 
-  std::vector<double> D1binning;
-  std::vector<double> D2binning;
   vector<string> binningLines = GenericToolbox::dumpFileAsVectorString(
     baseDirectory + "/binning/BANFF_binning.txt"
   );
@@ -163,7 +163,12 @@ void createContainerHistograms(){
   }
   sort(D1binning.begin(), D1binning.end());
   sort(D2binning.begin(), D2binning.end());
-  hD1 = new TH1D("hD1", "hD1", D1binning.size() - 1, &D1binning[0]);
-  hD2 = new TH1D("hD2", "hD2", D2binning.size() - 1, &D2binning[0]);
+
+}
+
+TH1D* getEmptyHist(int var){
+
+  if(var = 1) return new TH1D("hD1", "hD1", D1binning.size() - 1, &D1binning[0]);
+  else new TH1D("hD2", "hD2", D2binning.size() - 1, &D2binning[0]);
 
 }
