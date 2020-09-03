@@ -50,7 +50,7 @@ void generateSamplesPlots(){
         int nbEvents = selectedEvents->Draw(
           ("D1Reco>>" + histName).c_str(),
           Form(
-            "fgd == %i && cut_branch == %i && reaction == %i",
+            "fgd == %i && cut_branch == %i && topology == %i",
             i_fgd, sample.first, reaction.first
           ),
           "goff"
