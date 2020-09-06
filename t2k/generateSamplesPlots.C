@@ -1,6 +1,7 @@
 
 string baseDirectory = "/sps/t2k/ablanche/work/results/xsLLhFitter/BANFF_Fit";
-string treeFile = "/tree_converter/Converted_MC_run1to8_FHC_only.root";
+// string treeFile = "/tree_converter/Converted_MC_run1to8_FHC_only.root";
+string treeFile = "/tree_converter/Converted_MC_run1to9.root";
 // string treeFile = "/tree_converter/Converted_NumuCCMultiPiAnalysis_EXAMPLE.root";
 
 TCanvas* c;
