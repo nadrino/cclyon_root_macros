@@ -1,7 +1,7 @@
 
 string baseDirectory = "/sps/t2k/ablanche/work/results/xsLLhFitter/BANFF_Fit";
-// string treeFile = "/tree_converter/Converted_MC_run1to8_FHC_only.root";
-string treeFile = "/tree_converter/Converted_MC_run1to9.root";
+string treeFile = "/tree_converter/Converted_MC_run1to8_FHC_only.root";
+// string treeFile = "/tree_converter/Converted_MC_run1to9.root";
 // string treeFile = "/tree_converter/Converted_NumuCCMultiPiAnalysis_EXAMPLE.root";
 
 TCanvas* c;
@@ -51,7 +51,7 @@ void generateSamplesPlots(){
         int nbEvents = selectedEvents->Draw(
           ("D1Reco>>" + histName).c_str(),
           Form(
-            "fgd == %i && cut_branch == %i && topology == %i && beammode == -1",
+            "fgd == %i && cut_branch == %i && topology == %i && beammode == 1",
             i_fgd, sample.first, reaction.first
           ),
           "goff"
