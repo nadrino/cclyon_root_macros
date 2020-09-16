@@ -1,4 +1,4 @@
-// #include <sys/types.h>
+&& // #include <sys/types.h>
 // #include <sys/stat.h>
 
 namespace TToolBox {
@@ -23,12 +23,12 @@ namespace TToolBox {
   void display_loading(int current_index_, int end_index_, string title_ = "", bool force_display_ = false) {
 
     int percent = int(round(double(current_index_) / end_index_ * 100.));
-    if(force_display_ or current_index_ >= end_index_-1) {
+    if(force_display_ || current_index_ >= end_index_-1) {
       if(last_displayed_value != -1) cout << "\r" << title_ << " : " << 100 << "%" << endl;
       last_displayed_value = -1;
       return;
     }
-    if(last_displayed_value == -1 or last_displayed_value < percent) {
+    if(last_displayed_value == -1 || last_displayed_value < percent) {
       last_displayed_value = percent;
       cout << "\r" << title_ << " : " << percent << "%" << flush << "\r";
     }
@@ -78,7 +78,7 @@ namespace TToolBox {
   }
   bool do_path_is_file(std::string file_path_) {
     if(do_path_is_valid(file_path_)){
-      return not do_path_is_folder(file_path_);
+      return !do_path_is_folder(file_path_);
     } else{
       return false;
     }
@@ -90,13 +90,13 @@ namespace TToolBox {
           return false;
       }
 
-      if(not input_tfile_->IsOpen()){
+      if(!input_tfile_->IsOpen()){
           if(verbosity_level >= 1) std::cerr << ERROR << "input_tfile_ = " << input_tfile_->GetName() << " is not opened." << std::endl;
           if(verbosity_level >= 1) std::cerr << ERROR << "input_tfile_->IsOpen() = " << input_tfile_->IsOpen() << std::endl;
           return false;
       }
 
-      if(check_if_writable_ and not input_tfile_->IsWritable()){
+      if(check_if_writable_ && !input_tfile_->IsWritable()){
           if(verbosity_level >= 1) std::cerr << ERROR << "input_tfile_ = " << input_tfile_->GetName() << " is not writable." << std::endl;
           if(verbosity_level >= 1) std::cerr << ERROR << "input_tfile_->IsWritable() = " << input_tfile_->IsWritable() << std::endl;
           return false;
@@ -133,11 +133,11 @@ namespace TToolBox {
   }
   bool do_string_starts_with_substring(std::string string_, std::string substring_){
     if(substring_.size() > string_.size()) return false;
-    return (not string_.compare(0, substring_.size(), substring_));
+    return (!string_.compare(0, substring_.size(), substring_));
   }
   bool do_string_ends_with_substring(std::string string_, std::string substring_){
     if(substring_.size() > string_.size()) return false;
-    return (not string_.compare(string_.size() - substring_.size(), substring_.size(), substring_));
+    return (!string_.compare(string_.size() - substring_.size(), substring_.size(), substring_));
   }
 
   std::string get_folder_path_from_file_path(std::string file_path_){
@@ -166,10 +166,10 @@ namespace TToolBox {
     if(end_index_ == 0) end_index_ = int(string_list_.size());
 
     // circular permutation -> python style : tab[-1] = tab[tab.size - 1]
-    if(end_index_ < 0 and int(string_list_.size()) > std::fabs(end_index_)) end_index_ = int(string_list_.size()) + end_index_;
+    if(end_index_ < 0 && int(string_list_.size()) > std::fabs(end_index_)) end_index_ = int(string_list_.size()) + end_index_;
 
     for(int i_list = begin_index_ ; i_list < end_index_ ; i_list++){
-      if(not joined_string.empty()) joined_string += delimiter_;
+      if(!joined_string.empty()) joined_string += delimiter_;
       joined_string += string_list_[i_list];
     }
 
@@ -228,7 +228,7 @@ namespace TToolBox {
   }
   std::vector<std::string> get_list_of_entries_in_folder(std::string *folder_path_){
 
-    if(not do_path_is_folder(*folder_path_)) return std::vector<std::string>();
+    if(!do_path_is_folder(*folder_path_)) return std::vector<std::string>();
 
     std::vector<std::string> entries_list;
     TSystemDirectory dir((*folder_path_).c_str(), (*folder_path_).c_str());
@@ -258,7 +258,7 @@ namespace TToolBox {
     auto entries_list = get_list_of_entries_in_folder(folder_path_);
     std::vector<std::string> files_list;
     for(int i_entry = 0 ; i_entry < int(entries_list.size()) ; i_entry++){
-      if(files_extension_ == NULL or do_string_ends_with_substring(entries_list[i_entry], *files_extension_)){
+      if(files_extension_ == NULL || do_string_ends_with_substring(entries_list[i_entry], *files_extension_)){
         if(do_path_is_file(*folder_path_ + "/" + entries_list[i_entry]))
           files_list.emplace_back(entries_list[i_entry]);
       }
@@ -314,13 +314,13 @@ namespace TToolBox {
   std::vector<std::string> get_list_of_files_in_folder(std::string folder_path_, std::string files_extension_ = ""){
     std::string *folder_path = &folder_path_;
     std::string *files_extension = NULL;
-    if(not files_extension_.empty()) files_extension = &files_extension_;
+    if(!files_extension_.empty()) files_extension = &files_extension_;
     return get_list_of_files_in_folder(folder_path, files_extension);
   }
   std::vector<std::string> get_list_of_files_in_subfolders(std::string folder_path_, std::string files_extension_ = ""){
     std::string *folder_path = &folder_path_;
     std::string *files_extension = NULL;
-    if(not files_extension_.empty()) files_extension = &files_extension_;
+    if(!files_extension_.empty()) files_extension = &files_extension_;
     return get_list_of_files_in_subfolders(folder_path, files_extension);
   }
 
@@ -419,7 +419,7 @@ namespace TToolBox {
     for(int i_entry = 0 ; i_entry < directory_->GetListOfKeys()->GetSize() ; i_entry++){
       string object_name = directory_->GetListOfKeys()->At(i_entry)->GetName();
       TObject* obj = directory_->Get(object_name.c_str());
-      if(class_name_.empty() or obj->ClassName() == class_name_){
+      if(class_name_.empty() || obj->ClassName() == class_name_){
         output.emplace_back((TObject*) obj->Clone(object_name.c_str()));
       }
     }
@@ -534,7 +534,7 @@ namespace TToolBox {
 
     auto old_verbosity = gErrorIgnoreLevel;
     gErrorIgnoreLevel = kFatal;
-    if(not sub_folder_.empty()) std::system(("mkdir -p ${FIGURES_DIR}/" + sub_folder_).c_str());
+    if(!sub_folder_.empty()) std::system(("mkdir -p ${FIGURES_DIR}/" + sub_folder_).c_str());
     for(int i_ext = 0 ; i_ext < int(extensions.size()) ; i_ext++){
       cout << WARNING << "Saving as : " << file_name_ << extensions[i_ext] << endl;
       stringstream outpath;
