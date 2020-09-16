@@ -211,7 +211,7 @@ namespace TToolBox {
       while (src != next){
         out_string_piece += *src++;
       }
-      output_splited_string.emplace_back(out_string_piece);
+      output_splited_string.push_back(out_string_piece);
       /* Skip the delimiter_ */
       src += delimiter_.size();
     }
@@ -221,7 +221,7 @@ namespace TToolBox {
     while (*src != '\0')
       out_string_piece += *src++;
 
-    output_splited_string.emplace_back(out_string_piece);
+    output_splited_string.push_back(out_string_piece);
 
     return output_splited_string;
 
@@ -236,7 +236,7 @@ namespace TToolBox {
     for(int i_entry = 0 ; i_entry < dir.GetListOfFiles()->GetEntries() ; i_entry++){
       string entry = dir.GetListOfFiles()->At(i_entry)->GetName();
       if(entry != "." and entry != ".."){
-        entries_list.emplace_back(entry);
+        entries_list.push_back(entry);
       }
     }
     return entries_list;
@@ -248,7 +248,7 @@ namespace TToolBox {
     std::vector<std::string> folders_list;
     for(int i_entry = 0 ; i_entry < int(entries_list.size()) ; i_entry++){
       if(do_path_is_folder(*folder_path_ + "/" + entries_list[i_entry]))
-        folders_list.emplace_back(entries_list[i_entry]);
+        folders_list.push_back(entries_list[i_entry]);
     }
     return folders_list;
 
@@ -260,7 +260,7 @@ namespace TToolBox {
     for(int i_entry = 0 ; i_entry < int(entries_list.size()) ; i_entry++){
       if(files_extension_ == NULL || do_string_ends_with_substring(entries_list[i_entry], *files_extension_)){
         if(do_path_is_file(*folder_path_ + "/" + entries_list[i_entry]))
-          files_list.emplace_back(entries_list[i_entry]);
+          files_list.push_back(entries_list[i_entry]);
       }
     }
     return files_list;
@@ -272,7 +272,7 @@ namespace TToolBox {
 
     std::vector<std::string> files_list = get_list_of_files_in_folder(folder_path_, files_extension_);
     for(int i_file = 0 ; i_file < int(files_list.size()) ; i_file++){
-      output_file_paths.emplace_back(files_list[i_file]);
+      output_file_paths.push_back(files_list[i_file]);
     }
 
     std::vector<std::string> subfolders_list = get_list_of_subfolders_in_folder(folder_path_);
@@ -280,7 +280,7 @@ namespace TToolBox {
       string subfolde_full_path = *folder_path_ + "/" + subfolders_list[i_subfolder];
       auto subfiles_path = get_list_of_files_in_subfolders(&subfolde_full_path, files_extension_); // RECURSIVE
       for(int i_subfile = 0 ; i_subfile < int(subfiles_path.size()) ; i_subfile++){
-         output_file_paths.emplace_back(subfolders_list[i_subfolder] + "/" + subfiles_path[i_subfile]);
+         output_file_paths.push_back(subfolders_list[i_subfolder] + "/" + subfiles_path[i_subfile]);
       }
     }
 
@@ -294,7 +294,7 @@ namespace TToolBox {
     std::ifstream infile(file_path_.c_str());
     while (std::getline(infile, line))
     {
-      res.emplace_back(line);
+      res.push_back(line);
     }
     infile.close();
 
@@ -420,7 +420,7 @@ namespace TToolBox {
       string object_name = directory_->GetListOfKeys()->At(i_entry)->GetName();
       TObject* obj = directory_->Get(object_name.c_str());
       if(class_name_.empty() || obj->ClassName() == class_name_){
-        output.emplace_back((TObject*) obj->Clone(object_name.c_str()));
+        output.push_back((TObject*) obj->Clone(object_name.c_str()));
       }
     }
 
@@ -438,7 +438,7 @@ namespace TToolBox {
         TFile *file = (TFile*)gInterpreter->Calc(global->GetName());
         if (file && file->IsOpen()){
           // printf("%s: %s\n", global->GetName(),file->GetName());
-          output.emplace_back(file);
+          output.push_back(file);
         }
       }
     }
@@ -516,7 +516,7 @@ namespace TToolBox {
 
     std::vector<double> output;
     for(int i_dim = 0 ; i_dim < matrix_->GetNcols() ; i_dim++){
-      output.emplace_back((*Eigen_values)[i_dim]);
+      output.push_back((*Eigen_values)[i_dim]);
     }
     std::sort(output.begin(), output.end(), std::greater<double>());
     return output;
@@ -527,10 +527,10 @@ namespace TToolBox {
     cout << WARNING << "Saving canvas in folder $FIGURES_DIR/" << sub_folder_ << endl;
 
     vector<string> extensions;
-    extensions.emplace_back(".pdf");
-    extensions.emplace_back(".png");
-    extensions.emplace_back(".root");
-    extensions.emplace_back(".C");
+    extensions.push_back(".pdf");
+    extensions.push_back(".png");
+    extensions.push_back(".root");
+    extensions.push_back(".C");
 
     auto old_verbosity = gErrorIgnoreLevel;
     gErrorIgnoreLevel = kFatal;
