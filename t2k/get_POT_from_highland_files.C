@@ -9,7 +9,7 @@ void get_POT_from_highland_files(){
   std::stringstream lsCommand;
   lsCommand << "ls -d " << __irods_pulled_path__ << "/run*/  &> " + __irods_pulled_path__ + "/temp.txt";;
   gSystem->Exec(lsCommand.str().c_str());
-  vector<string> runFolders = TToolBox::split_string(TToolBox::read_file(__irods_pulled_path__ + "/temp.txt"));
+  vector<string> runFolders = TToolBox::read_file(__irods_pulled_path__ + "/temp.txt");
 
   std::cout << "Computing FHC Accumulated POT..." << std::endl;
   double fhcPOT = 0;
@@ -19,7 +19,7 @@ void get_POT_from_highland_files(){
     lsCommand << "ls " << __irods_pulled_path__ << "/" << runFolder;
     lsCommand << "/NumuCCMultiPiAnalysis* &> " + __irods_pulled_path__ + "/temp.txt";
     gSystem->Exec(lsCommand.str().c_str());
-    double fhcRunPOT = getCumulatedPOT(TToolBox::split_string(TToolBox::read_file(__irods_pulled_path__ + "/temp.txt")));
+    double fhcRunPOT = getCumulatedPOT(TToolBox::read_file(__irods_pulled_path__ + "/temp.txt"));
     std::cout << "  FHC Accumulated POT " << runFolder << ": " << fhcRunPOT << std::endl;
     fhcPOT += fhcRunPOT;
   }
@@ -34,7 +34,7 @@ void get_POT_from_highland_files(){
     lsCommand << "ls " << __irods_pulled_path__ << "/" << runFolder;
     lsCommand << "/AntiNumuCCMultiPiAnalysis* &> " + __irods_pulled_path__ + "/temp.txt";
     gSystem->Exec(lsCommand.str().c_str());
-    double rhcRunPOT = getCumulatedPOT(TToolBox::split_string(TToolBox::read_file(__irods_pulled_path__ + "/temp.txt")));
+    double rhcRunPOT = getCumulatedPOT(TToolBox::read_file(__irods_pulled_path__ + "/temp.txt"));
     std::cout << "  RHC Accumulated POT " << runFolder << ": " << rhcRunPOT << std::endl;
     rhcPOT += rhcRunPOT;
   }
