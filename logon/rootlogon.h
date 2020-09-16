@@ -22,7 +22,7 @@ namespace TToolBox {
 
   void display_loading(int current_index_, int end_index_, string title_ = "", bool force_display_ = false) {
 
-    int percent = int(round(double(current_index_) / end_index_ * 100.));
+    int percent = int(double(current_index_) / end_index_ * 100.);
     if(force_display_ || current_index_ >= end_index_-1) {
       if(last_displayed_value != -1) cout << "\r" << title_ << " : " << 100 << "%" << endl;
       last_displayed_value = -1;
