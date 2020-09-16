@@ -6,18 +6,33 @@ double getCumulatedPOT(std::vector<std::string> filesList_);
 
 void get_POT_from_highland_files(){
 
+  auto runFolders = GenericToolbox::getListOfSubfoldersInFolder(__irods_pulled_path__, "run*");
+
   std::cout << "Computing FHC Accumulated POT..." << std::endl;
   double fhcPOT = 0;
-  std::string ls_command = "ls " + __irods_pulled_path__ + "/NumuCCMultiPiAnalysis* &> " + __irods_pulled_path__ + "/temp.txt";
-  gSystem->Exec(ls_command.c_str());
-  double fhcPOT = getCumulatedPOT(GenericToolBox::dumpFileAsVectorString(__irods_pulled_path__ + "/temp.txt"));
+  for(const auto& runFolder : runFolders){
+    std::stringstream lsCommand;
+    lsCommand << "ls " << __irods_pulled_path__ << "/" << runFolder;
+    lsCommand << "/NumuCCMultiPiAnalysis* &> " + __irods_pulled_path__ + "/temp.txt";
+    gSystem->Exec(lsCommand.c_str());
+    double fhcRunPOT = getCumulatedPOT(GenericToolBox::dumpFileAsVectorString(__irods_pulled_path__ + "/temp.txt"));
+    std::cout << "  FHC Accumulated POT " << runFolder << ": " << fhcRunPOT << std::endl;
+    fhcPOT += fhcRunPOT;
+  }
   std::cout << "FHC Accumulated POT: " << fhcPOT << std::endl;
 
 
-  std::cout << "Computing FHC Accumulated POT..." << std::endl;
-  std::string ls_command = "ls " + __irods_pulled_path__ + "/NumuCCMultiPiAnalysis* &> " + __irods_pulled_path__ + "/temp.txt";
-  gSystem->Exec(ls_command.c_str());
-  double rhcPOT = getCumulatedPOT(GenericToolBox::dumpFileAsVectorString(__irods_pulled_path__ + "/temp.txt"));
+  std::cout << "Computing RHC Accumulated POT..." << std::endl;
+  double rhcPOT = 0;
+  for(const auto& runFolder : runFolders){
+    std::stringstream lsCommand;
+    lsCommand << "ls " << __irods_pulled_path__ << "/" << runFolder;
+    lsCommand << "/AntiNumuCCMultiPiAnalysis* &> " + __irods_pulled_path__ + "/temp.txt";
+    gSystem->Exec(lsCommand.c_str());
+    double rhcRunPOT = getCumulatedPOT(GenericToolBox::dumpFileAsVectorString(__irods_pulled_path__ + "/temp.txt"));
+    std::cout << "  RHC Accumulated POT " << runFolder << ": " << fhcRunPOT << std::endl;
+    rhcPOT += rhcRunPOT;
+  }
   std::cout << "RHC Accumulated POT: " << rhcPOT << std::endl;
 
   exit(0);
