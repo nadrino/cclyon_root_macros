@@ -108,7 +108,7 @@ namespace TToolBox {
   bool do_tfile_is_valid(std::string input_file_path_){
     bool file_is_valid = false;
     if(do_path_is_file(input_file_path_)){
-        auto old_verbosity = gErrorIgnoreLevel;
+        Int_t old_verbosity = gErrorIgnoreLevel;
         gErrorIgnoreLevel = kFatal;
         auto* input_tfile = TFile::Open(input_file_path_.c_str(), "READ");
         if(do_tfile_is_valid(input_tfile)){
@@ -121,7 +121,7 @@ namespace TToolBox {
     return file_is_valid;
 }
   bool do_string_in_vector(std::string str_, std::vector<std::string>& vector_){
-    for(auto const &element : vector_){
+    for(const std::string &element : vector_){
       if(element == str_) return true;
     }
     return false;
@@ -244,7 +244,7 @@ namespace TToolBox {
   }
   std::vector<std::string> get_list_of_subfolders_in_folder(std::string *folder_path_) {
 
-    auto entries_list = get_list_of_entries_in_folder(folder_path_);
+    std::vector<std::string> entries_list = get_list_of_entries_in_folder(folder_path_);
     std::vector<std::string> folders_list;
     for(int i_entry = 0 ; i_entry < int(entries_list.size()) ; i_entry++){
       if(do_path_is_folder(*folder_path_ + "/" + entries_list[i_entry]))
@@ -255,7 +255,7 @@ namespace TToolBox {
   }
   std::vector<std::string> get_list_of_files_in_folder(std::string *folder_path_, std::string *files_extension_ = NULL) {
 
-    auto entries_list = get_list_of_entries_in_folder(folder_path_);
+    std::vector<std::string> entries_list = get_list_of_entries_in_folder(folder_path_);
     std::vector<std::string> files_list;
     for(int i_entry = 0 ; i_entry < int(entries_list.size()) ; i_entry++){
       if(files_extension_ == NULL || do_string_ends_with_substring(entries_list[i_entry], *files_extension_)){
@@ -270,12 +270,12 @@ namespace TToolBox {
 
     std::vector<std::string> output_file_paths;
 
-    auto files_list = get_list_of_files_in_folder(folder_path_, files_extension_);
+    std::vector<std::string> files_list = get_list_of_files_in_folder(folder_path_, files_extension_);
     for(int i_file = 0 ; i_file < int(files_list.size()) ; i_file++){
       output_file_paths.emplace_back(files_list[i_file]);
     }
 
-    auto subfolders_list = get_list_of_subfolders_in_folder(folder_path_);
+    std::vector<std::string> subfolders_list = get_list_of_subfolders_in_folder(folder_path_);
     for(int i_subfolder = 0 ; i_subfolder < int(subfolders_list.size()) ; i_subfolder++){
       string subfolde_full_path = *folder_path_ + "/" + subfolders_list[i_subfolder];
       auto subfiles_path = get_list_of_files_in_subfolders(&subfolde_full_path, files_extension_); // RECURSIVE
