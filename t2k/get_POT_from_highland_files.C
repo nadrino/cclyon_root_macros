@@ -6,12 +6,16 @@ double getCumulatedPOT(std::vector<std::string> filesList_);
 
 void get_POT_from_highland_files(){
 
-  std::vector<std::string> runFolders = TToolBox::get_list_of_subfolders_in_folder(__irods_pulled_path__);
+  std::stringstream lsCommand;
+  lsCommand << "ls " << __irods_pulled_path__ << "/run*/";
+  gSystem->Exec(lsCommand.str().c_str());
+  vector<string> runFolders = TToolBox::split_string(TToolBox::read_file(__irods_pulled_path__ + "/temp.txt"));
 
   std::cout << "Computing FHC Accumulated POT..." << std::endl;
   double fhcPOT = 0;
   for(const auto& runFolder : runFolders){
     std::stringstream lsCommand;
+    lsCommand.str("");
     lsCommand << "ls " << __irods_pulled_path__ << "/" << runFolder;
     lsCommand << "/NumuCCMultiPiAnalysis* &> " + __irods_pulled_path__ + "/temp.txt";
     gSystem->Exec(lsCommand.str().c_str());
@@ -26,6 +30,7 @@ void get_POT_from_highland_files(){
   double rhcPOT = 0;
   for(const auto& runFolder : runFolders){
     std::stringstream lsCommand;
+    lsCommand.str("");
     lsCommand << "ls " << __irods_pulled_path__ << "/" << runFolder;
     lsCommand << "/AntiNumuCCMultiPiAnalysis* &> " + __irods_pulled_path__ + "/temp.txt";
     gSystem->Exec(lsCommand.str().c_str());
