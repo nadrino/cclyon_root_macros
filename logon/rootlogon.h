@@ -8,7 +8,7 @@ namespace TToolBox {
   static string INFO  = "\033[1;32m<INFO> \033[00m";
   static string WARNING   = "\033[1;33m<WARNING> \033[00m";
   static string ALERT = "\033[1;35m<ALERT> \033[00m";
-  static TH1D* dummy_TH1D = nullptr;
+  static TH1D* dummy_TH1D = NULL;
 
   // Forward declarations
   std::vector<std::string> split_string(std::string input_string_, std::string delimiter_);
@@ -46,7 +46,7 @@ namespace TToolBox {
     histogram_->GetZaxis()->SetTitleOffset(0.8);
     TPaletteAxis* pal = (TPaletteAxis*) histogram_->GetListOfFunctions()->FindObject("palette");
     // TPaletteAxis* pal = (TPaletteAxis*) histogram_->GetListOfFunctions()->At(0);
-    if(pal != nullptr){
+    if(pal != NULL){
       pal->SetX1NDC(1 - 0.15 + 0.01);
       pal->SetX2NDC(1 - 0.15 + 0.05);
       pal->GetAxis()->SetMaxDigits(2);
@@ -85,8 +85,8 @@ namespace TToolBox {
   }
   bool do_tfile_is_valid(TFile *input_tfile_, bool check_if_writable_=false){
 
-      if(input_tfile_ == nullptr){
-          if(verbosity_level >= 1) std::cerr << ERROR << "input_tfile_ is a nullptr" << std::endl;
+      if(input_tfile_ == NULL){
+          if(verbosity_level >= 1) std::cerr << ERROR << "input_tfile_ is a NULL" << std::endl;
           return false;
       }
 
@@ -253,12 +253,12 @@ namespace TToolBox {
     return folders_list;
 
   }
-  std::vector<std::string> get_list_of_files_in_folder(std::string *folder_path_, std::string *files_extension_ = nullptr) {
+  std::vector<std::string> get_list_of_files_in_folder(std::string *folder_path_, std::string *files_extension_ = NULL) {
 
     auto entries_list = get_list_of_entries_in_folder(folder_path_);
     std::vector<std::string> files_list;
     for(int i_entry = 0 ; i_entry < int(entries_list.size()) ; i_entry++){
-      if(files_extension_ == nullptr or do_string_ends_with_substring(entries_list[i_entry], *files_extension_)){
+      if(files_extension_ == NULL or do_string_ends_with_substring(entries_list[i_entry], *files_extension_)){
         if(do_path_is_file(*folder_path_ + "/" + entries_list[i_entry]))
           files_list.emplace_back(entries_list[i_entry]);
       }
@@ -266,7 +266,7 @@ namespace TToolBox {
     return files_list;
 
   }
-  std::vector<std::string> get_list_of_files_in_subfolders(std::string *folder_path_, std::string *files_extension_ = nullptr){
+  std::vector<std::string> get_list_of_files_in_subfolders(std::string *folder_path_, std::string *files_extension_ = NULL){
 
     std::vector<std::string> output_file_paths;
 
@@ -313,13 +313,13 @@ namespace TToolBox {
   }
   std::vector<std::string> get_list_of_files_in_folder(std::string folder_path_, std::string files_extension_ = ""){
     std::string *folder_path = &folder_path_;
-    std::string *files_extension = nullptr;
+    std::string *files_extension = NULL;
     if(not files_extension_.empty()) files_extension = &files_extension_;
     return get_list_of_files_in_folder(folder_path, files_extension);
   }
   std::vector<std::string> get_list_of_files_in_subfolders(std::string folder_path_, std::string files_extension_ = ""){
     std::string *folder_path = &folder_path_;
-    std::string *files_extension = nullptr;
+    std::string *files_extension = NULL;
     if(not files_extension_.empty()) files_extension = &files_extension_;
     return get_list_of_files_in_subfolders(folder_path, files_extension);
   }
@@ -327,13 +327,13 @@ namespace TToolBox {
   // Matrices/Vector Tools
   TH1D* get_TH1D_log_binning(string name_, string title_, int n_bins_, double X_min_, double X_max_){
 
-    TH1D* output = nullptr;
+    TH1D* output = NULL;
     vector<double> xbins = get_log_binning(n_bins_, X_min_, X_max_);
     output = new TH1D(name_.c_str(), title_.c_str(), xbins.size()-1, &xbins[0]);
     return output;
 
   }
-  TH1D* get_TH1D_from_TVectorD(string graph_title_, TVectorD *Y_values_, string Y_title_ = "", string X_title_ = "Entry #", TVectorD *Y_errors_ = nullptr) {
+  TH1D* get_TH1D_from_TVectorD(string graph_title_, TVectorD *Y_values_, string Y_title_ = "", string X_title_ = "Entry #", TVectorD *Y_errors_ = NULL) {
 
     auto* th1_histogram = new TH1D(graph_title_.c_str(),
                                    graph_title_.c_str(),
@@ -344,7 +344,7 @@ namespace TToolBox {
 
     for(int i_row = 0 ; i_row < Y_values_->GetNrows() ; i_row++){
       th1_histogram->SetBinContent(i_row + 1, (*Y_values_)[i_row]);
-      if(Y_errors_ != nullptr) th1_histogram->SetBinError(i_row + 1, (*Y_errors_)[i_row]);
+      if(Y_errors_ != NULL) th1_histogram->SetBinError(i_row + 1, (*Y_errors_)[i_row]);
     }
 
     th1_histogram->SetLineWidth(2);
@@ -356,7 +356,7 @@ namespace TToolBox {
   }
   TH2D* get_TH2D_log_binning(string name_, string title_, int nb_X_bins_, double X_min_, double X_max_, int nb_Y_bins_, double Y_min_, double Y_max_, string log_axis_="XY"){
 
-    TH2D* output = nullptr;
+    TH2D* output = NULL;
     vector<double> xbins;
     vector<double> ybins;
     if(do_string_contains_substring(log_axis_, "X")){
