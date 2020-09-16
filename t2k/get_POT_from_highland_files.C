@@ -6,7 +6,7 @@ double getCumulatedPOT(std::vector<std::string> filesList_);
 
 void get_POT_from_highland_files(){
 
-  auto runFolders = TToolBox::get_list_of_subfolders_in_folder(__irods_pulled_path__);
+  std::vector<std::string> runFolders = TToolBox::get_list_of_subfolders_in_folder(__irods_pulled_path__);
 
   std::cout << "Computing FHC Accumulated POT..." << std::endl;
   double fhcPOT = 0;
