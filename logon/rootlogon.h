@@ -160,7 +160,7 @@ namespace TToolBox {
     auto file_name_elements = split_string(get_filename_from_file_path(file_path_), ".");
     return join_vector_string(file_name_elements, ".", 0, file_name_elements.size()-1);
   }
-  std::string join_vector_string(std::vector<std::string> string_list_, std::string delimiter_, int begin_index_ = 0, int end_index_ = 0) {
+  std::string join_vector_string(std::vector<std::string> string_list_, std::string delimiter_, int begin_index_, int end_index_) {
 
     std::string joined_string;
     if(end_index_ == 0) end_index_ = int(string_list_.size());
