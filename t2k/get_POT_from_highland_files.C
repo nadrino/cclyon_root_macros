@@ -7,7 +7,7 @@ double getCumulatedPOT(std::vector<std::string> filesList_);
 void get_POT_from_highland_files(){
 
   std::stringstream lsCommand;
-  lsCommand << "ls " << __irods_pulled_path__;
+  lsCommand << "ls -d " << __irods_pulled_path__ << "/";
   gSystem->Exec(lsCommand.str().c_str());
   vector<string> runFolders = TToolBox::split_string(TToolBox::read_file(__irods_pulled_path__ + "/temp.txt"));
 
