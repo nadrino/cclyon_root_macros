@@ -66,21 +66,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-// namespace GenericToolbox{
-//
-//   void printVector(const std::vector<std::string>& vector_){
-//     std::cout << "{ ";
-//     bool isFirst = true;
-//     for(const auto& element: vector_){
-//       if(not isFirst) std::cout << ", ";
-//       else isFirst = false;
-//       std::cout << element;
-//     }
-//     std::cout << " }" << std::endl;
-//   }
-//
-// }
-
 namespace TToolBox {
 
   static string NORMAL = "\033[00m";
@@ -622,6 +607,41 @@ namespace TToolBox {
       canvas_->SaveAs(outpath.str().c_str());
     }
     gErrorIgnoreLevel = old_verbosity;
+
+  }
+
+}
+
+namespace T2KToolBox{
+
+  int getBeamMode(TFile* highlandTFile_){
+
+    TTree* flattree = (TTree*) highlandTFile_->Get("flattree");
+
+    if(flattree == 0){
+      cerr << "flattree could not be found in " << highlandTFile_->GetName() << endl;
+      exit(1);
+    }
+
+    flattree->GetEntry(0);
+    double run = flattree->GetLeaf("sRun")->GetValue(0);
+
+    int beam_mode = 0;
+    if(int(run/1E7) == 9){
+      beam_mode = 1;
+      // cout << "Numu beam mode detected." << endl;
+    }
+    else if(int(run/1E7) == 8){
+      beam_mode = -1;
+      // cout << "AntiNumu beam mode detected." << endl;
+    }
+    else {
+      beam_mode = 0;
+      // cout << "Unknown beam mode : run=" << run << ". Conventions may have changed." << endl;
+      // cout << "Please check : https://www.t2k.org/nd280/datacomp/production006/mcp/mcProdSummary" << endl;
+    }
+
+    return beam_mode;
 
   }
 
