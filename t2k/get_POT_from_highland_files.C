@@ -13,7 +13,7 @@ void get_POT_from_highland_files(){
 
   std::cout << "Computing FHC Accumulated POT..." << std::endl;
   double fhcPOT = 0;
-  for(const auto& runFolder : runFolders){
+  for(const string& runFolder : runFolders){
     std::stringstream lsCommand;
     lsCommand.str("");
     lsCommand << "ls " << __irods_pulled_path__ << "/" << runFolder;
@@ -28,7 +28,7 @@ void get_POT_from_highland_files(){
 
   std::cout << "Computing RHC Accumulated POT..." << std::endl;
   double rhcPOT = 0;
-  for(const auto& runFolder : runFolders){
+  for(const string& runFolder : runFolders){
     std::stringstream lsCommand;
     lsCommand.str("");
     lsCommand << "ls " << __irods_pulled_path__ << "/" << runFolder;
