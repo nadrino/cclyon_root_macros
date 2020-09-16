@@ -18,7 +18,7 @@ void get_POT_from_highland_files(){
     runFolder = runFolders[iRun];
     std::stringstream lsCommand;
     lsCommand.str("");
-    lsCommand << "ls " << __irods_pulled_path__ << "/" << runFolder;
+    lsCommand << "ls " << runFolder;
     lsCommand << "/NumuCCMultiPiAnalysis* &> " + __irods_pulled_path__ + "/temp.txt";
     gSystem->Exec(lsCommand.str().c_str());
     double fhcRunPOT = getCumulatedPOT(TToolBox::read_file(__irods_pulled_path__ + "/temp.txt"));
@@ -35,7 +35,7 @@ void get_POT_from_highland_files(){
     runFolder = runFolders[iRun];
     std::stringstream lsCommand;
     lsCommand.str("");
-    lsCommand << "ls " << __irods_pulled_path__ << "/" << runFolder;
+    lsCommand << "ls " << runFolder;
     lsCommand << "/AntiNumuCCMultiPiAnalysis* &> " + __irods_pulled_path__ + "/temp.txt";
     gSystem->Exec(lsCommand.str().c_str());
     double rhcRunPOT = getCumulatedPOT(TToolBox::read_file(__irods_pulled_path__ + "/temp.txt"));
