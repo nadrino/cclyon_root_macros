@@ -1,12 +1,13 @@
 
 
-std::string __irods_pulled_path__ = "/sps/t2k/ablanche/work/results/irods/run*";
+std::string __irods_pulled_path__ = "/sps/t2k/ablanche/work/results/irods";
 
 double getCumulatedPOT(std::vector<std::string> filesList_);
 
 void get_POT_from_highland_files(){
 
   std::cout << "Computing FHC Accumulated POT..." << std::endl;
+  double fhcPOT = 0;
   std::string ls_command = "ls " + __irods_pulled_path__ + "/NumuCCMultiPiAnalysis* &> " + __irods_pulled_path__ + "/temp.txt";
   gSystem->Exec(ls_command.c_str());
   double fhcPOT = getCumulatedPOT(GenericToolBox::dumpFileAsVectorString(__irods_pulled_path__ + "/temp.txt"));
@@ -29,9 +30,9 @@ double getCumulatedPOT(std::vector<std::string> filesList_){
 
   double cumulated_pot = 0;
 
-  for(int i_file = 0 ; i_file < int(file_path_list.size()); i_file++){
-    ds = new DataSample( (file_path_list[i_file]).c_str(), kGoodBeamGoodND280);
-    GenericToolbox::displayProgressBar(i_file, int(file_path_list.size()), "Accumulating POT...");
+  for(int i_file = 0 ; i_file < int(filesList_.size()); i_file++){
+    ds = new DataSample( (filesList_[i_file]).c_str(), kGoodBeamGoodND280);
+    GenericToolbox::displayProgressBar(i_file, int(filesList_.size()), "Accumulating POT...");
     cumulated_pot += ds->GetPOT();
   }
 
