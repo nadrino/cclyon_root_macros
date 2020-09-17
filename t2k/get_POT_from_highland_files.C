@@ -12,7 +12,7 @@ void get_POT_from_highland_files(){
   }
 
   std::stringstream lsCommand;
-  lsCommand << "ls -d " << __irods_pulled_path__ << "/run*  &> " + __irods_pulled_path__ + "/temp.txt";;
+  lsCommand << "ls -d " << __irods_pulled_path__ << "/run*/  &> " + __irods_pulled_path__ + "/temp.txt";;
   gSystem->Exec(lsCommand.str().c_str());
   vector<string> runFolders = TToolBox::read_file(__irods_pulled_path__ + "/temp.txt");
 
@@ -23,7 +23,8 @@ void get_POT_from_highland_files(){
   string runFolder;
   for( int iRun = 0 ; iRun < runFolders.size() ; iRun++ ){
     runFolder = runFolders[iRun];
-    std::string runName = TToolBox::split_string(runFolder, "/").back();
+    vector<string> pathSlices = TToolBox::split_string(runFolder, "/");
+    std::string runName = pathSlices[pathSlices.size()-2];
 
     std::stringstream lsCommand;
     lsCommand.str("");
@@ -45,7 +46,8 @@ void get_POT_from_highland_files(){
   string runFolder;
   for( int iRun = 0 ; iRun < runFolders.size() ; iRun++ ){
     runFolder = runFolders[iRun];
-    runName = TToolBox::split_string(runFolder, "/").back();
+    vector<string> pathSlices = TToolBox::split_string(runFolder, "/");
+    std::string runName = pathSlices[pathSlices.size()-2];
     std::stringstream lsCommand;
     lsCommand.str("");
     lsCommand << "ls " << runFolder;
@@ -68,8 +70,10 @@ void get_POT_from_highland_files(){
   cout << "Run & FHC POT & RHC POT \\\\" << endl;
 
   for( int iRun = 0 ; iRun < runFolders.size() ; iRun++ ){
-
-    runName = TToolBox::split_string(runFolder, "/").back();
+    
+    runFolder = runFolders[iRun];
+    vector<string> pathSlices = TToolBox::split_string(runFolder, "/");
+    std::string runName = pathSlices[pathSlices.size()-2];
 
     cout << runName << " & ";
     cout << mapRunFHCPOT[iRun] << " & ";
