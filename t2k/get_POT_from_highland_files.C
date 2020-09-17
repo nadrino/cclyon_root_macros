@@ -70,7 +70,7 @@ void get_POT_from_highland_files(){
   cout << "Run & FHC POT & RHC POT \\\\" << endl;
 
   for( int iRun = 0 ; iRun < runFolders.size() ; iRun++ ){
-    
+
     runFolder = runFolders[iRun];
     vector<string> pathSlices = TToolBox::split_string(runFolder, "/");
     std::string runName = pathSlices[pathSlices.size()-2];
@@ -103,6 +103,7 @@ double getCumulatedPOT(std::vector<std::string> filesList_){
     ds = new DataSample( (filesList_[i_file]).c_str(), kGoodBeamGoodND280);
     TToolBox::display_loading(i_file, int(filesList_.size()), "Accumulating POT...");
     cumulated_pot += ds->GetPOT();
+    delete ds;
   }
 
   return cumulated_pot;
