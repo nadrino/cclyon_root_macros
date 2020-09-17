@@ -16,7 +16,7 @@ void get_POT_from_highland_files(){
   gSystem->Exec(lsCommand.str().c_str());
   vector<string> runFolders = TToolBox::read_file(__irods_pulled_path__ + "/temp.txt");
 
-  std::map<std::string, double> mapRunPOT;
+  vector<double> mapRunFHCPOT;
 
   std::cout << "Computing FHC Accumulated POT..." << std::endl;
   double fhcPOT = 0;
@@ -34,13 +34,14 @@ void get_POT_from_highland_files(){
     double fhcRunPOT = getCumulatedPOT(TToolBox::read_file(__irods_pulled_path__ + "/temp.txt"));
     std::cout << "  FHC Accumulated POT " << runName << ": " << fhcRunPOT << std::endl;
     fhcPOT += fhcRunPOT;
-    mapRunPOT["FHC/"+runName] = fhcRunPOT;
+    mapRunFHCPOT.push_back(fhcRunPOT);
   }
   std::cout << "FHC Accumulated POT: " << fhcPOT << std::endl;
 
 
   std::cout << "Computing RHC Accumulated POT..." << std::endl;
   double rhcPOT = 0;
+  vector<double> mapRunRHCPOT;
   string runFolder;
   for( int iRun = 0 ; iRun < runFolders.size() ; iRun++ ){
     runFolder = runFolders[iRun];
@@ -53,7 +54,7 @@ void get_POT_from_highland_files(){
     double rhcRunPOT = getCumulatedPOT(TToolBox::read_file(__irods_pulled_path__ + "/temp.txt"));
     std::cout << "  RHC Accumulated POT " << runName << ": " << rhcRunPOT << std::endl;
     rhcPOT += rhcRunPOT;
-    mapRunPOT["RHC/"+runName] = rhcRunPOT;
+    mapRunRHCPOT.push_back(rhcRunPOT);
   }
   std::cout << "RHC Accumulated POT: " << rhcPOT << std::endl;
 
@@ -66,22 +67,15 @@ void get_POT_from_highland_files(){
   cout << "\\hline" << endl;
   cout << "Run & FHC POT & RHC POT \\\\" << endl;
 
-  map<string, int>::iterator it;
-  for ( it = mapRunPOT.begin(); it != mapRunPOT.end(); it++ ){
+  for( int iRun = 0 ; iRun < runFolders.size() ; iRun++ ){
 
-    string beamMode = TToolBox::splitString(it->first, "/")[0];
-    string runName = TToolBox::splitString(it->first, "/")[1];
+    runName = TToolBox::split_string(runFolder, "/").back();
 
     cout << runName << " & ";
-    if(beamMode == "FHC"){
-      cout << it->second << " & ";
-      cout << " \\\\";
-    }
-    else if(beamMode == "RHC"){
-      cout << " & ";
-      cout << it->second << " \\\\";
-    }
+    cout << mapRunFHCPOT[iRun] << " & ";
+    cout << mapRunRHCPOT[iRun] << " \\\\";
     cout << endl;
+
     cout << "\\hline" << endl;
 
   }
