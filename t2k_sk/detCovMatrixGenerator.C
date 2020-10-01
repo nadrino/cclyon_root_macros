@@ -60,7 +60,7 @@ void hookToTree()
 {
     outFile = TFile::Open("outFile.root", "RECREATE");
     outTree = new TTree("outTree", "outTree");
-    for(const auto& varMapPair : varMap){
+    for(auto& varMapPair : varMap){
       outTree->Branch(varMapPair.first.c_str(), &varMapPair.second);
     }
     varMapIsHooked = true;
