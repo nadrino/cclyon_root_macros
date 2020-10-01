@@ -27,7 +27,7 @@ void detCovMatrixGenerator()
   throwingRanges["log_a"].second = 1;
 
   // L -> a*L + b
-  stringstream rcFormulaeSS;
+  string rcFormulae;
   double gausNorm = gausFunction->Integral(-5,5);
   double sigma = 0.06;
   int nbThrows = 1000;
@@ -49,7 +49,7 @@ void detCovMatrixGenerator()
     rcFormulae += std::to_string(varMap["b"]);
     rcFormulae += ">0";
     cout << GenericToolbox::getElapsedTimeSinceLastCallStr(1) << std::endl;
-    varMap["counts"] = atm_minituple->Draw("", rcFormulaeSS.c_str(), "goff");
+    varMap["counts"] = atm_minituple->Draw("", rcFormulae.c_str(), "goff");
     cout << GenericToolbox::getElapsedTimeSinceLastCallStr(1) << std::endl;
     varMap["delta_counts"] = varMap["counts"] - nominalCounts;
     cout << GenericToolbox::getElapsedTimeSinceLastCallStr(1) << std::endl;
