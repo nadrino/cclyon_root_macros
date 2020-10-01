@@ -30,7 +30,7 @@ void detCovMatrixGenerator()
   stringstream rcFormulaeSS;
   double gausNorm = gausFunction->Integral(-5,5);
   double sigma = 0.06;
-  int nbThrows = 1E5;
+  int nbThrows = 1000;
   for(int iThrow = 0 ; iThrow < nbThrows ; iThrow++){
     GenericToolbox::displayProgressBar(iThrow, nbThrows);
     varMap["b"] = (throwingRanges["b"].second - throwingRanges["b"].first)*gRandom->Rndm() + throwingRanges["b"].first;
