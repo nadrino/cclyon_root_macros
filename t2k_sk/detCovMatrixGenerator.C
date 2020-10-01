@@ -17,6 +17,8 @@ void detCovMatrixGenerator()
 
   TFile* atmFile = TFile::Open("/sps/t2k/ablanche/resources/T2KSKjoint/sk4_fcmc_18a_fQv6r0_minituple_100yr_05.root");
   TTree* atm_minituple = (TTree*) atmFile->Get("atm_minituple");
+  atm_minituple->SetBranchStatus("*", false);
+  atm_minituple->SetBranchStatus("MReIncLVal", true);
 
   double nominalCounts = atm_minituple->Draw("", "MReIncLVal>0", "goff");
 
