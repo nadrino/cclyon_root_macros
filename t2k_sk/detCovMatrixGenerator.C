@@ -67,7 +67,7 @@ void detCovMatrixGenerator()
     if(not varMapIsHooked){
       hookToTree();
     }
-    outTree->Fill();
+    // outTree->Fill();
   }
   outFile->WriteTObject(outTree, "outTree");
   outFile->Close();
