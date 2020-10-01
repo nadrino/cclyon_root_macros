@@ -24,7 +24,7 @@ void detCovMatrixGenerator()
   double MReIncLVal;
   atm_minituple->SetBranchAdress("MReIncLVal", &MReIncLVal);
   for(int iEntry = 0 ; iEntry < atm_minituple->GetEntries() ; iEntry++){
-      GenericToolbox::displayProgressBar(iThrow, nbThrows, "Reading...");
+      GenericToolbox::displayProgressBar(iEntry, atm_minituple->GetEntries(), "Reading...");
     atm_minituple->GetEntry(iEntry);
     observableValueList.emplace_back(MReIncLVal);
   }
