@@ -4,8 +4,8 @@ TF1* gausFunction = nullptr;
 TFile* outFile = nullptr;
 TTree* outTree = nullptr;
 bool varMapIsHooked = false;
-std::map<std::string, double> varMap;
-std::vector<double> observableValueList;
+std::map<std::string, Float_t> varMap;
+std::vector<Float_t> observableValueList;
 
 double pickToyParameter(double oneSigma_);
 void init();
@@ -21,7 +21,7 @@ void detCovMatrixGenerator()
   atm_minituple->SetBranchStatus("*", false);
   atm_minituple->SetBranchStatus("MReIncLVal", true);
 
-  double MReIncLVal;
+  Float_t MReIncLVal;
   atm_minituple->SetBranchAddress("MReIncLVal", &MReIncLVal);
   for(int iEntry = 0 ; iEntry < atm_minituple->GetEntries() ; iEntry++){
       GenericToolbox::displayProgressBar(iEntry, atm_minituple->GetEntries(), "Reading...");
