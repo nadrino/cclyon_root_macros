@@ -49,18 +49,18 @@ void detCovMatrixGenerator()
     varMap["log_a"] = (throwingRanges["log_a"].second - throwingRanges["log_a"].first)*gRandom->Rndm() + throwingRanges["log_a"].first;
     varMap["a"] = TMath::Power(10, varMap["log_a"]);
 
-    int count = 0;
-    for(const auto& observable : observableValueList){
-      if(varMap["a"]*observable + varMap["b"] > 0){
-        count++;
-      }
-    }
+    // int count = 0;
+    // for(const auto& observable : observableValueList){
+    //   if(varMap["a"]*observable + varMap["b"] > 0){
+    //     count++;
+    //   }
+    // }
 
-    // rcFormulae = std::to_string(varMap["a"]);
-    // rcFormulae += "*MReIncLVal+";
-    // rcFormulae += std::to_string(varMap["b"]);
-    // rcFormulae += ">0";
-    // varMap["counts"] = atm_minituple->Draw("", rcFormulae.c_str(), "goff");
+    rcFormulae = std::to_string(varMap["a"]);
+    rcFormulae += "*MReIncLVal+";
+    rcFormulae += std::to_string(varMap["b"]);
+    rcFormulae += ">0";
+    varMap["counts"] = atm_minituple->Draw("", rcFormulae.c_str(), "goff");
     // varMap["delta_counts"] = varMap["counts"] - nominalCounts;
     // varMap["delta_counts_over_counts"] = varMap["delta_counts"]/nominalCounts;
     // varMap["weight"] = gausFunction->Eval(varMap["delta_counts_over_counts"]/sigma)/gausNorm;
