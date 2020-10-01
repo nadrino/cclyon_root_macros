@@ -32,7 +32,7 @@ void detCovMatrixGenerator()
   double sigma = 0.06;
   int nbThrows = 1000;
   for(int iThrow = 0 ; iThrow < nbThrows ; iThrow++){
-  GenericToolbox::getElapsedTimeSinceLastCallStr(0);
+  GenericToolbox::getElapsedTimeSinceLastCallStr(10);
   GenericToolbox::getElapsedTimeSinceLastCallStr(1);
     GenericToolbox::displayProgressBar(iThrow, nbThrows);
     varMap["b"] = (throwingRanges["b"].second - throwingRanges["b"].first)*gRandom->Rndm() + throwingRanges["b"].first;
@@ -62,7 +62,7 @@ cout << GenericToolbox::getElapsedTimeSinceLastCallStr(1) << std::endl;
     cout << GenericToolbox::getElapsedTimeSinceLastCallStr(1) << std::endl;
     outTree->Fill();
     cout << GenericToolbox::getElapsedTimeSinceLastCallStr(1) << std::endl;
-    cout << "it=" << GenericToolbox::getElapsedTimeSinceLastCallStr(0) << std::endl;
+    cout << "it=" << GenericToolbox::getElapsedTimeSinceLastCallStr(10) << std::endl;
   }
   outFile->WriteTObject(outTree, "outTree");
   outFile->Close();
