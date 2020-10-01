@@ -5,6 +5,7 @@ TFile* outFile = nullptr;
 TTree* outTree = nullptr;
 bool varMapIsHooked = false;
 std::map<std::string, double> varMap;
+std::vector<double> observableValueList;
 
 double pickToyParameter(double oneSigma_);
 void init();
@@ -19,6 +20,13 @@ void detCovMatrixGenerator()
   TTree* atm_minituple = (TTree*) atmFile->Get("atm_minituple");
   atm_minituple->SetBranchStatus("*", false);
   atm_minituple->SetBranchStatus("MReIncLVal", true);
+
+  double MReIncLVal;
+  atm_minituple->SetBranchAdress("MReIncLVal", &MReIncLVal);
+  for(int iEntry = 0 ; iEntry < atm_minituple->GetEntries() ; iEntry++){
+    atm_minituple->GetEntry(iEntry);
+    observableValueList.emplace_back(MReIncLVal);
+  }
 
   double nominalCounts = atm_minituple->Draw("", "MReIncLVal>0", "goff");
 
@@ -40,11 +48,18 @@ void detCovMatrixGenerator()
     varMap["log_a"] = (throwingRanges["log_a"].second - throwingRanges["log_a"].first)*gRandom->Rndm() + throwingRanges["log_a"].first;
     varMap["a"] = TMath::Power(10, varMap["log_a"]);
 
-    rcFormulae = std::to_string(varMap["a"]);
-    rcFormulae += "*MReIncLVal+";
-    rcFormulae += std::to_string(varMap["b"]);
-    rcFormulae += ">0";
-    varMap["counts"] = atm_minituple->Draw("", rcFormulae.c_str(), "goff");
+    varMap["counts"] = 0;
+    for(const auto& observable : observableValueList){
+      if(varMap["a"]*observable + varMap["b"] > 0){
+        varMap["counts"] += 1;
+      }
+    }
+
+    // rcFormulae = std::to_string(varMap["a"]);
+    // rcFormulae += "*MReIncLVal+";
+    // rcFormulae += std::to_string(varMap["b"]);
+    // rcFormulae += ">0";
+    // varMap["counts"] = atm_minituple->Draw("", rcFormulae.c_str(), "goff");
     varMap["delta_counts"] = varMap["counts"] - nominalCounts;
     varMap["delta_counts_over_counts"] = varMap["delta_counts"]/nominalCounts;
     varMap["weight"] = gausFunction->Eval(varMap["delta_counts_over_counts"]/sigma)/gausNorm;
