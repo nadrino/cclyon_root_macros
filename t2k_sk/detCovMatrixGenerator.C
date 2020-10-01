@@ -49,10 +49,10 @@ void detCovMatrixGenerator()
     varMap["log_a"] = (throwingRanges["log_a"].second - throwingRanges["log_a"].first)*gRandom->Rndm() + throwingRanges["log_a"].first;
     varMap["a"] = TMath::Power(10, varMap["log_a"]);
 
-    varMap["counts"] = 0;
+    int count = 0;
     for(const auto& observable : observableValueList){
       if(varMap["a"]*observable + varMap["b"] > 0){
-        varMap["counts"] += 1;
+        count++;
       }
     }
 
