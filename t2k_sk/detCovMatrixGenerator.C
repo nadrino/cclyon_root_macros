@@ -32,6 +32,7 @@ void detCovMatrixGenerator()
   double sigma = 0.06;
   int nbThrows = 1E5;
   for(int iThrow = 0 ; iThrow < nbThrows ; iThrow++){
+    GenericToolbox::displayProgressBar(iThrow, nbThrows);
     varMap["b"] = (throwingRanges["b"].second - throwingRanges["b"].first)*gRandom->Rndm() + throwingRanges["b"].first;
     varMap["log_a"] = (throwingRanges["log_a"].second - throwingRanges["log_a"].first)*gRandom->Rndm() + throwingRanges["log_a"].first;
     varMap["a"] = TMath::Power(10, varMap["log_a"]);
