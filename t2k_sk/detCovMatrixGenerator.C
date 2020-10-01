@@ -42,13 +42,14 @@ void detCovMatrixGenerator()
     varMap["a"] = TMath::Power(10, varMap["log_a"]);
     cout << GenericToolbox::getElapsedTimeSinceLastCallStr(1) << std::endl;
 
-    rcFormulaeSS.str("");
+    rcFormulae = "";
     cout << GenericToolbox::getElapsedTimeSinceLastCallStr(1) << std::endl;
-    rcFormulaeSS.clear();
+    rcFormulae += std::to_string(varMap["a"]);
+    rcFormulae += "*MReIncLVal+";
+    rcFormulae += std::to_string(varMap["b"]);
+    rcFormulae += ">0";
     cout << GenericToolbox::getElapsedTimeSinceLastCallStr(1) << std::endl;
-    rcFormulaeSS << varMap["a"] << "*MReIncLVal+" << varMap["b"] << ">0";
-    cout << GenericToolbox::getElapsedTimeSinceLastCallStr(1) << std::endl;
-    varMap["counts"] = atm_minituple->Draw("", rcFormulaeSS.str().c_str(), "goff");
+    varMap["counts"] = atm_minituple->Draw("", rcFormulaeSS.c_str(), "goff");
     cout << GenericToolbox::getElapsedTimeSinceLastCallStr(1) << std::endl;
     varMap["delta_counts"] = varMap["counts"] - nominalCounts;
     cout << GenericToolbox::getElapsedTimeSinceLastCallStr(1) << std::endl;
