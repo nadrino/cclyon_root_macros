@@ -22,7 +22,7 @@ void detCovMatrixGenerator()
   atm_minituple->SetBranchStatus("MReIncLVal", true);
 
   double MReIncLVal;
-  atm_minituple->SetBranchAdress("MReIncLVal", &MReIncLVal);
+  atm_minituple->SetBranchAddress("MReIncLVal", &MReIncLVal);
   for(int iEntry = 0 ; iEntry < atm_minituple->GetEntries() ; iEntry++){
       GenericToolbox::displayProgressBar(iEntry, atm_minituple->GetEntries(), "Reading...");
     atm_minituple->GetEntry(iEntry);
