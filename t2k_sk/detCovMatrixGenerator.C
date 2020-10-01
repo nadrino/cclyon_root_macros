@@ -30,40 +30,26 @@ void detCovMatrixGenerator()
   string rcFormulae;
   double gausNorm = gausFunction->Integral(-5,5);
   double sigma = 0.06;
-  int nbThrows = 1000;
+  int nbThrows = 10000;
   for(int iThrow = 0 ; iThrow < nbThrows ; iThrow++){
-  GenericToolbox::getElapsedTimeSinceLastCallStr(10);
-  GenericToolbox::getElapsedTimeSinceLastCallStr(1);
+
     GenericToolbox::displayProgressBar(iThrow, nbThrows);
     varMap["b"] = (throwingRanges["b"].second - throwingRanges["b"].first)*gRandom->Rndm() + throwingRanges["b"].first;
-    cout << GenericToolbox::getElapsedTimeSinceLastCallStr(1) << std::endl;
     varMap["log_a"] = (throwingRanges["log_a"].second - throwingRanges["log_a"].first)*gRandom->Rndm() + throwingRanges["log_a"].first;
-    cout << GenericToolbox::getElapsedTimeSinceLastCallStr(1) << std::endl;
     varMap["a"] = TMath::Power(10, varMap["log_a"]);
-    cout << GenericToolbox::getElapsedTimeSinceLastCallStr(1) << std::endl;
 
-    rcFormulae = "";
-    cout << GenericToolbox::getElapsedTimeSinceLastCallStr(1) << std::endl;
-    rcFormulae += std::to_string(varMap["a"]);
+    rcFormulae = std::to_string(varMap["a"]);
     rcFormulae += "*MReIncLVal+";
     rcFormulae += std::to_string(varMap["b"]);
     rcFormulae += ">0";
-    cout << GenericToolbox::getElapsedTimeSinceLastCallStr(1) << std::endl;
     varMap["counts"] = atm_minituple->Draw("", rcFormulae.c_str(), "goff");
-    cout << GenericToolbox::getElapsedTimeSinceLastCallStr(1) << std::endl;
     varMap["delta_counts"] = varMap["counts"] - nominalCounts;
-    cout << GenericToolbox::getElapsedTimeSinceLastCallStr(1) << std::endl;
     varMap["delta_counts_over_counts"] = varMap["delta_counts"]/nominalCounts;
-cout << GenericToolbox::getElapsedTimeSinceLastCallStr(1) << std::endl;
     varMap["weight"] = gausFunction->Eval(varMap["delta_counts_over_counts"]/sigma)/gausNorm;
-cout << GenericToolbox::getElapsedTimeSinceLastCallStr(1) << std::endl;
     if(not varMapIsHooked){
       hookToTree();
     }
-    cout << GenericToolbox::getElapsedTimeSinceLastCallStr(1) << std::endl;
     outTree->Fill();
-    cout << GenericToolbox::getElapsedTimeSinceLastCallStr(1) << std::endl;
-    cout << "it=" << GenericToolbox::getElapsedTimeSinceLastCallStr(10) << std::endl;
   }
   outFile->WriteTObject(outTree, "outTree");
   outFile->Close();
