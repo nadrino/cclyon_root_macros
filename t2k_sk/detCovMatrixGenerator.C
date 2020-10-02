@@ -34,8 +34,8 @@ void detCovMatrixGenerator()
   std::map<std::string, std::pair<double, double>> throwingRanges;
   throwingRanges["b"].first = -10;
   throwingRanges["b"].second = 10;
-  throwingRanges["log_a"].first = -1;
-  throwingRanges["log_a"].second = 1;
+  throwingRanges["log_a"].first = 1;
+  throwingRanges["log_a"].second = 3;
 
   // L -> a*L + b
   string rcFormulae;
