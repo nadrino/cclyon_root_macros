@@ -61,13 +61,13 @@ void detCovMatrixGenerator()
     rcFormulae += std::to_string(varMap["b"]);
     rcFormulae += ">0";
     varMap["counts"] = atm_minituple->Draw("", rcFormulae.c_str(), "goff");
-    // varMap["delta_counts"] = varMap["counts"] - nominalCounts;
-    // varMap["delta_counts_over_counts"] = varMap["delta_counts"]/nominalCounts;
-    // varMap["weight"] = gausFunction->Eval(varMap["delta_counts_over_counts"]/sigma)/gausNorm;
-    // if(not varMapIsHooked){
-    //   hookToTree();
-    // }
-    // outTree->Fill();
+    varMap["delta_counts"] = varMap["counts"] - nominalCounts;
+    varMap["delta_counts_over_counts"] = varMap["delta_counts"]/nominalCounts;
+    varMap["weight"] = gausFunction->Eval(varMap["delta_counts_over_counts"]/sigma)/gausNorm;
+    if(not varMapIsHooked){
+      hookToTree();
+    }
+    outTree->Fill();
   }
   outFile->WriteTObject(outTree, "outTree");
   outFile->Close();
