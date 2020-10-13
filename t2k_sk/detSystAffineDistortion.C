@@ -11,12 +11,12 @@ double pickToyParameter(double oneSigma_);
 void init();
 void hookToTree();
 
-void detCovMatrixGenerator()
+void detSystAffineDistortion()
 {
 
   init();
 
-  TFile* atmFile = TFile::Open("/sps/t2k/ablanche/resources/T2KSKjoint/sk4_fcmc_18a_fQv6r0_minituple_100yr_05.root");
+  TFile* atmFile = TFile::Open("/sps/t2k/ablanche/resources/SK-T2K-Joint/sk4_fcmc_18a_fQv6r0_minituple_100yr_05.root");
   TTree* atm_minituple = (TTree*) atmFile->Get("atm_minituple");
   atm_minituple->SetBranchStatus("*", false);
   atm_minituple->SetBranchStatus("MReIncLVal", true);
@@ -59,7 +59,7 @@ void detCovMatrixGenerator()
     rcFormulae = std::to_string(varMap["a"]);
     rcFormulae += "*MReIncLVal+";
     rcFormulae += std::to_string(varMap["b"]);
-    rcFormulae += ">0";
+    rcFormulae += ">-0.25";
     varMap["counts"] = atm_minituple->Draw("", rcFormulae.c_str(), "goff");
     varMap["delta_counts"] = varMap["counts"] - nominalCounts;
     varMap["delta_counts_over_counts"] = varMap["delta_counts"]/nominalCounts;
