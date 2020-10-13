@@ -32,8 +32,8 @@ void detSystAffineDistortion()
   double nominalCounts = atm_minituple->Draw("", "MReIncLVal>0", "goff");
 
   std::map<std::string, std::pair<double, double>> throwingRanges;
-  throwingRanges["b"].first = -20;
-  throwingRanges["b"].second = 20;
+  throwingRanges["log_b"].first = -1;
+  throwingRanges["log_b"].second = 4;
   throwingRanges["log_a"].first = -1;
   throwingRanges["log_a"].second = 4;
 
@@ -45,9 +45,12 @@ void detSystAffineDistortion()
   for(int iThrow = 0 ; iThrow < nbThrows ; iThrow++){
 
     GenericToolbox::displayProgressBar(iThrow, nbThrows);
-    varMap["b"] = (throwingRanges["b"].second - throwingRanges["b"].first)*gRandom->Rndm() + throwingRanges["b"].first;
+    bool bSignIsPositive = 0.5 > gRandom->Rndm();
+    varMap["log_b"] = (throwingRanges["log_b"].second - throwingRanges["log_b"].first)*gRandom->Rndm() + throwingRanges["log_b"].first;
     varMap["log_a"] = (throwingRanges["log_a"].second - throwingRanges["log_a"].first)*gRandom->Rndm() + throwingRanges["log_a"].first;
     varMap["a"] = TMath::Power(10, varMap["log_a"]);
+    varMap["b"] = TMath::Power(10, varMap["log_b"]);
+    if(!bSignIsPositive) varMap["b"] *= -1;
 
     // int count = 0;
     // for(const auto& observable : observableValueList){
