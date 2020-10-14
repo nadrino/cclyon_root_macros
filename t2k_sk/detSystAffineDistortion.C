@@ -67,7 +67,8 @@ void detSystAffineDistortion()
     varMap["counts"] = atm_minituple->Draw("", rcFormulae.c_str(), "goff");
     varMap["delta_counts"] = varMap["counts"] - nominalCounts;
     varMap["delta_counts_over_counts"] = varMap["delta_counts"]/nominalCounts;
-    varMap["weight"] = gausFunction->Eval(varMap["delta_counts_over_counts"]/sigma)/gausNorm;
+    // varMap["weight"] = gausFunction->Eval(varMap["delta_counts_over_counts"]/sigma)/gausNorm;
+    varMap["weight"] = evalGaus(varMap["delta_counts_over_counts"]/sigma);
     if(not varMapIsHooked){
       hookToTree();
     }
@@ -96,6 +97,10 @@ void init()
     gausFunction->SetParameter("Mean", 0);
     gausFunction->SetParameter("Sigma", 1);
   }
+}
+
+double evalGaus(double x){
+  return exp(-0.5*x*x)/(sqrt(2*TMath::Pi()));
 }
 
 double pickToyParameter(double oneSigma_)
