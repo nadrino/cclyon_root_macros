@@ -33,8 +33,8 @@ void detSystAffineDistortion()
   double nominalCounts = atm_minituple->Draw("", "MReIncLVal>-0.25", "goff");
 
   std::map<std::string, std::pair<double, double>> throwingRanges;
-  throwingRanges["b"].first = -15;
-  throwingRanges["b"].second = 15;
+  throwingRanges["b"].first = -2;
+  throwingRanges["b"].second = 2;
   // throwingRanges["log_a"].first = -1;
   // throwingRanges["log_a"].second = 4;
 
