@@ -10,6 +10,7 @@ std::vector<Float_t> observableValueList;
 double pickToyParameter(double oneSigma_);
 void init();
 void hookToTree();
+double evalGaus(double x);
 
 void detSystAffineDistortion()
 {
