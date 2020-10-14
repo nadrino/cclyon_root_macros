@@ -38,14 +38,17 @@ void detSystAffineDistortion()
   throwingRanges["log_a"].first = -1;
   throwingRanges["log_a"].second = 4;
 
+  TH1D* deviation_hist = new TH1D("deviation_hist", "deviation_hist", 100, -0.2, 0.2);
+
   // L -> a*L + b
   string rcFormulae;
   double gausNorm = gausFunction->Integral(-5,5);
   double sigma = 0.06;
   int nbThrows = 10000;
+  std::vector<std::map<std::string, Float_t>> throwsData;
   for(int iThrow = 0 ; iThrow < nbThrows ; iThrow++){
 
-    GenericToolbox::displayProgressBar(iThrow, nbThrows);
+    GenericToolbox::displayProgressBar(iThrow, nbThrows, "Throwing parameters...");
     // bool bSignIsPositive = 0.5 > gRandom->Rndm();
     for(auto &throwingRange : throwingRanges){
       varMap[throwingRange.first] = (throwingRange.second.second - throwingRange.second.first)*gRandom->Rndm() + throwingRange.second.first;
@@ -54,13 +57,6 @@ void detSystAffineDistortion()
     // varMap["b"] = TMath::Power(10, varMap["log_b"]);
     // if(!bSignIsPositive) varMap["b"] *= -1;
 
-    // int count = 0;
-    // for(const auto& observable : observableValueList){
-    //   if(varMap["a"]*observable + varMap["b"] > 0){
-    //     count++;
-    //   }
-    // }
-
     rcFormulae = std::to_string(varMap["a"]);
     rcFormulae += "*MReIncLVal+";
     rcFormulae += std::to_string(varMap["b"]);
@@ -68,13 +64,24 @@ void detSystAffineDistortion()
     varMap["counts"] = atm_minituple->Draw("", rcFormulae.c_str(), "goff");
     varMap["delta_counts"] = varMap["counts"] - nominalCounts;
     varMap["delta_counts_over_counts"] = varMap["delta_counts"]/nominalCounts;
-    // varMap["weight"] = gausFunction->Eval(varMap["delta_counts_over_counts"]/sigma)/gausNorm;
-    varMap["weight"] = evalGaus(varMap["delta_counts_over_counts"]/sigma);
-    if(not varMapIsHooked){
-      hookToTree();
+    deviation_hist->Fill(varMap["delta_counts_over_counts"]);
+    throwsData.emplace_back(varMap);
+
+  }
+
+  varMap["weight"] = 0;
+  hookToTree();
+
+  for(int iThrow = 0 ; iThrow < nbThrows ; iThrow++){
+    GenericToolbox::displayProgressBar(iThrow, nbThrows, "Writting throws...");
+    for(auto &var : varMap){
+      var.second = throwsData[iThrow][var.first];
     }
+    varMap["weight"] = evalGaus( varMap["delta_counts_over_counts"] / sigma ) /
+      deviation_hist->GetBinContent(deviation_hist->FindBin(varMap["delta_counts_over_counts"]));
     outTree->Fill();
   }
+
   outFile->WriteTObject(outTree, "outTree");
   outFile->Close();
 
