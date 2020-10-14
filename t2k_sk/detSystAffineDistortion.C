@@ -47,7 +47,7 @@ void detSystAffineDistortion()
     GenericToolbox::displayProgressBar(iThrow, nbThrows);
     // bool bSignIsPositive = 0.5 > gRandom->Rndm();
     for(auto &throwingRange : throwingRanges){
-      varMap[throwingRange.first] = (throwingRanges.second.second - throwingRanges.second.first)*gRandom->Rndm() + throwingRanges.second.first;
+      varMap[throwingRange.first] = (throwingRange.second.second - throwingRange.second.first)*gRandom->Rndm() + throwingRange.second.first;
     }
     varMap["a"] = TMath::Power(10, varMap["log_a"]);
     // varMap["b"] = TMath::Power(10, varMap["log_b"]);
