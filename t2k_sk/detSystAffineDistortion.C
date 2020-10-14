@@ -35,8 +35,8 @@ void detSystAffineDistortion()
   std::map<std::string, std::pair<double, double>> throwingRanges;
   throwingRanges["b"].first = -15;
   throwingRanges["b"].second = 15;
-  throwingRanges["log_a"].first = -1;
-  throwingRanges["log_a"].second = 4;
+  // throwingRanges["log_a"].first = -1;
+  // throwingRanges["log_a"].second = 4;
 
   TH1D* deviation_hist = new TH1D("deviation_hist", "deviation_hist", 100, -0.2, 0.2);
 
@@ -53,7 +53,8 @@ void detSystAffineDistortion()
     for(auto &throwingRange : throwingRanges){
       varMap[throwingRange.first] = (throwingRange.second.second - throwingRange.second.first)*gRandom->Rndm() + throwingRange.second.first;
     }
-    varMap["a"] = TMath::Power(10, varMap["log_a"]);
+    // varMap["a"] = TMath::Power(10, varMap["log_a"]);
+    varMap["a"] = 1;
     // varMap["b"] = TMath::Power(10, varMap["log_b"]);
     // if(!bSignIsPositive) varMap["b"] *= -1;
 
