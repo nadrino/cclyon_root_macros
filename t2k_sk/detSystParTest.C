@@ -63,7 +63,9 @@ void detSystParTest(){
   cout << "READING" << endl;
   for(int iEvent = 0 ; iEvent < mcTree->GetEntries() ; iEvent++){
     mcTree->GetEntry(iEvent);
-
+    if(eventType == SubGeV_elike_0dcy){
+      cout << "getRCParameter = " << getRCParameter(&fqevent) << endl;
+    }
   }
 
 }
