@@ -44,9 +44,11 @@ void detSystParTest(){
     GenericToolbox::displayProgressBar(iEvent, nEvents, "READING TREE...");
     fqevent->GetEntry(iEvent);
     if(eventType == SubGeV_elike_0dcy){
-      cout << GET_VAR_NAME_VALUE(preprocess->getRCParameter(fqevent)) << endl;
+      // cout << GET_VAR_NAME_VALUE(preprocess->getRCParameter(fqevent)) << endl;
       hist->Fill(preprocess->getRCParameter(fqevent));
     }
   }
+
+  hist->Draw();
 
 }
