@@ -23,8 +23,19 @@ enum ATMPDEventType{
   UpThruShower_mu
 };
 
+int maxFqnmrfit = 25;
+int maxFqnse = 5;
 
-struct fqEvent{
+float fqmrdir[maxFqnmrfit][6][3];
+float fq1rnll[maxFqnse][7];
+float fqmrmom[maxFqnmrfit][6];
+
+float fqmrnll[maxFqnmrfit];
+int fqmrifit[maxFqnmrfit];
+
+int fqnmrfit;
+
+// struct fqEvent{
 
   int maxFqnmrfit = 25;
   int maxFqnse = 5;
@@ -85,8 +96,8 @@ struct fqEvent{
 int best2RID;
 float fqmrdot;
 
-int getBest2RFitID(fqEvent* fqevent);
-float getRCParameter(fqEvent* fqevent);
+int getBest2RFitID();
+float getRCParameter();
 
 void detSystParTest(){
 
@@ -95,16 +106,16 @@ void detSystParTest(){
 
   ATMPDEventType eventType;
 
-  fqEvent fqevent;
-  fqevent.init();
+  // fqEvent fqevent;
+  // fqevent.init();
 
-  mcTree->SetBranchAddress("fqmrdir", &fqevent.fqmrdir);
+  mcTree->SetBranchAddress("fqmrdir", fqmrdir);
 
-  mcTree->SetBranchAddress("fq1rnll", &fqevent.fq1rnll);
-  mcTree->SetBranchAddress("fqmrmom", &fqevent.fqmrmom);
+  mcTree->SetBranchAddress("fq1rnll", fq1rnll);
+  mcTree->SetBranchAddress("fqmrmom", fqmrmom);
 
-  mcTree->SetBranchAddress("fqmrnll", fqevent.fqmrnll);
-  mcTree->SetBranchAddress("fqmrifit", fqevent.fqmrifit);
+  mcTree->SetBranchAddress("fqmrnll", fqmrnll);
+  mcTree->SetBranchAddress("fqmrifit", fqmrifit);
 
   mcTree->SetBranchAddress("fqnmrfit", &fqevent.fqnmrfit);
 
@@ -124,19 +135,19 @@ void detSystParTest(){
 
 
 ///////////////////////////////////////////
-float getRCParameter(fqEvent* fqevent){
+float getRCParameter(){
 
   // get best 2R ID
-  int ibest = getBest2RFitID(fqevent);
+  int ibest = getBest2RFitID();
 
   // get best 1R Likelihood
-  float best1Rnglnl = TMath::Min(fqevent->fq1rnll[0][1],fqevent->fq1rnll[0][2] );
+  float best1Rnglnl = TMath::Min(fq1rnll[0][1],fq1rnll[0][2] );
 
   // get mom of 2nd ring
-  float ringmom = (float)TMath::Min(fqevent->fqmrmom[best2RID][0],fqevent->fqmrmom[best2RID][1]);
+  float ringmom = (float)TMath::Min(fqmrmom[best2RID][0],fqmrmom[best2RID][1]);
 
   // likelihood difference between 1R and 2R
-  float deltaLnL = best1Rnglnl - fqevent->fqmrnll[best2RID];
+  float deltaLnL = best1Rnglnl - fqmrnll[best2RID];
 
   // cut values from fiTQun.cc v4r0
   float a0 = 150.;
@@ -151,9 +162,9 @@ float getRCParameter(fqEvent* fqevent){
 
 
   // also calculate angle between 2R rings (should be moved to separate function)
-  fqmrdot =   fqevent->fqmrdir[best2RID][0][0]*fqevent->fqmrdir[best2RID][1][0]
-            + fqevent->fqmrdir[best2RID][0][1]*fqevent->fqmrdir[best2RID][1][1]
-            + fqevent->fqmrdir[best2RID][0][2]*fqevent->fqmrdir[best2RID][1][2];
+  fqmrdot =   fqmrdir[best2RID][0][0]*fqmrdir[best2RID][1][0]
+            + fqmrdir[best2RID][0][1]*fqmrdir[best2RID][1][1]
+            + fqmrdir[best2RID][0][2]*fqmrdir[best2RID][1][2];
 
 
   // signed sq root ///////////
@@ -173,23 +184,23 @@ float getRCParameter(fqEvent* fqevent){
 ///////////////////////////////////////
 //returns the index of the best 2R fit
 // ! temporary change to return fit 20000033 !
-int getBest2RFitID(fqEvent* fqevent){
+int getBest2RFitID(){
 
   // total number of MR fits
-  int nfits = (int)fqevent->fqnmrfit;
+  int nfits = (int)fqnmrfit;
 
   // loop to find the best likelihood
   double ngLnLBest = 10000000.;
   int bestindex = 0;
   for (int ifit=0;ifit<nfits;ifit++){
 
-    int fitID = TMath::Abs(fqevent->fqmrifit[ifit]); //< fit fit ID code
+    int fitID = TMath::Abs(fqmrifit[ifit]); //< fit fit ID code
 
     // pick out the fits we want to compare to
     if ( TMath::Abs((TMath::Abs(fitID)-20000000))<50){
       // check if it's the best
-      if (fqevent->fqmrnll[ifit] < ngLnLBest){
-        ngLnLBest = fqevent->fqmrnll[ifit];
+      if (fqmrnll[ifit] < ngLnLBest){
+        ngLnLBest = fqmrnll[ifit];
         bestindex = ifit;
       }
     }
