@@ -27,13 +27,13 @@ enum ATMPDEventType{
 };
 
 TH1D* hist = new TH1D("getRCParameter", "getRCParameter", 100, -200, 100);
-ATMPDEventType selectedEventType = SubGeV_elike_0dcy;
+int selectedEventType = 1;
 
 preProcess* preprocess;
 fqEvent* fqevent;
 TFile* mcFile;
 TTree* mcTree;
-ATMPDEventType* eventType;
+int* eventType;
 
 void fillHist();
 
@@ -43,7 +43,7 @@ void detSystParTest(){
   mcTree = (TTree*) mcFile->Get("atm_minituple");
   fqevent = new fqEvent(mcTree);
   preprocess = new preProcess();
-  eventType = new ATMPDEventType();
+  eventType = new int();
 
   mcTree->SetBranchAddress("ATMPDEventType", eventType);
 
