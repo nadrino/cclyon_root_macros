@@ -24,12 +24,12 @@ enum ATMPDEventType{
 };
 
 struct fqEvent{
-  float*** fqmrdir;
+  float*** fqmrdir = nullptr;
 
-  float** fq1rnll;
-  float** fqmrmom;
+  float** fq1rnll = nullptr;
+  float** fqmrmom = nullptr;
 
-  float* fqmrnll;
+  float* fqmrnll = nullptr;
 
   int* fqmrifit = nullptr;
   int fqnmrfit; // array of one
@@ -48,12 +48,12 @@ void detSystParTest(){
 
   fqEvent fqevent;
   ATMPDEventType eventType;
-  // mcTree->SetBranchAddress("fqmrdir", fqevent.fqmrdir);
+  mcTree->SetBranchAddress("fqmrdir", fqevent.fqmrdir);
 
-  // mcTree->SetBranchAddress("fq1rnll", fqevent.fq1rnll);
-  // mcTree->SetBranchAddress("fqmrmom", fqevent.fqmrmom);
+  mcTree->SetBranchAddress("fq1rnll", fqevent.fq1rnll);
+  mcTree->SetBranchAddress("fqmrmom", fqevent.fqmrmom);
 
-  // mcTree->SetBranchAddress("fqmrnll", fqevent.fqmrnll);
+  mcTree->SetBranchAddress("fqmrnll", fqevent.fqmrnll);
 
   mcTree->SetBranchAddress("fqmrifit", fqevent.fqmrifit);
   mcTree->SetBranchAddress("fqnmrfit", &fqevent.fqnmrfit);
