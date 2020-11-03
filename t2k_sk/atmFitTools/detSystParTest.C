@@ -27,6 +27,7 @@ enum ATMPDEventType{
 };
 
 TH1D* hist = new TH1D("getRCParameter", "getRCParameter", 100, -200, 100);
+ATMPDEventType selectedEventType = SubGeV_elike_0dcy;
 
 void detSystParTest(){
 
@@ -38,12 +39,18 @@ void detSystParTest(){
   ATMPDEventType eventType;
   mcTree->SetBranchAddress("ATMPDEventType", &eventType);
 
+  fillHist();
+
+}
+
+void fillHist(){
+
   cout << "READING TREE..." << endl;
   int nEvents = mcTree->GetEntries();
   for(int iEvent = 0 ; iEvent < nEvents ; iEvent++){
     GenericToolbox::displayProgressBar(iEvent, nEvents, "READING TREE...");
     fqevent->GetEntry(iEvent);
-    if(eventType == SubGeV_elike_0dcy){
+    if(eventType == selectedEventType){
       // cout << GET_VAR_NAME_VALUE(preprocess->getRCParameter(fqevent)) << endl;
       hist->Fill(preprocess->getRCParameter(fqevent));
     }
