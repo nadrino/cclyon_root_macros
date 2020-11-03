@@ -35,63 +35,63 @@ int fqmrifit[maxFqnmrfit];
 
 int fqnmrfit;
 
-// struct fqEvent{
-
-  int maxFqnmrfit = 25;
-  int maxFqnse = 5;
-
-  std::vector<std::vector<std::vector<float>>> fqmrdir;
-
-  std::vector<std::vector<float>> fq1rnll;
-  std::vector<std::vector<float>> fqmrmom;
-
-  float* fqmrnll = nullptr;
-  int* fqmrifit = nullptr;
-
-  int fqnmrfit; // array of one
-
-
-  void init(){
-
-    this->fqmrifit = new int[this->maxFqnmrfit];
-    this->fqmrnll = new float[this->maxFqnmrfit];
-
-    fq1rnll.resize(maxFqnse, std::vector<float>(7));
-    fqmrmom.resize(maxFqnmrfit, std::vector<float>(6));
-    fqmrdir.resize( maxFqnmrfit );
-    for(auto& fqmrdirRow : fqmrdir){
-      fqmrdirRow.resize(6);
-      for(auto& fqmrdirCol : fqmrdirRow){
-        fqmrdirCol.resize(3);
-      }
-    }
-
-
-
-
-
-    // this->fqmrmom = ;
-
-    // this->fqmrmom = new float*[this->maxFqnmrfit];
-    // for(int iRow = 0 ; iRow < this->maxFqnmrfit ; iRow++){
-    //   this->fqmrmom[iRow] = new float[6];
-    // }
-    //
-    // this->fq1rnll = new float*[this->maxFqnse];
-    // for(int iRow = 0 ; iRow < this->maxFqnse ; iRow++){
-    //   this->fq1rnll[iRow] = new float[7];
-    // }
-    //
-    // this->fqmrdir = new float**[this->maxFqnmrfit];
-    // for(int iRow = 0 ; iRow < this->maxFqnmrfit ; iRow++){
-    //   this->fqmrdir[iRow] = new float*[6];
-    //   for(int iCol = 0 ; iCol < 6 ; iCol++){
-    //     this->fqmrdir[iRow][iCol] = new float[3];
-    //   }
-    // }
-
-  }
-};
+//  struct fqEvent{
+//
+//   int maxFqnmrfit = 25;
+//   int maxFqnse = 5;
+//
+//   std::vector<std::vector<std::vector<float>>> fqmrdir;
+//
+//   std::vector<std::vector<float>> fq1rnll;
+//   std::vector<std::vector<float>> fqmrmom;
+//
+//   float* fqmrnll = nullptr;
+//   int* fqmrifit = nullptr;
+//
+//   int fqnmrfit; // array of one
+//
+//
+//   void init(){
+//
+//     this->fqmrifit = new int[this->maxFqnmrfit];
+//     this->fqmrnll = new float[this->maxFqnmrfit];
+//
+//     fq1rnll.resize(maxFqnse, std::vector<float>(7));
+//     fqmrmom.resize(maxFqnmrfit, std::vector<float>(6));
+//     fqmrdir.resize( maxFqnmrfit );
+//     for(auto& fqmrdirRow : fqmrdir){
+//       fqmrdirRow.resize(6);
+//       for(auto& fqmrdirCol : fqmrdirRow){
+//         fqmrdirCol.resize(3);
+//       }
+//     }
+//
+//
+//
+//
+//
+//     // this->fqmrmom = ;
+//
+//     // this->fqmrmom = new float*[this->maxFqnmrfit];
+//     // for(int iRow = 0 ; iRow < this->maxFqnmrfit ; iRow++){
+//     //   this->fqmrmom[iRow] = new float[6];
+//     // }
+//     //
+//     // this->fq1rnll = new float*[this->maxFqnse];
+//     // for(int iRow = 0 ; iRow < this->maxFqnse ; iRow++){
+//     //   this->fq1rnll[iRow] = new float[7];
+//     // }
+//     //
+//     // this->fqmrdir = new float**[this->maxFqnmrfit];
+//     // for(int iRow = 0 ; iRow < this->maxFqnmrfit ; iRow++){
+//     //   this->fqmrdir[iRow] = new float*[6];
+//     //   for(int iCol = 0 ; iCol < 6 ; iCol++){
+//     //     this->fqmrdir[iRow][iCol] = new float[3];
+//     //   }
+//     // }
+//
+//   }
+// };
 
 int best2RID;
 float fqmrdot;
