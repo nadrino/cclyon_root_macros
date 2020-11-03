@@ -32,10 +32,11 @@ struct fqEvent{
   float* fqmrnll;
 
   int* fqmrifit;
-  int* fqnmrfit; // array of one
+  int fqnmrfit; // array of one
 };
 
 int best2RID;
+float fqmrdot;
 
 int getBest2RFitID(fqEvent* fqevent);
 float getRCParameter(fqEvent* fqevent);
@@ -52,9 +53,9 @@ void detSystParTest(){
   mcTree->SetBranchAddress("fqmrmom", fqevent.fqmrmom);
 
   mcTree->SetBranchAddress("fqmrnll", fqevent.fqmrnll);
-  
+
   mcTree->SetBranchAddress("fqmrifit", fqevent.fqmrifit);
-  mcTree->SetBranchAddress("fqnmrfit", fqevent.fqnmrfit);
+  mcTree->SetBranchAddress("fqnmrfit", &fqevent.fqnmrfit);
 
 
 }
