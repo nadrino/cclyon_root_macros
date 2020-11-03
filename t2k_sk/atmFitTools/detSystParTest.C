@@ -53,6 +53,8 @@ void detSystParTest(){
 
 void fillHist(){
 
+  hist->Reset();
+
   cout << "Generating Hist..." << endl;
   int nEvents = mcTree->GetEntries();
   for(int iEvent = 0 ; iEvent < nEvents ; iEvent++){
