@@ -31,7 +31,7 @@ struct fqEvent{
 
   float* fqmrnll;
 
-  int* fqmrifit;
+  int* fqmrifit = nullptr;
   int fqnmrfit; // array of one
 };
 
@@ -55,7 +55,7 @@ void detSystParTest(){
 
   // mcTree->SetBranchAddress("fqmrnll", fqevent.fqmrnll);
 
-  // mcTree->SetBranchAddress("fqmrifit", fqevent.fqmrifit);
+  mcTree->SetBranchAddress("fqmrifit", fqevent.fqmrifit);
   mcTree->SetBranchAddress("fqnmrfit", &fqevent.fqnmrfit);
 
   mcTree->SetBranchAddress("ATMPDEventType", &eventType);
