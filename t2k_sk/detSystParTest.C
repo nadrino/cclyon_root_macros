@@ -29,11 +29,10 @@ struct fqEvent{
   int maxFqnmrfit = 25;
   int maxFqnse = 5;
 
-  float*** fqmrdir = nullptr;
+  std::vector<std::vector<std::vector<float>>> fqmrdir;
 
-  float** fq1rnll = nullptr;
-  // float** fqmrmom = new float[25][6];
-  std::vector<std::vector<float>> fq1rnll(maxFqnmrfit, std::vector<float>(6));
+  std::vector<std::vector<float>> fq1rnll;
+  std::vector<std::vector<float>> fqmrmom;
 
   float* fqmrnll = nullptr;
   int* fqmrifit = nullptr;
@@ -45,6 +44,16 @@ struct fqEvent{
 
     this->fqmrifit = new int[this->maxFqnmrfit];
     this->fqmrnll = new float[this->maxFqnmrfit];
+
+    fq1rnll.resize(maxFqnse, std::vector<float>(7));
+    fqmrmom.resize(maxFqnmrfit, std::vector<float>(6));
+    fqmrdir.resize( maxFqnmrfit,
+                    std::vector<std::vector<float>>(6),
+                    std::vector<float>(3)
+
+
+
+
 
     // this->fqmrmom = ;
 
@@ -85,14 +94,14 @@ void detSystParTest(){
   fqEvent fqevent;
   fqevent.init();
 
-  mcTree->SetBranchAddress("fqmrdir", fqevent.fqmrdir);
+  mcTree->SetBranchAddress("fqmrdir", &fqevent.fqmrdir);
 
-  mcTree->SetBranchAddress("fq1rnll", fqevent.fq1rnll);
-  mcTree->SetBranchAddress("fqmrmom", fqevent.fqmrmom);
+  mcTree->SetBranchAddress("fq1rnll", &fqevent.fq1rnll);
+  mcTree->SetBranchAddress("fqmrmom", &fqevent.fqmrmom);
 
   mcTree->SetBranchAddress("fqmrnll", fqevent.fqmrnll);
-
   mcTree->SetBranchAddress("fqmrifit", fqevent.fqmrifit);
+
   mcTree->SetBranchAddress("fqnmrfit", &fqevent.fqnmrfit);
 
   mcTree->SetBranchAddress("ATMPDEventType", &eventType);
