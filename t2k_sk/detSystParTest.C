@@ -33,6 +33,8 @@ struct fqEvent{
   float* fqmrifit;
 };
 
+int best2RID;
+
 int getBest2RFitID(fqEvent* fqevent);
 float getRCParameter(fqEvent* fqevent);
 
