@@ -164,20 +164,18 @@ int getBest2RFitID(fqEvent* fqevent){
   // total number of MR fits
   int nfits = (int)fqevent->fqnmrfit;
 
-  cout << GET_VAR_NAME_VALUE(nfits) << endl;
-
   // loop to find the best likelihood
   double ngLnLBest = 10000000.;
   int bestindex = 0;
   for (int ifit=0;ifit<nfits;ifit++){
-    cout << GET_VAR_NAME_VALUE(ifit) << endl;
 
-    cout << GET_VAR_NAME_VALUE(fqevent->fqmrifit) << endl;
+    cout << GET_VAR_NAME_VALUE(ifit) << endl;
     int fitID = TMath::Abs(fqevent->fqmrifit[ifit]); //< fit fit ID code
 
     // pick out the fits we want to compare to
     if ( TMath::Abs((TMath::Abs(fitID)-20000000))<50){
       // check if it's the best
+          cout << "check if it's the best" << endl;
       if (fqevent->fqmrnll[ifit] < ngLnLBest){
         ngLnLBest = fqevent->fqmrnll[ifit];
         bestindex = ifit;
