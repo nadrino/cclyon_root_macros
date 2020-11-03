@@ -50,6 +50,12 @@ struct fqEvent{
     fqmrdir.resize( maxFqnmrfit,
                     std::vector<std::vector<float>>(6),
                     std::vector<float>(3) );
+    for(auto& fqmrdirRow : fqmrdir){
+      fqmrdirRow.resize(6);
+      for(auto& fqmrdirCol : fqmrdir){
+
+      }
+    }
 
 
 
