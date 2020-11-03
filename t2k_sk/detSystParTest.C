@@ -47,13 +47,11 @@ struct fqEvent{
 
     fq1rnll.resize(maxFqnse, std::vector<float>(7));
     fqmrmom.resize(maxFqnmrfit, std::vector<float>(6));
-    fqmrdir.resize( maxFqnmrfit,
-                    std::vector<std::vector<float>>(6),
-                    std::vector<float>(3) );
+    fqmrdir.resize( maxFqnmrfit );
     for(auto& fqmrdirRow : fqmrdir){
       fqmrdirRow.resize(6);
-      for(auto& fqmrdirCol : fqmrdir){
-
+      for(auto& fqmrdirCol : fqmrdirRow){
+        fqmrdirCol.resize(3);
       }
     }
 
