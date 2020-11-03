@@ -181,6 +181,7 @@ int getBest2RFitID(fqEvent* fqevent){
         bestindex = ifit;
       }
     }
+    cout << "END LOOP" << std::endl;
   }
   best2RID = bestindex;
   return bestindex;
