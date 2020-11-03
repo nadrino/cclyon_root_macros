@@ -121,13 +121,16 @@ void detSystParTest(){
 
   mcTree->SetBranchAddress("ATMPDEventType", &eventType);
 
+  TH1D* hist = new TH1D("getRCParameter", "getRCParameter", 100, -200, 100);
+
   cout << "READING TREE..." << endl;
   int nEvents = mcTree->GetEntries();
   for(int iEvent = 0 ; iEvent < nEvents ; iEvent++){
     GenericToolbox::displayProgressBar(iEvent, nEvents, "READING TREE...");
     mcTree->GetEntry(iEvent);
     if(eventType == SubGeV_elike_0dcy){
-      cout << GET_VAR_NAME_VALUE(getRCParameter()) << endl;
+      // cout << GET_VAR_NAME_VALUE() << endl;
+      hist->Fill(getRCParameter());
     }
   }
 
