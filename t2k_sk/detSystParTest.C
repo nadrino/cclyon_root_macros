@@ -25,25 +25,27 @@ enum ATMPDEventType{
 
 
 struct fqEvent{
+
+  int maxFqnmrfit = 25;
+  int maxFqnse = 5;
+
   float*** fqmrdir = nullptr;
 
   float** fq1rnll = nullptr;
-  float** fqmrmom = nullptr;
+  float** fqmrmom = new float[25][6]();
 
   float* fqmrnll = nullptr;
   int* fqmrifit = nullptr;
 
   int fqnmrfit; // array of one
 
-  int maxFqnmrfit = 25;
-  int maxFqnse = 5;
 
   void init(){
 
     this->fqmrifit = new int[this->maxFqnmrfit];
     this->fqmrnll = new float[this->maxFqnmrfit];
 
-    this->fqmrmom = new float[this->maxFqnmrfit][6]();
+    // this->fqmrmom = ;
 
     // this->fqmrmom = new float*[this->maxFqnmrfit];
     // for(int iRow = 0 ; iRow < this->maxFqnmrfit ; iRow++){
