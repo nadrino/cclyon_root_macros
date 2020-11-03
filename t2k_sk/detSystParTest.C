@@ -127,8 +127,12 @@ float getRCParameter(fqEvent* fqevent){
 // ! temporary change to return fit 20000033 !
 int getBest2RFitID(fqEvent* fqevent){
 
+  cout << "getBest2RFitID() inside" << std::endl;
+
   // total number of MR fits
   int nfits = (int)fqevent->fqnmrfit;
+
+  cout << "TEST" << endl;
 
   // loop to find the best likelihood
   double ngLnLBest = 10000000.;
