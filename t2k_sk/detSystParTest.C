@@ -75,8 +75,11 @@ void detSystParTest(){
   TFile* mcFile = TFile::Open(mcFilePath.c_str());
   TTree* mcTree = (TTree*) mcFile->Get("atm_minituple");
 
-  fqEvent fqevent;
   ATMPDEventType eventType;
+
+  fqEvent fqevent;
+  fqevent.init();
+
   mcTree->SetBranchAddress("fqmrdir", fqevent.fqmrdir);
 
   mcTree->SetBranchAddress("fq1rnll", fqevent.fq1rnll);
