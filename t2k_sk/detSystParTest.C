@@ -43,23 +43,25 @@ struct fqEvent{
     this->fqmrifit = new int[this->maxFqnmrfit];
     this->fqmrnll = new float[this->maxFqnmrfit];
 
-    this->fqmrmom = new float*[this->maxFqnmrfit];
-    for(int iRow = 0 ; iRow < this->maxFqnmrfit ; iRow++){
-      this->fqmrmom[iRow] = new float[6];
-    }
+    this->fqmrmom = new float[this->maxFqnmrfit][6]();
 
-    this->fq1rnll = new float*[this->maxFqnse];
-    for(int iRow = 0 ; iRow < this->maxFqnse ; iRow++){
-      this->fq1rnll[iRow] = new float[7];
-    }
-
-    this->fqmrdir = new float**[this->maxFqnmrfit];
-    for(int iRow = 0 ; iRow < this->maxFqnmrfit ; iRow++){
-      this->fqmrdir[iRow] = new float*[6];
-      for(int iCol = 0 ; iCol < 6 ; iCol++){
-        this->fqmrdir[iRow][iCol] = new float[3];
-      }
-    }
+    // this->fqmrmom = new float*[this->maxFqnmrfit];
+    // for(int iRow = 0 ; iRow < this->maxFqnmrfit ; iRow++){
+    //   this->fqmrmom[iRow] = new float[6];
+    // }
+    //
+    // this->fq1rnll = new float*[this->maxFqnse];
+    // for(int iRow = 0 ; iRow < this->maxFqnse ; iRow++){
+    //   this->fq1rnll[iRow] = new float[7];
+    // }
+    //
+    // this->fqmrdir = new float**[this->maxFqnmrfit];
+    // for(int iRow = 0 ; iRow < this->maxFqnmrfit ; iRow++){
+    //   this->fqmrdir[iRow] = new float*[6];
+    //   for(int iCol = 0 ; iCol < 6 ; iCol++){
+    //     this->fqmrdir[iRow][iCol] = new float[3];
+    //   }
+    // }
 
   }
 };
