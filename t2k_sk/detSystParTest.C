@@ -47,6 +47,7 @@ void detSystParTest(){
   TTree* mcTree = (TTree*) mcFile->Get("atm_minituple");
 
   fqEvent fqevent;
+  ATMPDEventType eventType;
   mcTree->SetBranchAddress("fqmrdir", fqevent.fqmrdir);
 
   mcTree->SetBranchAddress("fq1rnll", fqevent.fq1rnll);
@@ -57,6 +58,13 @@ void detSystParTest(){
   mcTree->SetBranchAddress("fqmrifit", fqevent.fqmrifit);
   mcTree->SetBranchAddress("fqnmrfit", &fqevent.fqnmrfit);
 
+  mcTree->SetBranchAddress("ATMPDEventType", &eventType);
+
+  cout << "READING" << endl;
+  for(int iEvent = 0 ; iEvent < mcTree->GetEntries() ; iEvent++){
+    mcTree->GetEntry(iEvent);
+
+  }
 
 }
 
