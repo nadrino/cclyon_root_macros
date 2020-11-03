@@ -29,15 +29,21 @@ enum ATMPDEventType{
 TH1D* hist = new TH1D("getRCParameter", "getRCParameter", 100, -200, 100);
 ATMPDEventType selectedEventType = SubGeV_elike_0dcy;
 
+preProcess* preprocess;
+fqEvent* fqevent;
+TFile* mcFile;
+TTree* mcTree;
+ATMPDEventType* eventType;
+
 void detSystParTest(){
 
-  TFile* mcFile = TFile::Open(mcFilePath.c_str());
-  TTree* mcTree = (TTree*) mcFile->Get("atm_minituple");
-  fqEvent* fqevent = new fqEvent(mcTree);
-  preProcess* preprocess = new preProcess();
+  mcFile = TFile::Open(mcFilePath.c_str());
+  mcTree = (TTree*) mcFile->Get("atm_minituple");
+  fqevent = new fqEvent(mcTree);
+  preprocess = new preProcess();
+  eventType = new ATMPDEventType();
 
-  ATMPDEventType eventType;
-  mcTree->SetBranchAddress("ATMPDEventType", &eventType);
+  mcTree->SetBranchAddress("ATMPDEventType", eventType);
 
   fillHist();
 
@@ -45,7 +51,7 @@ void detSystParTest(){
 
 void fillHist(){
 
-  cout << "READING TREE..." << endl;
+  cout << "Generating Hist..." << endl;
   int nEvents = mcTree->GetEntries();
   for(int iEvent = 0 ; iEvent < nEvents ; iEvent++){
     GenericToolbox::displayProgressBar(iEvent, nEvents, "READING TREE...");
