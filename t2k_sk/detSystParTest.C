@@ -140,6 +140,8 @@ int getBest2RFitID(fqEvent* fqevent){
   for (int ifit=0;ifit<nfits;ifit++){
     cout << GET_VAR_NAME_VALUE(ifit) << endl;
     int fitID = TMath::Abs(fqevent->fqmrifit[ifit]); //< fit fit ID code
+
+    cout << "HERE?" << endl;
     // pick out the fits we want to compare to
     if ( TMath::Abs((TMath::Abs(fitID)-20000000))<50){
       // check if it's the best
