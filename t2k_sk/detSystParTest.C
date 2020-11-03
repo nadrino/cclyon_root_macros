@@ -49,7 +49,7 @@ struct fqEvent{
     fqmrmom.resize(maxFqnmrfit, std::vector<float>(6));
     fqmrdir.resize( maxFqnmrfit,
                     std::vector<std::vector<float>>(6),
-                    std::vector<float>(3)
+                    std::vector<float>(3) );
 
 
 
@@ -127,10 +127,10 @@ float getRCParameter(fqEvent* fqevent){
   // get best 2R ID
   int ibest = getBest2RFitID(fqevent);
 
-  cout << GET_VAR_NAME_VALUE(fqevent->fq1rnll) << endl;
-  cout << GET_VAR_NAME_VALUE(fqevent->fq1rnll[0]) << endl;
-  cout << GET_VAR_NAME_VALUE(fqevent->fq1rnll[0][1]) << endl;
-  cout << GET_VAR_NAME_VALUE(fqevent->fq1rnll[0][2]) << endl;
+  // cout << GET_VAR_NAME_VALUE(fqevent->fq1rnll) << endl;
+  // cout << GET_VAR_NAME_VALUE(fqevent->fq1rnll[0]) << endl;
+  // cout << GET_VAR_NAME_VALUE(fqevent->fq1rnll[0][1]) << endl;
+  // cout << GET_VAR_NAME_VALUE(fqevent->fq1rnll[0][2]) << endl;
 
   // get best 1R Likelihood
   float best1Rnglnl = TMath::Min(fqevent->fq1rnll[0][1],fqevent->fq1rnll[0][2] );
