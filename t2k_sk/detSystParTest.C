@@ -42,13 +42,13 @@ void detSystParTest(){
   TTree* mcTree = (TTree*) mcFile->Get("atm_minituple");
 
   fqEvent fqevent;
-  mcTree->SetBranchAddress("fqmrdir", fqmrdir);
+  mcTree->SetBranchAddress("fqmrdir", fqevent.fqmrdir);
 
-  mcTree->SetBranchAddress("fq1rnll", fq1rnll);
-  mcTree->SetBranchAddress("fqmrmom", fqmrmom);
+  mcTree->SetBranchAddress("fq1rnll", fqevent.fq1rnll);
+  mcTree->SetBranchAddress("fqmrmom", fqevent.fqmrmom);
 
-  mcTree->SetBranchAddress("fqmrnll", fqmrnll);
-  mcTree->SetBranchAddress("fqmrifit", fqmrifit);
+  mcTree->SetBranchAddress("fqmrnll", fqevent.fqmrnll);
+  mcTree->SetBranchAddress("fqmrifit", fqevent.fqmrifit);
 
 
 }
