@@ -126,33 +126,22 @@ void detSystParTest(){
 ///////////////////////////////////////////
 float getRCParameter(fqEvent* fqevent){
 
-  cout << "getRCParameter() inside" << std::endl;
-
   // get best 2R ID
   int ibest = getBest2RFitID(fqevent);
-
-  // cout << GET_VAR_NAME_VALUE(fqevent->fq1rnll) << endl;
-  // cout << GET_VAR_NAME_VALUE(fqevent->fq1rnll[0]) << endl;
-  // cout << GET_VAR_NAME_VALUE(fqevent->fq1rnll[0][1]) << endl;
-  // cout << GET_VAR_NAME_VALUE(fqevent->fq1rnll[0][2]) << endl;
 
   // get best 1R Likelihood
   float best1Rnglnl = TMath::Min(fqevent->fq1rnll[0][1],fqevent->fq1rnll[0][2] );
 
-    cout << "NEXT" << endl;
   // get mom of 2nd ring
   float ringmom = (float)TMath::Min(fqevent->fqmrmom[best2RID][0],fqevent->fqmrmom[best2RID][1]);
 
-    cout << "NEXT" << endl;
   // likelihood difference between 1R and 2R
   float deltaLnL = best1Rnglnl - fqevent->fqmrnll[best2RID];
 
-    cout << "NEXT" << endl;
   // cut values from fiTQun.cc v4r0
   float a0 = 150.;
   float a1 = -0.6;
 
-    cout << "NEXT" << endl;
   // these values determine the cut line
   float cthresh = a0 + a1*(ringmom);
   if (!(cthresh>0.)) cthresh=0.;
