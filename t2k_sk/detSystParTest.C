@@ -23,10 +23,9 @@ enum ATMPDEventType{
   UpThruShower_mu
 };
 
+int maxFqnmrfit = 25;
+int maxFqnse = 5;
 struct fqEvent{
-  int maxFqnmrfit = 25;
-  int maxFqnse = 5;
-
   float fqmrdir[maxFqnmrfit][6][3];
 
   float fq1rnll[maxFqnse][7];
@@ -36,6 +35,10 @@ struct fqEvent{
 
   int fqmrifit[maxFqnmrfit];
   int fqnmrfit; // array of one
+
+  void init(){
+
+  }
 };
 
 int best2RID;
