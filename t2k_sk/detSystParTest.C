@@ -132,7 +132,7 @@ int getBest2RFitID(fqEvent* fqevent){
   // total number of MR fits
   int nfits = (int)fqevent->fqnmrfit;
 
-  cout << "TEST" << endl;
+  cout << GET_VAR_NAME_VALUE(nfits) << endl;
 
   // loop to find the best likelihood
   double ngLnLBest = 10000000.;
