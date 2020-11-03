@@ -113,6 +113,8 @@ float getRCParameter(fqEvent* fqevent){
   // get best 2R ID
   int ibest = getBest2RFitID(fqevent);
 
+  cout << "NEXT" << endl;
+
   // get best 1R Likelihood
   float best1Rnglnl = TMath::Min(fqevent->fq1rnll[0][1],fqevent->fq1rnll[0][2] );
 
@@ -159,8 +161,6 @@ float getRCParameter(fqEvent* fqevent){
 // ! temporary change to return fit 20000033 !
 int getBest2RFitID(fqEvent* fqevent){
 
-  cout << "getBest2RFitID() inside" << std::endl;
-
   // total number of MR fits
   int nfits = (int)fqevent->fqnmrfit;
 
@@ -169,19 +169,16 @@ int getBest2RFitID(fqEvent* fqevent){
   int bestindex = 0;
   for (int ifit=0;ifit<nfits;ifit++){
 
-    cout << GET_VAR_NAME_VALUE(ifit) << endl;
     int fitID = TMath::Abs(fqevent->fqmrifit[ifit]); //< fit fit ID code
 
     // pick out the fits we want to compare to
     if ( TMath::Abs((TMath::Abs(fitID)-20000000))<50){
       // check if it's the best
-          cout << "check if it's the best" << endl;
       if (fqevent->fqmrnll[ifit] < ngLnLBest){
         ngLnLBest = fqevent->fqmrnll[ifit];
         bestindex = ifit;
       }
     }
-    cout << "END LOOP" << std::endl;
   }
   best2RID = bestindex;
   return bestindex;
