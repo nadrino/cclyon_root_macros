@@ -32,7 +32,7 @@ struct fqEvent{
   float*** fqmrdir = nullptr;
 
   float** fq1rnll = nullptr;
-  float** fqmrmom = new float[25][6]();
+  auto fqmrmom = new float[25][6]();
 
   float* fqmrnll = nullptr;
   int* fqmrifit = nullptr;
