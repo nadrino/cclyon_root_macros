@@ -23,20 +23,43 @@ enum ATMPDEventType{
   UpThruShower_mu
 };
 
-int maxFqnmrfit = 25;
-int maxFqnse = 5;
+
 struct fqEvent{
-  float fqmrdir[maxFqnmrfit][6][3];
+  float*** fqmrdir = nullptr;
 
-  float fq1rnll[maxFqnse][7];
-  float fqmrmom[maxFqnmrfit][6];
+  float** fq1rnll = nullptr;
+  float** fqmrmom = nullptr;
 
-  float fqmrnll[maxFqnmrfit];
+  float* fqmrnll = nullptr;
+  int* fqmrifit = nullptr;
 
-  int fqmrifit[maxFqnmrfit];
   int fqnmrfit; // array of one
 
+  int maxFqnmrfit = 25;
+  int maxFqnse = 5;
+
   void init(){
+
+    this->fqmrifit = new int[this->maxFqnmrfit];
+    this->fqmrnll = new float[this->maxFqnmrfit];
+
+    this->fqmrmom = new float*[this->maxFqnmrfit];
+    for(int iRow = 0 ; iRow < this->maxFqnmrfit ; iRow++){
+      this->fqmrmom[iRow] = new float[6];
+    }
+
+    this->fq1rnll = new float*[this->maxFqnse];
+    for(int iRow = 0 ; iRow < this->maxFqnse ; iRow++){
+      this->fq1rnll[iRow] = new float[7];
+    }
+
+    this->fqmrdir = new float**[this->maxFqnmrfit];
+    for(int iRow = 0 ; iRow < this->maxFqnmrfit ; iRow++){
+      this->fqmrdir[iRow] = new float*[6];
+      for(int iCol = 0 ; iCol < 6 ; iCol++){
+        this->fqmrdir[iRow][iCol] = new float[3];
+      }
+    }
 
   }
 };
