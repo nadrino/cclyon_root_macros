@@ -35,6 +35,8 @@ TFile* mcFile;
 TTree* mcTree;
 ATMPDEventType* eventType;
 
+void fillHist();
+
 void detSystParTest(){
 
   mcFile = TFile::Open(mcFilePath.c_str());
