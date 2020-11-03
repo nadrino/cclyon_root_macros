@@ -60,11 +60,13 @@ void detSystParTest(){
 
   mcTree->SetBranchAddress("ATMPDEventType", &eventType);
 
-  cout << "READING" << endl;
-  for(int iEvent = 0 ; iEvent < mcTree->GetEntries() ; iEvent++){
+  cout << "READING TREE..." << endl;
+  int nEvents = mcTree->GetEntries();
+  for(int iEvent = 0 ; iEvent < nEvents ; iEvent++){
+    GenericToolbox::displayProgressBar(iEvent, nEvents, "READING TREE...");
     mcTree->GetEntry(iEvent);
     if(eventType == SubGeV_elike_0dcy){
-      cout << "getRCParameter = " << getRCParameter(&fqevent) << endl;
+      cout << GET_VAR_NAME_VALUE(getRCParameter(&fqevent)) << endl;
     }
   }
 
@@ -73,6 +75,8 @@ void detSystParTest(){
 
 ///////////////////////////////////////////
 float getRCParameter(fqEvent* fqevent){
+
+  cout << "getRCParameter() inside" << std::endl;
 
   // get best 2R ID
   int ibest = getBest2RFitID(fqevent);
