@@ -34,6 +34,7 @@ void detSystParTest(){
   preProcess* preprocess = new preProcess();
 
   ATMPDEventType eventType;
+  mcTree->SetBranchAddress("ATMPDEventType", &eventType);
 
   TH1D* hist = new TH1D("getRCParameter", "getRCParameter", 100, -200, 100);
 
