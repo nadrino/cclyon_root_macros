@@ -30,7 +30,9 @@ struct fqEvent{
   float** fqmrmom;
 
   float* fqmrnll;
-  float* fqmrifit;
+
+  int* fqmrifit;
+  int* fqnmrfit; // array of one
 };
 
 int best2RID;
@@ -50,7 +52,9 @@ void detSystParTest(){
   mcTree->SetBranchAddress("fqmrmom", fqevent.fqmrmom);
 
   mcTree->SetBranchAddress("fqmrnll", fqevent.fqmrnll);
+  
   mcTree->SetBranchAddress("fqmrifit", fqevent.fqmrifit);
+  mcTree->SetBranchAddress("fqnmrfit", fqevent.fqnmrfit);
 
 
 }
