@@ -26,12 +26,12 @@ enum ATMPDEventType{
 int maxFqnmrfit = 25;
 int maxFqnse = 5;
 
-float fqmrdir[maxFqnmrfit][6][3];
-float fq1rnll[maxFqnse][7];
-float fqmrmom[maxFqnmrfit][6];
+float fqmrdir[25][6][3];
+float fq1rnll[5][7];
+float fqmrmom[25][6];
 
-float fqmrnll[maxFqnmrfit];
-int fqmrifit[maxFqnmrfit];
+float fqmrnll[25];
+int fqmrifit[25];
 
 int fqnmrfit;
 
@@ -117,7 +117,7 @@ void detSystParTest(){
   mcTree->SetBranchAddress("fqmrnll", fqmrnll);
   mcTree->SetBranchAddress("fqmrifit", fqmrifit);
 
-  mcTree->SetBranchAddress("fqnmrfit", &fqevent.fqnmrfit);
+  mcTree->SetBranchAddress("fqnmrfit", &fqnmrfit);
 
   mcTree->SetBranchAddress("ATMPDEventType", &eventType);
 
@@ -127,7 +127,7 @@ void detSystParTest(){
     GenericToolbox::displayProgressBar(iEvent, nEvents, "READING TREE...");
     mcTree->GetEntry(iEvent);
     if(eventType == SubGeV_elike_0dcy){
-      cout << GET_VAR_NAME_VALUE(getRCParameter(&fqevent)) << endl;
+      cout << GET_VAR_NAME_VALUE(getRCParameter()) << endl;
     }
   }
 
