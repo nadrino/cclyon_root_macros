@@ -60,7 +60,7 @@ void fillHist(){
   for(int iEvent = 0 ; iEvent < nEvents ; iEvent++){
     GenericToolbox::displayProgressBar(iEvent, nEvents, "READING TREE...");
     fqevent->GetEntry(iEvent);
-    if(*eventType == selectedEventType){
+    if(*eventType == selectedEventType or selectedEventType == -1){
       // cout << GET_VAR_NAME_VALUE(preprocess->getRCParameter(fqevent)) << endl;
       hist->Fill(preprocess->getRCParameter(fqevent));
     }
