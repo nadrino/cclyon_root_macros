@@ -580,4 +580,30 @@ namespace T2KToolBox{
 
   }
 
+  namespace ATMPDEventType{
+
+    enum ATMPDEventType{
+      SubGeV_elike_0dcy = 1,
+      SubGeV_elike_1dcy,
+      SubGeV_SingleRing_pi0like,
+      SubGeV_mulike_0dcy,
+      SubGeV_mulike_1dcy,
+      SubGeV_mulike_2dcy,
+      SubGeV_pi0like,
+      MultiGeV_elike_nue,
+      MultiGeV_elike_nuebar,
+      MultiGeV_mulike,
+      MultiRing_elike_nue,
+      MultiRing_elike_nuebar,
+      MultiRing_mulike,
+      MultiRingOther_1,
+      PCStop, // not yet in data
+      PCThru,
+      UpStop_mu,
+      UpThruNonShower_mu,
+      UpThruShower_mu
+    };
+
+  }
+
 }
