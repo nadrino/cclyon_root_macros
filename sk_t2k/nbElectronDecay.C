@@ -93,12 +93,11 @@ void nbElectronDecay(){
     hmRingPid->GetXaxis()->SetBinLabel(iBinX, pidLabels[iBinX-1].c_str());
   }
 
-
-
   int nEvents = mcTree->GetEntries();
   float deltaTBuffer;
   int pidIndex;
   int nbDecayElec;
+  float mom = 0;
   for(int iEvent = 0 ; iEvent < nEvents ; iEvent++){
 
     GenericToolbox::displayProgressBar(iEvent, nEvents, "Reading SK Tree...");
@@ -119,8 +118,16 @@ void nbElectronDecay(){
 
     // hEvis->Fill(fq1rmom[0][pidIndex], atmpdEventType);
     // hEvis->Fill(fq1rmom[0][1], atmpdEventType);
-    hEvis->Fill(fq1rmom[0][3], atmpdEventType);
+    // hEvis->Fill(fq1rmom[0][3], atmpdEventType);
+    // hEvis->Fill(fq1rmom[0][3], atmpdEventType);
     // hEvis->Fill(genmom, atmpdEventType);
+    mom = 0;
+    for(int iRing = 0 ; iRing < 6 ; iRing++){
+      // mom += fqmrmom[0][iRing] - 155.9*(fqmrpid[0][iRing] == 2);
+      mom += fqmrmom[0][iRing];
+    }
+    hEvis->Fill(mom, atmpdEventType);
+
 
     hmRingPid->Fill(fqmrpid[0][TMath::LocMax(fqmrnring[0], fqmrmom[0])], atmpdEventType);
     h1RingPid->Fill(fq1rnll[0][1] - fq1rnll[0][3], atmpdEventType);
