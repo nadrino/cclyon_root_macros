@@ -288,7 +288,7 @@ void processFiducialVolume(){
 
 void processRingSeparation(){
 
-  // Separate estimates are made for (50 < dwall < 200 and) 200 < dwall for each 1-ring
+  // Separate estimates are made for (50 < fqwall < 200 and) 200 < fqwall for each 1-ring
   // Sub-GeV e-like , prec < 400 MeV : -0.67 (-1.42) %
   // Sub-GeV µ-like , p < 400 MeV : 0.82 (-0.90) %
   // Sub-GeV e-like , p > 400 MeV : 1.11 (1.89) %
@@ -491,7 +491,7 @@ void processRingSeparation(){
 }
 void processSingleRingPid(){
 
-  // Separate estimates are made for (50 < dwall < 200 and) 200 < dwall for each 1-ring
+  // Separate estimates are made for (50 < fqwall < 200 and) 200 < fqwall for each 1-ring
   // Sub-GeV e-like : 0.36 (0.99) %
   // Sub-GeV µ-like : -0.37 (-0.90)%
   // Multi-GeV e-like : 0.06 (0.23) %
@@ -592,8 +592,8 @@ void processMultiRingPid(){
 
   cout << __METHOD_NAME__ << endl;
 
-  // Separate estimates are made for (50 < dwall < 200 and) 200 < dwall for each 1-ring
-  // Separate estimates are made for (50 < dwall < 200 and) 200 < dwall for each multi-ring
+  // Separate estimates are made for (50 < fqwall < 200 and) 200 < fqwall for each 1-ring
+  // Separate estimates are made for (50 < fqwall < 200 and) 200 < fqwall for each multi-ring
   // Sub-GeV e-like : -0.72 (-3.2) % -> ???
   // Sub-GeV µ-like : 0.31 (1.3)% -> ???
   // Multi-GeV e-like : 1.1 (1.9) %
@@ -719,16 +719,6 @@ void writeToFile(){
   corHistTemp->GetZaxis()->SetRangeUser(-1,1);
   corHistTemp->Write("corMatrixTH2D");
 
-  // https://root-forum.cern.ch/t/save-a-vector-or-array-or-tobjarray-of-strings-or-tstrings-or-tobjstrings-to-a-tfile/19537
-  // outFile->WriteObjectAny(&matrixBinCutsList,"vector<string>","myStrings");
-  // TObjArray componentsCutsList;
-  // TObjString sPtr[matrixBinCutsList.size()];
-  // for(size_t iCut = 0 ; iCut < matrixBinCutsList.size() ; iCut++ ){
-  //   sPtr[iCut] = TObjString(matrixBinCutsList[iCut].c_str());
-  //   // componentsCutsList.Add(sPtr);
-  // }
-  // TObjArray componentsCutsList(sPtr);
-  // componentsCutsList.Write("componentsCutsList");
   outFile->mkdir("components");
   outFile->cd("components");
 
@@ -745,6 +735,26 @@ void writeToFile(){
     GenericToolbox::convertTMatrixDtoTH2D(sqrtMatrixTemp, covElement.first)->Write((covElement.first + "SqrtTH2D").c_str());
 
   }
+
+  outFile->cd();
+  auto* resourcesDir = outFile->mkdir("resources");
+  outFile->cd("resources");
+
+  TList* cutStrings_TList = new TList();
+  for(size_t iComp = 0 ; iComp < matrixBinCutsList.size() ; iComp++){
+    TNamed* tempNamed = new TNamed(Form("Component_%i", int(iComp)), matrixBinCutsList[iComp].c_str());
+    cutStrings_TList->Add(tempNamed);
+  }
+//  cutStrings_TList->Write("cutStrings", TObject::kSingleKey); // actually same as bellow
+  resourcesDir->WriteObject(cutStrings_TList, "cutStrings_TList");
+
+  TList* atmpdEventTypeNames_TList = new TList();
+  for(auto& eventType : eventTypesList){
+    TNamed* tempNamed = new TNamed(Form("%i", eventType.second), eventType.first.c_str());
+    atmpdEventTypeNames_TList->Add(tempNamed);
+  }
+//  atmpdEventTypeNames_TList->Write("atmpdEventTypeNames", TObject::kSingleKey);
+  resourcesDir->WriteObject(atmpdEventTypeNames_TList, "atmpdEventTypeNames");
 
   outFile->Close();
 
@@ -768,49 +778,49 @@ void fillBinCutsList(){
 
   cout << __METHOD_NAME__ << endl;
 
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_elike_0dcy) + " && genmom <  400 && 50 < dwall < 200");
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_elike_0dcy) + " && genmom <  400 && 200 < dwall");
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_elike_0dcy) + " && genmom >= 400 && 50 < dwall < 200");
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_elike_0dcy) + " && genmom >= 400 && 200 < dwall");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_elike_0dcy) + " && genmom <  400 && 50 < fqwall < 200");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_elike_0dcy) + " && genmom <  400 && 200 < fqwall");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_elike_0dcy) + " && genmom >= 400 && 50 < fqwall < 200");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_elike_0dcy) + " && genmom >= 400 && 200 < fqwall");
 
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_elike_1dcy) + " && genmom <  400 && 50 < dwall < 200");
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_elike_1dcy) + " && genmom <  400 && 200 < dwall");
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_elike_1dcy) + " && genmom >= 400 && 50 < dwall < 200");
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_elike_1dcy) + " && genmom >= 400 && 200 < dwall");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_elike_1dcy) + " && genmom <  400 && 50 < fqwall < 200");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_elike_1dcy) + " && genmom <  400 && 200 < fqwall");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_elike_1dcy) + " && genmom >= 400 && 50 < fqwall < 200");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_elike_1dcy) + " && genmom >= 400 && 200 < fqwall");
 
   matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_SingleRing_pi0like));
 
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_mulike_0dcy) + " && genmom <  400 && 50 < dwall < 200");
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_mulike_0dcy) + " && genmom <  400 && 200 < dwall");
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_mulike_0dcy) + " && genmom >= 400 && 50 < dwall < 200");
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_mulike_0dcy) + " && genmom >= 400 && 200 < dwall");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_mulike_0dcy) + " && genmom <  400 && 50 < fqwall < 200");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_mulike_0dcy) + " && genmom <  400 && 200 < fqwall");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_mulike_0dcy) + " && genmom >= 400 && 50 < fqwall < 200");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_mulike_0dcy) + " && genmom >= 400 && 200 < fqwall");
 
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_mulike_1dcy) + " && genmom <  400 && 50 < dwall < 200");
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_mulike_1dcy) + " && genmom <  400 && 200 < dwall");
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_mulike_1dcy) + " && genmom >= 400 && 50 < dwall < 200");
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_mulike_1dcy) + " && genmom >= 400 && 200 < dwall");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_mulike_1dcy) + " && genmom <  400 && 50 < fqwall < 200");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_mulike_1dcy) + " && genmom <  400 && 200 < fqwall");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_mulike_1dcy) + " && genmom >= 400 && 50 < fqwall < 200");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_mulike_1dcy) + " && genmom >= 400 && 200 < fqwall");
 
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_mulike_2dcy) + " && genmom <  400 && 50 < dwall < 200");
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_mulike_2dcy) + " && genmom <  400 && 200 < dwall");
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_mulike_2dcy) + " && genmom >= 400 && 50 < dwall < 200");
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_mulike_2dcy) + " && genmom >= 400 && 200 < dwall");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_mulike_2dcy) + " && genmom <  400 && 50 < fqwall < 200");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_mulike_2dcy) + " && genmom <  400 && 200 < fqwall");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_mulike_2dcy) + " && genmom >= 400 && 50 < fqwall < 200");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_mulike_2dcy) + " && genmom >= 400 && 200 < fqwall");
 
 //  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(SubGeV_pi0like));
 
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(MultiGeV_elike_nue) + " && 50 < dwall < 200");
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(MultiGeV_elike_nue) + " && 200 < dwall");
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(MultiGeV_elike_nuebar) + " && 50 < dwall < 200");
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(MultiGeV_elike_nuebar) + " && 200 < dwall");
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(MultiGeV_mulike) + " && 50 < dwall < 200");
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(MultiGeV_mulike) + " && 200 < dwall");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(MultiGeV_elike_nue) + " && 50 < fqwall < 200");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(MultiGeV_elike_nue) + " && 200 < fqwall");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(MultiGeV_elike_nuebar) + " && 50 < fqwall < 200");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(MultiGeV_elike_nuebar) + " && 200 < fqwall");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(MultiGeV_mulike) + " && 50 < fqwall < 200");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(MultiGeV_mulike) + " && 200 < fqwall");
 
 
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(MultiRing_elike_nue) + " && 50 < dwall < 200");
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(MultiRing_elike_nue) + " && 200 < dwall");
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(MultiRing_elike_nuebar) + " && 50 < dwall < 200");
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(MultiRing_elike_nuebar) + " && 200 < dwall");
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(MultiRing_mulike) + " && 50 < dwall < 200");
-  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(MultiRing_mulike) + " && 200 < dwall");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(MultiRing_elike_nue) + " && 50 < fqwall < 200");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(MultiRing_elike_nue) + " && 200 < fqwall");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(MultiRing_elike_nuebar) + " && 50 < fqwall < 200");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(MultiRing_elike_nuebar) + " && 200 < fqwall");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(MultiRing_mulike) + " && 50 < fqwall < 200");
+  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(MultiRing_mulike) + " && 200 < fqwall");
 //  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(MultiRingOther_1));
 
 //  matrixBinCutsList.emplace_back("ATMPDEventType == " + std::to_string(PCStop));
@@ -878,12 +888,12 @@ int getAtmpdEventType(std::string cutsStr_){
   return ATMPDEventTypeInt;
 }
 bool isCloseToWall(std::string cutsStr_){
-  if(not GenericToolbox::doesStringContainsSubstring(cutsStr_, "dwall")) return false;
-  return GenericToolbox::doesStringContainsSubstring(cutsStr_, "50 < dwall < 200");
+  if(not GenericToolbox::doesStringContainsSubstring(cutsStr_, "fqwall")) return false;
+  return GenericToolbox::doesStringContainsSubstring(cutsStr_, "50 < fqwall < 200");
 }
 bool isFarToWall(std::string cutsStr_){
-  if(not GenericToolbox::doesStringContainsSubstring(cutsStr_, "dwall")) return false;
-  return GenericToolbox::doesStringContainsSubstring(cutsStr_, "200 < dwall");
+  if(not GenericToolbox::doesStringContainsSubstring(cutsStr_, "fqwall")) return false;
+  return GenericToolbox::doesStringContainsSubstring(cutsStr_, "200 < fqwall");
 }
 bool isLowEnergy(std::string cutsStr_){
   if(not GenericToolbox::doesStringContainsSubstring(cutsStr_, "genmom")) return false;
