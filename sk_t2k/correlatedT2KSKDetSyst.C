@@ -164,98 +164,156 @@ void init(){
   //////////////////////////////////
   //> T2K selection sub-samples
 
+
   ///////////////
   // FHC 1Re: Osc-nue
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(0, "ipnu[0] == 12 && genmom >= 0   && genmom < 300"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(0, "ipnu[0] == 12 && genmom >= 300 && genmom < 700"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(0, "ipnu[0] == 12 && genmom >= 700"));
+  ///////////////
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (0, "fabs(mode)<=30 && ipnu[0] == 12 && genmom >= 0   && genmom < 300"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (0, "fabs(mode)<=30 && ipnu[0] == 12 && genmom >= 300 && genmom < 700"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (0, "fabs(mode)<=30 && ipnu[0] == 12 && genmom >= 700"));
 
   // FHC 1Re: numu
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(0, "ipnu[0] == 14 && genmom >= 0   && genmom < 300"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(0, "ipnu[0] == 14 && genmom >= 300 && genmom < 700"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(0, "ipnu[0] == 14 && genmom >= 700"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (0, "fabs(mode)<=30 && ipnu[0] == 14 && genmom >= 0   && genmom < 300"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (0, "fabs(mode)<=30 && ipnu[0] == 14 && genmom >= 300 && genmom < 700"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (0, "fabs(mode)<=30 && ipnu[0] == 14 && genmom >= 700"));
 
   // FHC 1Re: beam-nue
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(0, "ipnu[0] == 12 && genmom >= 0   && genmom < 300"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(0, "ipnu[0] == 12 && genmom >= 300 && genmom < 700"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(0, "ipnu[0] == 12 && genmom >= 700"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (0, "fabs(mode)<=30 && ipnu[0] == 12 && genmom >= 0   && genmom < 300"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (0, "fabs(mode)<=30 && ipnu[0] == 12 && genmom >= 300 && genmom < 700"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (0, "fabs(mode)<=30 && ipnu[0] == 12 && genmom >= 700"));
 
-  // FHC 1Re: NC //! TODO: HOW TO SELECT NEUTRAL CURRENT EVENTS?
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(0, "genmom >= 0   && genmom < 300"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(0, "genmom >= 300 && genmom < 700"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(0, "genmom >= 700"));
+  // FHC 1Re: NC 
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (0, "fabs(mode)>30 && ipnu[0] > 0 && genmom >= 0   && genmom < 300"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (0, "fabs(mode)>30 && ipnu[0] > 0 && genmom >= 300 && genmom < 700"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (0, "fabs(mode)>30 && ipnu[0] > 0 && genmom >= 700"));
+
 
   ///////////////
   // FHC 1Rmu: numu CCQE
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(1, "numnu == 4 && ipnu[0] == 14 && genmom >= 0   && genmom < 400"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(1, "numnu == 4 && ipnu[0] == 14 && genmom >= 400 && genmom < 1100"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(1, "numnu == 4 && ipnu[0] == 14 && genmom >= 1100 && genmom < 30000"));
+  ///////////////
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (1, "fabs(mode)==1 && ipnu[0] == 14 && pnu[2]*1000. >= 0   && pnu[2]*1000. < 400"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (1, "fabs(mode)==1 && ipnu[0] == 14 && pnu[2]*1000. >= 400 && pnu[2]*1000. < 1100"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (1, "fabs(mode)==1 && ipnu[0] == 14 && pnu[2]*1000. >= 1100 && pnu[2]*1000. < 30000"));
 
   // FHC 1Rmu: numu non-CCQE
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(1, "numnu > 4 && ipnu[0] == 14 && genmom >= 0 && genmom < 30000"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (1, "fabs(mode)!=1 && fabs(mode)<=30 && ipnu[0] == 14 && pnu[2]*1000. >= 0 && pnu[2]*1000. < 30000"));
 
   // FHC 1Rmu: nue
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(1, "ipnu[0] == 12 && genmom >= 0 && genmom < 30000"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (1, "fabs(mode)<=30 && ipnu[0] == 12 && pnu[2]*1000. >= 0 && pnu[2]*1000. < 30000"));
 
-  // FHC 1Rmu: NC //! TODO: HOW TO SELECT NEUTRAL CURRENT EVENTS?
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(1, "genmom >= 0 && genmom < 30000"));
+  // FHC 1Rmu: NC 
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (1, "fabs(mode)>30 && ipnu[0] > 0 && pnu[2]*1000. >= 0 && pnu[2]*1000. < 30000"));
+
 
   ///////////////
   // RHC 1Re: Osc-nue
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(0, "ipnu[0] == -12 && genmom >= 0   && genmom < 300"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(0, "ipnu[0] == -12 && genmom >= 300 && genmom < 700"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(0, "ipnu[0] == -12 && genmom >= 700"));
+  ///////////////
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (0, "fabs(mode)<=30 && ipnu[0] == -12 && genmom >= 0   && genmom < 300"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (0, "fabs(mode)<=30 && ipnu[0] == -12 && genmom >= 300 && genmom < 700"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (0, "fabs(mode)<=30 && ipnu[0] == -12 && genmom >= 700"));
 
   // RHC 1Re: numu
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(0, "ipnu[0] == -14 && genmom >= 0   && genmom < 300"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(0, "ipnu[0] == -14 && genmom >= 300 && genmom < 700"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(0, "ipnu[0] == -14 && genmom >= 700"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (0, "fabs(mode)<=30 && ipnu[0] == -14 && genmom >= 0   && genmom < 300"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (0, "fabs(mode)<=30 && ipnu[0] == -14 && genmom >= 300 && genmom < 700"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (0, "fabs(mode)<=30 && ipnu[0] == -14 && genmom >= 700"));
 
   // RHC 1Re: beam-nue
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(0, "ipnu[0] == -12 && genmom >= 0   && genmom < 300"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(0, "ipnu[0] == -12 && genmom >= 300 && genmom < 700"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(0, "ipnu[0] == -12 && genmom >= 700"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (0, "fabs(mode)<=30 && ipnu[0] == -12 && genmom >= 0   && genmom < 300"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (0, "fabs(mode)<=30 && ipnu[0] == -12 && genmom >= 300 && genmom < 700"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (0, "fabs(mode)<=30 && ipnu[0] == -12 && genmom >= 700"));
 
-  // RHC 1Re: NC //! TODO: HOW TO SELECT NEUTRAL CURRENT EVENTS?
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(0, "genmom >= 0   && genmom < 300"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(0, "genmom >= 300 && genmom < 700"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(0, "genmom >= 700"));
+  // RHC 1Re: NC 
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (0, "fabs(mode)>30 && ipnu[0] < 0 && genmom >= 0   && genmom < 300"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (0, "fabs(mode)>30 && ipnu[0] < 0 && genmom >= 300 && genmom < 700"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (0, "fabs(mode)>30 && ipnu[0] < 0 && genmom >= 700"));
+
 
   ///////////////
   // RHC 1Rmu: numu CCQE
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(1, "numnu == 4 && ipnu[0] == -14 && genmom >= 0   && genmom < 400"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(1, "numnu == 4 && ipnu[0] == -14 && genmom >= 400 && genmom < 1100"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(1, "numnu == 4 && ipnu[0] == -14 && genmom >= 1100 && genmom < 30000"));
+  ///////////////
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (1, "fabs(mode)==1 && ipnu[0] == -14 && pnu[2]*1000. >= 0   && pnu[2]*1000. < 400"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (1, "fabs(mode)==1 && ipnu[0] == -14 && pnu[2]*1000. >= 400 && pnu[2]*1000. < 1100"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (1, "fabs(mode)==1 && ipnu[0] == -14 && pnu[2]*1000. >= 1100 && pnu[2]*1000. < 30000"));
 
   // RHC 1Rmu: numu non-CCQE
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(1, "numnu > 4 && ipnu[0] == -14 && genmom >= 0 && genmom < 30000"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (1, "fabs(mode)!=1 && fabs(mode)<=30 && ipnu[0] == -14 && pnu[2]*1000. >= 0 && pnu[2]*1000. < 30000"));
 
   // RHC 1Rmu: nue
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(1, "ipnu[0] == -12 && genmom >= 0 && genmom < 30000"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (1, "fabs(mode)<=30 && ipnu[0] == -12 && pnu[2]*1000. >= 0 && pnu[2]*1000. < 30000"));
 
-  // RHC 1Rmu: NC //! TODO: HOW TO SELECT NEUTRAL CURRENT EVENTS?
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(1, "genmom >= 0 && genmom < 30000"));
+  // RHC 1Rmu: NC 
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (1, "fabs(mode)>30 && ipnu[0] < 0 && pnu[2]*1000 >= 0 && pnu[2]*1000. < 30000"));
+
 
   ///////////////
   // FHC 1Re1De: Osc-nue
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(2, "ipnu[0] == 12 && genmom >= 0   && genmom < 300"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(2, "ipnu[0] == 12 && genmom >= 300 && genmom < 700"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(2, "ipnu[0] == 12 && genmom >= 700"));
+  ///////////////
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (2, "fabs(mode)<=30 && ipnu[0] == 12 && genmom >= 0   && genmom < 300"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (2, "fabs(mode)<=30 && ipnu[0] == 12 && genmom >= 300 && genmom < 700"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (2, "fabs(mode)<=30 && ipnu[0] == 12 && genmom >= 700"));
 
   // FHC 1Re1De: numu
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(2, "ipnu[0] == 14 && genmom >= 0   && genmom < 300"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(2, "ipnu[0] == 14 && genmom >= 300 && genmom < 700"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(2, "ipnu[0] == 14 && genmom >= 700"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (2, "fabs(mode)<=30 && ipnu[0] == 14 && genmom >= 0   && genmom < 300"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (2, "fabs(mode)<=30 && ipnu[0] == 14 && genmom >= 300 && genmom < 700"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (2, "fabs(mode)<=30 && ipnu[0] == 14 && genmom >= 700"));
 
   // FHC 1Re1De: beam-nue
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(2, "ipnu[0] == 12 && genmom >= 0   && genmom < 300"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(2, "ipnu[0] == 12 && genmom >= 300 && genmom < 700"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(2, "ipnu[0] == 12 && genmom >= 700"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (2, "fabs(mode)<=30 && ipnu[0] == 12 && genmom >= 0   && genmom < 300"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (2, "fabs(mode)<=30 && ipnu[0] == 12 && genmom >= 300 && genmom < 700"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (2, "fabs(mode)<=30 && ipnu[0] == 12 && genmom >= 700"));
 
-  // FHC 1Re1De: NC //! TODO: HOW TO SELECT NEUTRAL CURRENT EVENTS?
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(2, "genmom >= 0   && genmom < 300"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(2, "genmom >= 300 && genmom < 700"));
-  t2kSubSamplesList.emplace_back(std::pair<int,std::string>(2, "genmom >= 700"));
+  // FHC 1Re1De: NC 
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (2, "fabs(mode)>30 && ipnu[0] > 0 && genmom >= 0   && genmom < 300"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (2, "fabs(mode)>30 && ipnu[0] > 0 && genmom >= 300 && genmom < 700"));
+  t2kSubSamplesList.emplace_back(std::pair<int,std::string>
+    (2, "fabs(mode)>30 && ipnu[0] > 0 && genmom >= 700"));
 
   for(size_t iSubSample = 0 ; iSubSample < t2kSubSamplesList.size() ; iSubSample++){
     t2kSubSampleFormulaList.emplace_back(
@@ -482,7 +540,10 @@ void generatePlots(){
   matrixTemp = new TMatrixD(atmMatrixBinCutsList.size(), atmMatrixBinCutsList.size()); // only atm part
   for(int iCol = 0 ; iCol < matrixTemp->GetNcols() ; iCol++){
     for(int iRow = 0 ; iRow < matrixTemp->GetNrows() ; iRow++){
-      (*matrixTemp)[iCol][iRow] =  ( (*covSkT2kMatrix_TMatrixD)[iCol][iRow] - (*covMatrix)[iCol][iRow] ) / (*covMatrix)[iCol][iRow];
+      (*matrixTemp)[iCol][iRow] =
+        ( (*covSkT2kMatrix_TMatrixD)[iCol][iRow] - (*covMatrix)[iCol][iRow] )
+        / ( TMath::Sqrt((*covMatrix)[iCol][iCol])*TMath::Sqrt((*covMatrix)[iRow][iRow]) );
+      (*matrixTemp)[iCol][iRow] = TMath::Abs((*matrixTemp)[iCol][iRow])*100;
     } // iRow
   } // iCol
 
@@ -493,18 +554,18 @@ void generatePlots(){
   }
   histTemp->GetYaxis()->SetLabelSize(histTemp->GetYaxis()->GetLabelSize()/3.);
   histTemp->GetYaxis()->SetTitle("");
-  histTemp->GetZaxis()->SetTitle("Relative Deviation");
-  histTemp->GetZaxis()->SetRangeUser(-1,1);
+  histTemp->GetZaxis()->SetTitle("Deviation (%)");
+  histTemp->GetZaxis()->SetRangeUser(0,100);
   histTemp->Write("covDiffAtm_TH2D");
 
-  histTemp = GenericToolbox::convertTMatrixDtoTH2D(GenericToolbox::convertToCorrelationMatrix(matrixTemp), "corDeltaAtm");
-  for(int iLeaf = 0 ; iLeaf < histTemp->GetNbinsY() ; iLeaf++){
-//    histTemp->GetYaxis()->SetBinLabel(iLeaf+1, throwsTree->GetListOfLeaves()->At(iLeaf)->GetName());
-    histTemp->GetYaxis()->SetBinLabel(iLeaf+1, binTitlesList[iLeaf].c_str());
-  }
-  histTemp->GetYaxis()->SetLabelSize(histTemp->GetYaxis()->GetLabelSize()/3.);
-  histTemp->GetYaxis()->SetTitle("");
-  histTemp->Write("corDiffAtm_TH2D");
+//  histTemp = GenericToolbox::convertTMatrixDtoTH2D(GenericToolbox::convertToCorrelationMatrix(matrixTemp), "corDeltaAtm");
+//  for(int iLeaf = 0 ; iLeaf < histTemp->GetNbinsY() ; iLeaf++){
+////    histTemp->GetYaxis()->SetBinLabel(iLeaf+1, throwsTree->GetListOfLeaves()->At(iLeaf)->GetName());
+//    histTemp->GetYaxis()->SetBinLabel(iLeaf+1, binTitlesList[iLeaf].c_str());
+//  }
+//  histTemp->GetYaxis()->SetLabelSize(histTemp->GetYaxis()->GetLabelSize()/3.);
+//  histTemp->GetYaxis()->SetTitle("");
+//  histTemp->Write("corDiffAtm_TH2D");
 }
 std::vector<double> throwParameters(){
 

@@ -136,12 +136,12 @@ void nbElectronDecay(){
 
   }
 
-  // canvasMap["hNbDecay"] = new TCanvas("hNbDecay", "hNbDecay", 800, 600);
-  // hNbDecay->Draw("COLZ TEXT");
-  // hNbDecay->GetXaxis()->SetNdivisions(5);
-  // GenericToolbox::fixTH2display(hNbDecay);
-  // gPad->SetLogz();
-  // gPad->SetLeftMargin(0.25);
+   canvasMap["hNbDecay"] = new TCanvas("hNbDecay", "hNbDecay", 800, 600);
+   hNbDecay->Draw("COLZ TEXT");
+   hNbDecay->GetXaxis()->SetNdivisions(5);
+   GenericToolbox::fixTH2display(hNbDecay);
+   gPad->SetLogz();
+   gPad->SetLeftMargin(0.25);
 
   canvasMap["hEvis"] = new TCanvas("hEvis", "hEvis", 800, 600);
   hEvis->Draw("COLZ");
@@ -149,30 +149,30 @@ void nbElectronDecay(){
   gPad->SetLogz();
   gPad->SetLeftMargin(0.25);
 
-  // canvasMap["hmmeLl"] = new TCanvas("hmmeLl", "hmmeLl", 800, 600);
-  // hmmeLl->Draw("COLZ");
-  // GenericToolbox::fixTH2display(hmmeLl);
-  // gPad->SetLogz();
-  // gPad->SetLeftMargin(0.25);
-  //
-  // canvasMap["hnueNuebarSeparation"] = new TCanvas("hnueNuebarSeparation", "hnueNuebarSeparation", 800, 600);
-  // hnueNuebarSeparation->Draw("COLZ");
-  // GenericToolbox::fixTH2display(hnueNuebarSeparation);
-  // gPad->SetLogz();
-  // gPad->SetLeftMargin(0.25);
-  //
-  // canvasMap["h1RingPid"] = new TCanvas("h1RingPid", "h1RingPid", 800, 600);
-  // h1RingPid->Draw("COLZ");
-  // h1RingPid->GetXaxis()->SetMaxDigits(3);
-  // GenericToolbox::fixTH2display(h1RingPid);
-  // gPad->SetLogz();
-  // gPad->SetLeftMargin(0.25);
-  //
-  // canvasMap["hmRingPid"] = new TCanvas("hmRingPid", "hmRingPid", 800, 600);
-  // hmRingPid->Draw("COLZ TEXT");
-  // hmRingPid->GetXaxis()->SetNdivisions(5);
-  // GenericToolbox::fixTH2display(hmRingPid);
-  // gPad->SetLogz();
-  // gPad->SetLeftMargin(0.25);
+   canvasMap["hmmeLl"] = new TCanvas("hmmeLl", "hmmeLl", 800, 600);
+   hmmeLl->Draw("COLZ");
+   GenericToolbox::fixTH2display(hmmeLl);
+   gPad->SetLogz();
+   gPad->SetLeftMargin(0.25);
+
+   canvasMap["hnueNuebarSeparation"] = new TCanvas("hnueNuebarSeparation", "hnueNuebarSeparation", 800, 600);
+   hnueNuebarSeparation->Draw("COLZ");
+   GenericToolbox::fixTH2display(hnueNuebarSeparation);
+   gPad->SetLogz();
+   gPad->SetLeftMargin(0.25);
+
+   canvasMap["h1RingPid"] = new TCanvas("h1RingPid", "h1RingPid", 800, 600);
+   h1RingPid->Draw("COLZ");
+   h1RingPid->GetXaxis()->SetMaxDigits(3);
+   GenericToolbox::fixTH2display(h1RingPid);
+   gPad->SetLogz();
+   gPad->SetLeftMargin(0.25);
+
+   canvasMap["hmRingPid"] = new TCanvas("hmRingPid", "hmRingPid", 800, 600);
+   hmRingPid->Draw("COLZ TEXT");
+   hmRingPid->GetXaxis()->SetNdivisions(5);
+   GenericToolbox::fixTH2display(hmRingPid);
+   gPad->SetLogz();
+   gPad->SetLeftMargin(0.25);
 
 }
