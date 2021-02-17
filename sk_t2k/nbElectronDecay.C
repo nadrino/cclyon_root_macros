@@ -59,6 +59,8 @@ vector<string> pidLabels = {
 
 map<string, TCanvas*> canvasMap;
 
+void fixTH2display(TH2 *histogram_);
+
 void nbElectronDecay(){
 
   mcFile = TFile::Open(mcFilePath.c_str());
@@ -100,7 +102,7 @@ void nbElectronDecay(){
   float mom = 0;
   for(int iEvent = 0 ; iEvent < nEvents ; iEvent++){
 
-    GenericToolbox::displayProgressBar(iEvent, nEvents, "Reading SK Tree...");
+//    GenericToolbox::displayProgressBar(iEvent, nEvents, "Reading SK Tree...");
     mcTree->GetEntry(iEvent);
 
     nbDecayElec = 0;
@@ -139,40 +141,55 @@ void nbElectronDecay(){
    canvasMap["hNbDecay"] = new TCanvas("hNbDecay", "hNbDecay", 800, 600);
    hNbDecay->Draw("COLZ TEXT");
    hNbDecay->GetXaxis()->SetNdivisions(5);
-   GenericToolbox::fixTH2display(hNbDecay);
+   fixTH2display(hNbDecay);
    gPad->SetLogz();
    gPad->SetLeftMargin(0.25);
 
   canvasMap["hEvis"] = new TCanvas("hEvis", "hEvis", 800, 600);
   hEvis->Draw("COLZ");
-  GenericToolbox::fixTH2display(hEvis);
+  fixTH2display(hEvis);
   gPad->SetLogz();
   gPad->SetLeftMargin(0.25);
 
    canvasMap["hmmeLl"] = new TCanvas("hmmeLl", "hmmeLl", 800, 600);
    hmmeLl->Draw("COLZ");
-   GenericToolbox::fixTH2display(hmmeLl);
+   fixTH2display(hmmeLl);
    gPad->SetLogz();
    gPad->SetLeftMargin(0.25);
 
    canvasMap["hnueNuebarSeparation"] = new TCanvas("hnueNuebarSeparation", "hnueNuebarSeparation", 800, 600);
    hnueNuebarSeparation->Draw("COLZ");
-   GenericToolbox::fixTH2display(hnueNuebarSeparation);
+   fixTH2display(hnueNuebarSeparation);
    gPad->SetLogz();
    gPad->SetLeftMargin(0.25);
 
    canvasMap["h1RingPid"] = new TCanvas("h1RingPid", "h1RingPid", 800, 600);
    h1RingPid->Draw("COLZ");
    h1RingPid->GetXaxis()->SetMaxDigits(3);
-   GenericToolbox::fixTH2display(h1RingPid);
+   fixTH2display(h1RingPid);
    gPad->SetLogz();
    gPad->SetLeftMargin(0.25);
 
    canvasMap["hmRingPid"] = new TCanvas("hmRingPid", "hmRingPid", 800, 600);
    hmRingPid->Draw("COLZ TEXT");
    hmRingPid->GetXaxis()->SetNdivisions(5);
-   GenericToolbox::fixTH2display(hmRingPid);
+   fixTH2display(hmRingPid);
    gPad->SetLogz();
    gPad->SetLeftMargin(0.25);
+
+}
+
+void fixTH2display(TH2 *histogram_){
+
+  gPad->SetRightMargin(0.15);
+  histogram_->GetZaxis()->SetTitleOffset(0.8);
+  auto* pal = (TPaletteAxis*) histogram_->GetListOfFunctions()->FindObject("palette");
+  // TPaletteAxis* pal = (TPaletteAxis*) histogram_->GetListOfFunctions()->At(0);
+  if(pal != nullptr){
+    pal->SetX1NDC(1 - 0.15 + 0.01);
+    pal->SetX2NDC(1 - 0.15 + 0.05);
+    pal->GetAxis()->SetMaxDigits(2);
+    pal->Draw();
+  }
 
 }
