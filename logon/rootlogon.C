@@ -2,6 +2,20 @@
 
   cout << "Using ROOT logon : $REPO_DIR/cclyon_root_macros/logon/rootlogon.C " << endl;
 
+  if(gROOT->GetVersionInt() > 60000){
+    std::string thisFolderPath(std::string(__FILE__).substr(0, std::string(__FILE__).rfind("/")));
+
+    std::cout << "Loading GenericToolbox namespace..." << std::endl;
+    gROOT->ProcessLine( Form(".include %s/../submodules/cpp-generic-toolbox/include", thisFolderPath.c_str()) );
+    gROOT->ProcessLine("#include \"GenericToolbox.h\"");
+    gROOT->ProcessLine("#include \"GenericToolboxRootExt.h\"");
+
+    std::cout << "Loading Simple Logger" << std::endl;
+    #define LOGGER_PREFIX_LEVEL 3
+    gROOT->ProcessLine( Form(".include %s/../submodules/simple-cpp-logger/include", thisFolderPath.c_str()) );
+    gROOT->ProcessLine("#include \"Logger.h\"");
+  }
+
   gROOT->SetStyle("Plain");
   gStyle->SetTitleBorderSize(0);
   gStyle->SetStatFont(42);
@@ -49,22 +63,11 @@
 
   gStyle->SetMarkerSize(1.2);
 
-  std::string REPO_DIR(getenv("REPO_DIR"));
-  if(gROOT->GetVersionInt() > 60000){
-    std::cout << "Loading GenericToolbox namespace..." << std::endl;
-    std::string s = ".include " + REPO_DIR + "/cclyon_root_macros/submodules/cpp-generic-toolbox/include";
-    // R__ADD_INCLUDE_PATH((REPO_DIR + "/cclyon_root_macros/submodules/cpp-generic-toolbox/include").c_str());
-    // gROOT->LoadMacro("/Users/ablanche/Documents/Work/Repositories/cclyon_root_macros/submodules/cpp-generic-toolbox/include/GenericToolbox.h");
-    gROOT->ProcessLine(s.c_str());
-    gROOT->ProcessLine("#include \"GenericToolbox.h\"");
-    gROOT->ProcessLine("#include \"GenericToolboxRootExt.h\"");
-  }
+}
+
+void loadOldToolbox(){
 
   std::cout << "Loading old TToolBox namespace..." << std::endl;
-  std::string s = ".include " + REPO_DIR + "/cclyon_root_macros/logon";
-  // R__ADD_INCLUDE_PATH((REPO_DIR + "/cclyon_root_macros/submodules/cpp-generic-toolbox/include").c_str());
-  // gROOT->LoadMacro("/Users/ablanche/Documents/Work/Repositories/cclyon_root_macros/submodules/cpp-generic-toolbox/include/GenericToolbox.h");
-  gROOT->ProcessLine(s.c_str());
   gROOT->ProcessLine("#include \"rootlogon.h\"");
 
 }
