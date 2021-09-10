@@ -1,0 +1,24 @@
+
+auto* covM = (TMatrixD*) chopped_flux_cov_TMatrixD->Clone();
+auto* cholM = GenericToolbox::getCholeskyMatrix(covM);
+TFile* testF = TFile::Open("test.root", "RECREATE");
+TTree* testT = new TTree("test", "test");
+vector< double > pars(cholM->GetNrows(), 0);
+for( int iPar = 0 ; iPar < pars.size() ; iPar++ ){
+  testT->Branch(Form("%i", iPar), &pars.at(iPar));
+}
+
+for( size_t iThrow = 0 ; iThrow < 10000. ; iThrow++ ){
+  GenericToolbox::displayProgressBar(iThrow, 10000.);
+  GenericToolbox::throwCorrelatedParameters(cholM, pars);
+  testT->Fill();
+}
+// testF->Close();
+
+auto* m =  GenericToolbox::getCovarianceMatrixOfTree(testT, true);
+for( int iRow = 0 ; iRow < m->GetNrows() ; iRow++ ){
+  for( int iCol = 0 ; iCol < m->GetNcols() ; iCol++ ){
+    (*m)[iRow][iCol] -= (*covM)[iRow][iCol];
+  }
+}
+m->Draw("COLZ");

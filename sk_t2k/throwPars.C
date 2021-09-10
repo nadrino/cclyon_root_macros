@@ -38,6 +38,22 @@ void throwPars(){
   hThrows->GetYaxis()->SetTitle("Throw in unit of sigmas");
   hThrows->Draw("");
 
+  TFile* testF = TFile::Open("test.root", "RECREATE");
+  TTree* testT = new TTree("test", "test");
+  vector< double > pars(throws.size(), 0);
+  for( int iPar = 0 ; iPar < pars.size() ; iPar++ ){
+    testT->Branch(Form("%i", iPar), &pars.at(iPar));
+  }
+
+  for( size_t iThrow = 0 ; iThrow < 1000. ; iThrow++ ){
+    vector< double > newThrows = throwParameters (*covSqrtMatrix);
+    for( int iPar = 0 ; iPar < pars.size() ; iPar++ ){
+      pars.at(iPar) = newThrows.at(iPar);
+    }
+    testT->Fill();
+  }
+  testF->Close();
+
 }
 
 void init(){

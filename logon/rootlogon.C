@@ -7,18 +7,18 @@
 
     std::cout << "Loading GenericToolbox namespace..." << std::endl;
     gROOT->ProcessLine( Form(".include %s/../submodules/cpp-generic-toolbox/include", thisFolderPath.c_str()) );
-    std::cout << "Processing \"GenericToolbox.h\"..." << std::endl;
-    gROOT->ProcessLine("#include \"GenericToolbox.h\"");
+    // std::cout << "Processing \"GenericToolbox.h\"..." << std::endl;
+    // gROOT->ProcessLine("#include \"GenericToolbox.h\"");
     std::cout << "Processing \"GenericToolbox.Root.h\"..." << std::endl;
     gROOT->ProcessLine("#include \"GenericToolbox.Root.h\"");
-    std::cout << "Processing \"GenericToolbox.ThreadPool.h\"..." << std::endl;
-    gROOT->ProcessLine("#include \"GenericToolbox.ThreadPool.h\"");
+    // std::cout << "Processing \"GenericToolbox.ThreadPool.h\"..." << std::endl;
+    // gROOT->ProcessLine("#include \"GenericToolbox.ThreadPool.h\"");
 
-    std::cout << "Loading Simple Logger..." << std::endl;
-    #define LOGGER_PREFIX_LEVEL 3
+    // std::cout << "Loading Simple Logger..." << std::endl;
+    // #define LOGGER_PREFIX_LEVEL 3
     gROOT->ProcessLine( Form(".include %s/../submodules/simple-cpp-logger/include", thisFolderPath.c_str()) );
-    std::cout << "Processing \"Logger.h\"..." << std::endl;
-    gROOT->ProcessLine("#include \"Logger.h\"");
+    // std::cout << "Processing \"Logger.h\"..." << std::endl;
+    // gROOT->ProcessLine("#include \"Logger.h\"");
   }
 
   gROOT->SetStyle("Plain");
