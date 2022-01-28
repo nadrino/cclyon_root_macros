@@ -22,6 +22,9 @@
     gROOT->ProcessLine( Form(".include %s/../submodules/simple-cpp-logger/include", thisFolderPath.c_str()) );
     // std::cout << "Processing \"Logger.h\"..." << std::endl;
     // gROOT->ProcessLine("#include \"Logger.h\"");
+
+    // std::cout << "Setting up T2K color palette..." << std::endl;
+    // GenericToolbox::setT2kPalette();
   }
 
   gROOT->SetStyle("Plain");
@@ -70,9 +73,6 @@
   gStyle->SetFrameLineWidth(2);
 
   gStyle->SetMarkerSize(1.2);
-
-  std::cout << "Setting up T2K color palette..." << std::endl;
-  GenericToolbox::setT2kPalette();
 
 }
 
