@@ -71,6 +71,9 @@
 
   gStyle->SetMarkerSize(1.2);
 
+  std::cout << "Setting up T2K color palette..." << std::endl;
+  GenericToolbox::setT2kPalette();
+
 }
 
 void loadOldToolbox(){
