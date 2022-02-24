@@ -1,7 +1,7 @@
 {
   cout << "Using ROOT logon : $REPO_DIR/cclyon_root_macros/logon/rootlogon.C " << endl;
 
-  cout << "ROOT version is: " << ROOT_RELEASE << std::endl;
+  cout << "ROOT version is: " << gROOT->GetVersion() << std::endl;
 
   if(gROOT->GetVersionInt() > 60000){
     std::string thisFolderPath(std::string(__FILE__).substr(0, std::string(__FILE__).rfind("/")));
