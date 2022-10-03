@@ -489,7 +489,7 @@ RSA.KeyType:  1
 # Control the action to be taken when opening an existing ROOT file which
 # looks corrupted; by default an attempt to recover the file is made; if
 # this variable is set to no the file is just flagged as zombie.
-#TFile.Recover:      no
+TFile.Recover:      no
 
 # Control the usage of asynchronous reading capabilities eventually
 # supported by the underlying TFile implementation. Default is yes.
